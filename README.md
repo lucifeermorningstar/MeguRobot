@@ -55,9 +55,11 @@ Un ejemplo de archivo `config.py` podría ser:
 from MeguRobot.sample_config import Config
 
 class Development(Config):
+    API_ID = 12489275 # integer value, dont use ""
+    API_HASH = 'hg35k7gh683ghkj586hj35'
     OWNER_ID = 254318997 # Su ID de telegram.
     OWNER_USERNAME = "SonOfLars" # Su nombre de usuario de telegram.
-    API_KEY = "your bot api key" # Su clave api, tal como la proporciona @botfather.
+    TOKEN = "your bot api key" # Su clave api, tal como la proporciona @botfather.
     SQLALCHEMY_DATABASE_URI = 'postgresql://nombredeusuario:contraseña@localhost:5432/database' # Credenciales de base de datos de muestra.
     JOIN_LOGGER = '-1234567890' # Algún chat grupal donde su bot este ahí.
     USE_JOIN_LOGGER = True

@@ -363,7 +363,6 @@ def manga(update: Update, context: CallbackContext):
             )
 
 
-@run_async
 def user(update: Update, context: CallbackContext):
     message = update.effective_message
     args = message.text.strip().split(" ", 1)
@@ -433,21 +432,13 @@ def user(update: Update, context: CallbackContext):
 
     caption += f"*About*: {about_string}"
 
-    buttons = [
-        [InlineKeyboardButton(info_btn, url=us["url"])],
-        [
-            InlineKeyboardButton(
-                close_btn, callback_data=f"anime_close, {message.from_user.id}"
-            )
-        ],
-    ]
+    buttons = [InlineKeyboardButton(info_btn, url=us["url"])]
 
     update.effective_message.reply_photo(
         photo=img,
         caption=caption,
         parse_mode=ParseMode.MARKDOWN,
         reply_markup=InlineKeyboardMarkup(buttons),
-        disable_web_page_preview=False,
     )
     progress_message.delete()
 

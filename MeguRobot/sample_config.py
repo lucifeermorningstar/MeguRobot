@@ -70,7 +70,7 @@ class Config(object):
     HEROKU_API = None
     BL_CHATS = []  # List of groups that you want blacklisted.
     SPAMMERS = get_user_list("elevated_users.json", "spammers")
-
+    LASTFM_API_KEY = None
 
 class Production(Config):
     LOGGER = True

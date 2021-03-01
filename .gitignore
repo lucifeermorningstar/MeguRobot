@@ -5,6 +5,7 @@ MeguRobot/config.ini
 log.txt
 *.pyc
 .idea/
+.exo/
 .project
 .pydevproject
 .directory
