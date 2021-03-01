@@ -1,4 +1,5 @@
 import random
+from datetime import datetime
 
 from MeguRobot import dispatcher
 from MeguRobot.modules.disable import (
@@ -28,7 +29,8 @@ def afk(update: Update, context: CallbackContext):
     else:
         reason = ""
 
-    sql.set_afk(update.effective_user.id, reason)
+    time_start = datetime.now().timestamp()
+    sql.set_afk(update.effective_user.id, reason, time_start)
     fname = update.effective_user.first_name
     update.effective_message.reply_text("{} ahora está AFK!{}".format(fname, notice))
 
@@ -46,20 +48,23 @@ def no_longer_afk(update: Update, context: CallbackContext):
             return
         firstname = update.effective_user.first_name
         try:
+            user_sql = sql.check_afk_status(user.id)
+            afk_time = get_time(user_sql)
             options = [
-                "{} esta aquí!",
-                "{} a vuelto!",
-                "{} está de nuevo en el chat!",
-                "{} esta despierto!",
-                "{} a vuelto a estar en linea!",
-                "{} finalmente está aquí!",
-                "Por fin volviste {}, te estábamos esperando!",
-                "Bienvenido de vuelta! {}",
+                "¡{} esta aquí!",
+                "¡{} ha vuelto!",
+                "¡{} está de nuevo en el chat!",
+                "¡{} esta despierto!",
+                "¡{} ha vuelto a estar en linea!",
+                "¡{} finalmente está aquí!",
+                "Por fin volviste {}, ¡te estábamos esperando!",
+                "Bienvenido de vuelta, {}",
                 "{} está en línea nuevamente ¿Quieres ver unas explosiones?💥",
-                "¿Dónde está {}?\nEn el chat!",
+                "¿Dónde está {}?\n¡En el chat!",
             ]
-            chosen_option = random.choice(options)
-            update.effective_message.reply_text(chosen_option.format(firstname))
+            chosen_option = random.choice(options).format(firstname)
+            output = "{}\nTiempo AFK: {}".format(chosen_option, afk_time)
+            update.effective_message.reply_text(output)
         except:
             return
 
@@ -123,16 +128,35 @@ def reply_afk(update: Update, context: CallbackContext):
 def check_afk(update, context, user_id, fst_name, userc_id):
     if sql.is_afk(user_id):
         user = sql.check_afk_status(user_id)
+        afk_time = get_time(user)
         if not user.reason:
             if int(userc_id) == int(user_id):
                 return
-            res = "{} está afk".format(fst_name)
+            res = "{} está afk desde hace {}.".format(fst_name, afk_time)
             update.effective_message.reply_text(res)
         else:
             if int(userc_id) == int(user_id):
                 return
-            res = "{} está afk.\nRazón: \n{}".format(fst_name, user.reason)
+            res = "{} está afk desde hace {}.\nRazón: \n{}".format(fst_name, afk_time, user.reason)
             update.effective_message.reply_text(res)
+
+
+def get_time(user):
+    afk_diff = datetime.now() - datetime.fromtimestamp(user.time_start)
+    seconds = afk_diff.seconds
+    seconds_round = seconds % 60
+    minutes = int(seconds / 60)
+    hours = int(minutes / 60)
+    days = afk_diff.days
+    if days > 0:
+        afk_time = "{} dias y {} horas".format(days, hours)
+    elif hours > 0:
+        afk_time = "{} horas y {} minutos".format(hours, minutes)
+    elif minutes > 0:
+        afk_time = "{} minutos y {} segundos".format(minutes, seconds_round)
+    else:
+        afk_time = "{} segundos".format(seconds_round)
+    return afk_time
 
 
 __help__ = """
