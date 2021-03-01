@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 
 from pyrogram import Client, filters
@@ -110,6 +111,6 @@ async def whois(client, message):
         except:
             os.remove(f"./{user.id}.png")
     try:
-        buscando.delete()
+        await buscando.delete()
     except:
-        buscando.delete()
+        await buscando.delete()
