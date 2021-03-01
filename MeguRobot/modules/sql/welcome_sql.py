@@ -28,7 +28,7 @@ DEFAULT_WELCOME_MESSAGES = [
     "{first} saltó al chat!",
     "{first} acaba de aparecer. Sostén mi cerveza(no puedo tomar :<)",
     "Es un pájaro!? Es un avión!? No importa, es solo {first}.",
-    "Ja! {first} se ha unido! Activaste mi tarjeta trampa!",
+    "Ja! {first} se ha unido! Activaste mi carta trampa!",
     "Oye! Escucha! {first} se ha unido!",
     "Te estábamos esperando {first}",
     "Es peligroso ir solo, toma {first}!",
