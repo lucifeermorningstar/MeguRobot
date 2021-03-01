@@ -48,8 +48,6 @@ def no_longer_afk(update: Update, context: CallbackContext):
             return
         firstname = update.effective_user.first_name
         try:
-            user_sql = sql.check_afk_status(user.id)
-            afk_time = get_time(user_sql)
             options = [
                 "¡{} esta aquí!",
                 "¡{} ha vuelto!",
@@ -63,7 +61,7 @@ def no_longer_afk(update: Update, context: CallbackContext):
                 "¿Dónde está {}?\n¡En el chat!",
             ]
             chosen_option = random.choice(options).format(firstname)
-            output = "{}\nTiempo AFK: {}".format(chosen_option, afk_time)
+            output = "{}\nTiempo AFK: {}".format(chosen_option, res)
             update.effective_message.reply_text(output)
         except:
             return
@@ -128,7 +126,7 @@ def reply_afk(update: Update, context: CallbackContext):
 def check_afk(update, context, user_id, fst_name, userc_id):
     if sql.is_afk(user_id):
         user = sql.check_afk_status(user_id)
-        afk_time = get_time(user)
+        afk_time = sql.get_time(user)
         if not user.reason:
             if int(userc_id) == int(user_id):
                 return
@@ -139,24 +137,6 @@ def check_afk(update, context, user_id, fst_name, userc_id):
                 return
             res = "{} está afk desde hace {}.\nRazón: \n{}".format(fst_name, afk_time, user.reason)
             update.effective_message.reply_text(res)
-
-
-def get_time(user):
-    afk_diff = datetime.now() - datetime.fromtimestamp(user.time_start)
-    seconds = afk_diff.seconds
-    seconds_round = seconds % 60
-    minutes = int(seconds / 60)
-    hours = int(minutes / 60)
-    days = afk_diff.days
-    if days > 0:
-        afk_time = "{} dias y {} horas".format(days, hours)
-    elif hours > 0:
-        afk_time = "{} horas y {} minutos".format(hours, minutes)
-    elif minutes > 0:
-        afk_time = "{} minutos y {} segundos".format(minutes, seconds_round)
-    else:
-        afk_time = "{} segundos".format(seconds_round)
-    return afk_time
 
 
 __help__ = """

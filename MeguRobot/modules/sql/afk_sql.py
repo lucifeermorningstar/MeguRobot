@@ -1,4 +1,5 @@
 import threading
+from datetime import datetime
 
 from MeguRobot.modules.sql import BASE, SESSION
 from sqlalchemy import Boolean, Column, Integer, UnicodeText, Float
@@ -60,9 +61,10 @@ def rm_afk(user_id):
             if user_id in AFK_USERS:  # sanity check
                 del AFK_USERS[user_id]
 
+            time_start = get_time(curr)
             SESSION.delete(curr)
             SESSION.commit()
-            return True
+            return time_start
 
         SESSION.close()
         return False
@@ -79,6 +81,24 @@ def toggle_afk(user_id, reason=""):
             curr.is_afk = True
         SESSION.add(curr)
         SESSION.commit()
+
+
+def get_time(user):
+    afk_diff = datetime.now() - datetime.fromtimestamp(user.time_start)
+    seconds = afk_diff.seconds
+    seconds_round = seconds % 60
+    minutes = int(seconds / 60)
+    hours = int(minutes / 60)
+    days = afk_diff.days
+    if days > 0:
+        afk_time = "{} dias y {} horas".format(days, hours)
+    elif hours > 0:
+        afk_time = "{} horas y {} minutos".format(hours, minutes)
+    elif minutes > 0:
+        afk_time = "{} minutos y {} segundos".format(minutes, seconds_round)
+    else:
+        afk_time = "{} segundos".format(seconds_round)
+    return afk_time
 
 
 def __load_afk_users():
