@@ -202,7 +202,7 @@ def new_member(update: Update, context: CallbackContext):
             # Welcome Devs
             elif new_mem.id in DEV_USERS:
                 update.effective_message.reply_text(
-                    "Eh! Un Demonio Carmesí acaba de unirse!",
+                    "╔═════*.·:·.☽✧    ✦    ✧☾.·:·.*═════╗\nUn Demonio Carmesí acaba de unirse!\n╚═════*.·:·.☽✧    ✦    ✧☾.·:·.*═════╝",
                     reply_to_message_id=reply,
                 )
                 continue

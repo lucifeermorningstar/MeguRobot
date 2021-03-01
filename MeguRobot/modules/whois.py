@@ -88,7 +88,7 @@ async def whois(client, message):
                 user_id=user.id,
                 full_name=FullName(user),
                 userid=user.id,
-                username=user.username if user.username else "`Sin alías`",
+                username=user.username if user.username else "`Sin alias`",
                 last_online=LastOnline(user)),
             disable_web_page_preview=True)
     else:
@@ -100,7 +100,7 @@ async def whois(client, message):
                 user_id=user.id,
                 full_name=FullName(user),
                 userid=user.id,
-                username=user.username if user.username else "`Sin alías`",
+                username=user.username if user.username else "`Sin alias`",
                 last_online=LastOnline(user),
                 profile_pics=pic_count,
                 reply_to_message_id=ReplyCheck(message))

@@ -38,11 +38,11 @@ def check_user(user_id: int, bot: Bot, chat: Chat) -> Optional[str]:
             raise
 
     if user_id == bot.id:
-        reply = "No me voy a silenciar, que tan alto estas?"
+        reply = "No me voy a callar, que tan alto estás?"
         return reply
 
     if is_user_admin(chat, user_id, member) or user_id in FROG_USERS:
-        reply = """Realmente desearía poder silenciar a los administradores... Quizás un "explosion"?"""
+        reply = """Realmente desearía poder mutear a los administradores... Quizás un "explosion"?"""
         return reply
 
     return None
@@ -71,7 +71,7 @@ def mute(update: Update, context: CallbackContext) -> str:
 
     log = (
         f"<b>{html.escape(chat.title)}:</b>\n"
-        f"#Silenciado\n"
+        f"#Muteado\n"
         f"<b>Administrador:</b> {mention_html(user.id, user.first_name)}\n"
         f"<b>Usuario:</b> {mention_html(member.user.id, member.user.first_name)}"
     )
@@ -84,13 +84,13 @@ def mute(update: Update, context: CallbackContext) -> str:
         bot.restrict_chat_member(chat.id, user_id, chat_permissions)
         bot.sendMessage(
             chat.id,
-            f"Silenciado <b>{html.escape(member.user.first_name)}</b> sin tiempo de des-silenciado!",
+            f"Silenciado <b>{html.escape(member.user.first_name)}</b> sin tiempo de desmuteado!",
             parse_mode=ParseMode.HTML,
         )
         return log
 
     else:
-        message.reply_text("Este usuario ya está silenciado!")
+        message.reply_text("Este usuario ya está muteado!")
 
     return ""
 
@@ -108,7 +108,7 @@ def unmute(update: Update, context: CallbackContext) -> str:
     user_id = extract_user(message, args)
     if not user_id:
         message.reply_text(
-            "Debe darme un nombre de usuario o responder a alguien para des-silenciarlo."
+            "Debes darme un nombre de usuario o responder a alguien para desmutearlo."
         )
         return ""
 
@@ -121,7 +121,7 @@ def unmute(update: Update, context: CallbackContext) -> str:
             and member.can_send_other_messages
             and member.can_add_web_page_previews
         ):
-            message.reply_text("Este usuario ya está desilenciado.")
+            message.reply_text("Este usuario ya está desmuteado.")
         else:
             chat_permissions = ChatPermissions(
                 can_send_messages=True,
@@ -136,18 +136,18 @@ def unmute(update: Update, context: CallbackContext) -> str:
             bot.restrict_chat_member(chat.id, int(user_id), chat_permissions)
             bot.sendMessage(
                 chat.id,
-                f"<b>{html.escape(member.user.first_name)}</b> desilenciado!",
+                f"<b>{html.escape(member.user.first_name)}</b> desmuteado",
                 parse_mode=ParseMode.HTML,
             )
             return (
                 f"<b>{html.escape(chat.title)}:</b>\n"
-                f"#Des-silenciado\n"
+                f"#Desmuteado\n"
                 f"<b>Administrador:</b> {mention_html(user.id, user.first_name)}\n"
                 f"<b>Usuario:</b> {mention_html(member.user.id, member.user.first_name)}"
             )
     else:
         message.reply_text(
-            "Este usuario ni siquiera está en el chat, dejar de silenciarlo no hablara más de lo que puede."
+            "Este usuario ni siquiera está en el chat, mutearlo no hará efecto."
         )
 
     return ""
@@ -175,7 +175,7 @@ def temp_mute(update: Update, context: CallbackContext) -> str:
 
     if not reason:
         message.reply_text(
-            "No has especificado un tiempo para silenciar a este usuario.!"
+            "No has especificado un tiempo para mutear a este usuario.!"
         )
         return ""
 
@@ -210,12 +210,12 @@ def temp_mute(update: Update, context: CallbackContext) -> str:
             )
             bot.sendMessage(
                 chat.id,
-                f"<b>{html.escape(member.user.first_name)}</b> silenciado por {time_val}!",
+                f"<b>{html.escape(member.user.first_name)}</b> muteado por {time_val}!",
                 parse_mode=ParseMode.HTML,
             )
             return log
         else:
-            message.reply_text("Este usuario ya está silenciado.")
+            message.reply_text("Este usuario ya está muteado.")
 
     except BadRequest as excp:
         if excp.message == "Reply message not found":
@@ -231,16 +231,16 @@ def temp_mute(update: Update, context: CallbackContext) -> str:
                 chat.id,
                 excp.message,
             )
-            message.reply_text("Bueno maldita sea, no puedo silenciar a ese usuario.")
+            message.reply_text("Bueno maldita sea, no puedo mutear a ese usuario.")
 
     return ""
 
 
 __help__ = """
 *Solo administradores:*
- •`/mute <userhandle>`: Silencia a un usuario. También se puede utilizar respondiendo al usuario.
- •`/tmute <userhandle> x (m/h/d)`: Silencia a un usuario por x tiempo. (a través del identificador o respuesta). `m`=`minutos`, `h`=`horas`, `d`=`días`.
- •`/unmute <userhandle>`: Desilencia a un usuario. También se puede utilizar respondiendo al usuario.
+ •`/mute <userhandle>`: Silencia (mutea) a un usuario. También se puede utilizar respondiendo al usuario.
+ •`/tmute <userhandle> x (m/h/d)`: Mutea a un usuario por x tiempo. (a través del identificador o respuesta). `m`=`minutos`, `h`=`horas`, `d`=`días`.
+ •`/unmute <userhandle>`: Desmutea a un usuario. También se puede utilizar respondiendo al usuario.
 """
 
 MUTE_HANDLER = CommandHandler("mute", mute, run_async=True)
