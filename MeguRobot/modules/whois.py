@@ -5,7 +5,7 @@ from pyrogram import Client, filters
 from pyrogram.errors import PeerIdInvalid
 from pyrogram.types import User, Message, InlineKeyboardMarkup, InlineKeyboardButton
 
-from MeguRobot import pyrogrm
+from MeguRobot import pyrogrm, LOGGER
 
 
 def ReplyCheck(message: Message):
@@ -109,8 +109,8 @@ async def whois(client, message):
         try:
             os.remove(f"./{user.id}.png")
         except:
-            os.remove(f"./{user.id}.png")
+            LOGGER.exception("Error al remover foto de perfil")
     try:
         await buscando.delete()
     except:
-        await buscando.delete()
+        LOGGER.exception("Error al eliminar mensaje Buscando")

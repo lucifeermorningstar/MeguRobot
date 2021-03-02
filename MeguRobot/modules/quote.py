@@ -2,7 +2,7 @@
 # Ported to Lynda by: @pokurt
 from telethon import events
 from telethon.tl import types, functions
-from MeguRobot import telethn
+from MeguRobot import telethn, LOGGER
 
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 from fontTools.ttLib import TTFont
@@ -125,7 +125,7 @@ async def process(msg, user, client, reply, replied=None):
         try:
             os.remove(pfp)
         except:
-            os.remove(pfp)
+            LOGGER.exception("Error al remover foto de perfil")
         paste.thumbnail((105, 105))
 
         # Mask
