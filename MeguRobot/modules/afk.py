@@ -135,7 +135,7 @@ def check_afk(update, context, user_id, fst_name, userc_id):
         else:
             if int(userc_id) == int(user_id):
                 return
-            res = "{} está afk desde hace {}.\nRazón: \n{}".format(fst_name, afk_time, user.reason)
+            res = "{} está AFK desde hace {}.\nRazón: {}".format(fst_name, afk_time, user.reason)
             update.effective_message.reply_text(res)
 
 

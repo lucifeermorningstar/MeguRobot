@@ -85,19 +85,24 @@ def toggle_afk(user_id, reason=""):
 
 def get_time(user):
     afk_diff = datetime.now() - datetime.fromtimestamp(user.time_start)
-    seconds = afk_diff.seconds
-    seconds_round = seconds % 60
-    minutes = int(seconds / 60)
-    hours = int(minutes / 60)
+    seconds_r = afk_diff.seconds
+    seconds = seconds_r % 60
+
+    minutes_r = int(seconds_r / 60)
+    minutes = minutes_r % 60
+
+    hours_r = int(minutes_r / 60)
+    hours = hours_r % 24
+
     days = afk_diff.days
     if days > 0:
         afk_time = "{} dias y {} horas".format(days, hours)
-    elif hours > 0:
+    elif hours_r > 0:
         afk_time = "{} horas y {} minutos".format(hours, minutes)
-    elif minutes > 0:
-        afk_time = "{} minutos y {} segundos".format(minutes, seconds_round)
+    elif minutes_r > 0:
+        afk_time = "{} minutos y {} segundos".format(minutes, seconds)
     else:
-        afk_time = "{} segundos".format(seconds_round)
+        afk_time = "{} segundos".format(seconds)
     return afk_time
 
 
