@@ -96,6 +96,7 @@ async def download(client, query):
     msg = await client.send_video(query.message.chat.id, f"{link}.mp4")
     await query.message.delete()
     await msg.reply("Episodio descargado.")
+    os.system(f"rm {link}.mp4")
 
 
 @app.on_callback_query(filters.regex("^title_.*"))
