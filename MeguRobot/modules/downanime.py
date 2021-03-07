@@ -91,6 +91,7 @@ async def download(client, query):
     link = query.data.replace("episode_", "")
     status = download_anime(link)
     if status != 0:
+        await query.message.edit("Error al descargar el episodio.")
         return
     await query.message.edit("Subiendo archivo.")
     msg = await client.send_video(query.message.chat.id, f"{link}.mp4")
