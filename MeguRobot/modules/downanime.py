@@ -113,9 +113,10 @@ async def episodes(client, query):
 @app.on_message(filters.command("downanime"))
 async def downanime(client, message):
     cmd = message.command
+    name = "+".join(cmd[1:])
     if len(cmd) < 2:
         return
-    titles = get_animes("".join(cmd[1:]))
+    titles = get_animes(name)
     if not titles:
         return
     buttons = []
