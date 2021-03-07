@@ -3,7 +3,6 @@ import re
 import time
 import os
 import sys
-import wget
 from urllib.parse import unquote
 from bs4 import BeautifulSoup
 
@@ -82,22 +81,27 @@ def download_anime(link):
     nombre = suma
     filename = link + ".mp4"
     url = "https://" + cooki + nombre
-    dw = os.system(f"wget -O {filename} {url}")
+    dw = os.system(f"wget -q -O {filename} {url}")
     return dw
 
 
 @app.on_callback_query(filters.regex("^episode_.*"))
 async def download(client, query):
+    await query.message.edit("Descargando episodio.")
     link = query.data.replace("episode_", "")
     status = download_anime(link)
     if status != 0:
         return
-    await client.send_video(query.message.chat.id, f"{link}.mp4")
+    await query.message.edit("Subiendo archivo.")
+    msg = await client.send_video(query.message.chat.id, f"{link}.mp4")
+    await query.message.delete()
+    await msg.reply("Episodio descargado.")
 
 
 @app.on_callback_query(filters.regex("^title_.*"))
 async def episodes(client, query):
     title = query.data.replace("title_", "")
+    await query.message.edit("Buscando episodios.")
     episodes = get_episodes(title)
     buttons = []
     for episode in episodes:
