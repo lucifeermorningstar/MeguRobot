@@ -72,6 +72,7 @@ class Config(object):
     SPAMMERS = get_user_list("elevated_users.json", "spammers")
     LASTFM_API_KEY = None
 
+
 class Production(Config):
     LOGGER = True
 

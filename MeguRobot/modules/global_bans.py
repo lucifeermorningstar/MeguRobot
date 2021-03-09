@@ -237,7 +237,7 @@ def gban(update: Update, context: CallbackContext):
             pass
 
     if GLOBAL_LOGS:
-        LOGGER.edit_text(
+        log.edit_text(
             log_message + f"\n<b>Chats afectados:</b> <code>{gbanned_chats}</code>",
             parse_mode=ParseMode.HTML,
         )
@@ -370,7 +370,7 @@ def ungban(update: Update, context: CallbackContext):
     sql.ungban_user(user_id)
 
     if GLOBAL_LOGS:
-        LOGGER.edit_text(
+        log.edit_text(
             log_message + f"\n<b>Chats afectados:</b> {ungbanned_chats}",
             parse_mode=ParseMode.HTML,
         )
@@ -434,7 +434,7 @@ def check_and_ban(update, user_id, should_message=True):
                 f"<b>Chat de apelación</b>: @SpamWatchSupport\n"
                 f"<b>ID de Usuario</b>: <code>{sw_ban.id}</code>\n"
                 f"<b>Razón</b>: <code>{html.escape(sw_ban.reason)}</code>",
-                parse_mode=ParseMode.HTML,
+                parse_mode=ParseMode.HTML
             )
             return
         else:
