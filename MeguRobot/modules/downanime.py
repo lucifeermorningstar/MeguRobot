@@ -110,7 +110,7 @@ async def episodes(client, query):
     await client.edit_message_text(query.message.chat.id, query.message.message_id, "Episodios", reply_markup=keyboard)
 
 
-@app.on_message(filters.command("downanime"))
+@app.on_message(filters.command("downanime", ["/", "!"]))
 async def downanime(client, message):
     cmd = message.command
     name = "+".join(cmd[1:])
@@ -124,3 +124,11 @@ async def downanime(client, message):
         buttons.append([InlineKeyboardButton(title, callback_data=f"title_{titles[title]}")])
     keyboard = InlineKeyboardMarkup(buttons)
     await client.send_message(message.chat.id, "Animes", reply_markup=keyboard)
+
+
+__help__ = """
+*Comandos disponibles:*
+ •`/downanime <anime>`: Busca el nombre del anime y envía el episodio seleccionado.
+"""
+
+__mod_name__ = "Anime Video"
