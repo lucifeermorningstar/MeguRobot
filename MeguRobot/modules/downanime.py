@@ -1,8 +1,6 @@
 import requests
 import re
-import time
 import os
-import sys
 from urllib.parse import unquote
 from bs4 import BeautifulSoup
 
@@ -11,7 +9,7 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from MeguRobot import pyrogrm as app
 
 
-def get_episodes(anime):
+async def get_episodes(anime):
     link = "https://tioanime.com/ver/" + anime + "-"
     links = {}
     count = 0
@@ -28,7 +26,7 @@ def get_episodes(anime):
     return links
 
 
-def get_animes(name):
+async def get_animes(name):
     r = requests.get("https://tioanime.com/directorio?q=" + name)
     pattern = r'<article class="anime".*</article>'
     anime_list = re.findall(pattern, r.text, re.DOTALL)
@@ -50,14 +48,14 @@ def get_animes(name):
     return animes
 
 
-def download_anime(link):
+async def download_anime(link):
     link_full = "https://tioanime.com/ver/" + link
     page = requests.get(link_full)
     sp = BeautifulSoup(page.text,'html.parser')
     nombre = sp.findAll('a',{'class':'btn btn-success btn-download btn-sm rounded-pill'})
     nombre = [x for x in nombre if 'zippy' in x.get('href')]
     if len(nombre)==0:
-        sys.exit()
+        return
     nombre = nombre[0].get('href')
     no2 = requests.get(unquote(nombre))
     bp = BeautifulSoup(no2.text,'html.parser')
@@ -76,7 +74,7 @@ def download_anime(link):
         b = otro[2]
         suma = eval(a+suv+b)
     except Exception as e:
-        exit()
+        return
 
     nombre = suma
     filename = link + ".mp4"
@@ -89,7 +87,7 @@ def download_anime(link):
 async def download(client, query):
     await query.message.edit("Descargando episodio.")
     link = query.data.replace("episode_", "")
-    status = download_anime(link)
+    status = await download_anime(link)
     if status != 0:
         await query.message.edit("Error al descargar el episodio.")
         return
@@ -104,7 +102,7 @@ async def download(client, query):
 async def episodes(client, query):
     title = query.data.replace("title_", "")
     await query.message.edit("Buscando episodios.")
-    episodes = get_episodes(title)
+    episodes = await get_episodes(title)
     buttons = []
     for episode in episodes:
         buttons.append([InlineKeyboardButton(episode, callback_data=f"episode_{episodes[episode]}")])
@@ -112,13 +110,13 @@ async def episodes(client, query):
     await client.edit_message_text(query.message.chat.id, query.message.message_id, "Episodios", reply_markup=keyboard)
 
 
-@app.on_message(filters.command("downanime"))
+@app.on_message(filters.command("downanime", ["/", "!"]))
 async def downanime(client, message):
     cmd = message.command
     name = "+".join(cmd[1:])
     if len(cmd) < 2:
         return
-    titles = get_animes(name)
+    titles = await get_animes(name)
     if not titles:
         return
     buttons = []
@@ -126,3 +124,11 @@ async def downanime(client, message):
         buttons.append([InlineKeyboardButton(title, callback_data=f"title_{titles[title]}")])
     keyboard = InlineKeyboardMarkup(buttons)
     await client.send_message(message.chat.id, "Animes", reply_markup=keyboard)
+
+
+__help__ = """
+*Comandos disponibles:*
+ •`/downanime <anime>`: Busca el nombre del anime y envía el episodio seleccionado.
+"""
+
+__mod_name__ = "Anime Video"
