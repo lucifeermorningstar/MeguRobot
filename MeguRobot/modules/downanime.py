@@ -77,7 +77,7 @@ async def download_anime(link):
         return
 
     nombre = suma
-    filename = link + ".mp4"
+    filename = f"temp/{link}.mp4"
     url = "https://" + cooki + nombre
     dw = os.system(f"wget -q -O {filename} {url}")
     return dw
@@ -92,10 +92,10 @@ async def download(client, query):
         await query.message.edit("Error al descargar el episodio.")
         return
     await query.message.edit("Subiendo archivo.")
-    msg = await client.send_video(query.message.chat.id, f"{link}.mp4")
+    msg = await client.send_video(query.message.chat.id, f"temp/{link}.mp4")
     await query.message.delete()
     await msg.reply("Episodio descargado.")
-    os.system(f"rm {link}.mp4")
+    os.system(f"rm temp/{link}.mp4")
 
 
 @app.on_callback_query(filters.regex("^title_.*"))
