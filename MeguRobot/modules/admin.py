@@ -308,8 +308,10 @@ def pin(update: Update, context: CallbackContext) -> str:
 @loggable
 def unpin(update: Update, context: CallbackContext) -> str:
     bot = context.bot
+    msg = update.effective_message
     chat = update.effective_chat
     user = update.effective_user
+    pinned = msg.reply_to_message.message_id
 
     try:
         bot.unpinChatMessage(chat.id)
@@ -318,10 +320,37 @@ def unpin(update: Update, context: CallbackContext) -> str:
             pass
         else:
             raise
-
+    except:
+        bot.unpinChatMessage(chat.id, pinned)
+    
     log_message = (
         f"<b>{html.escape(chat.title)}:</b>\n"
-        f"#QuitaFijado\n"
+        f"#Desfijado\n"
+        f"<b>Administrador:</b> {mention_html(user.id, html.escape(user.first_name))}"
+    )
+
+    return log_message
+
+
+@bot_admin
+@can_pin
+@user_admin
+@loggable
+def unpinall(update: Update, context: CallbackContext) -> str:
+    bot = context.bot
+    chat = update.effective_chat
+    user = update.effective_user
+
+    try:
+        bot.unpinAllChatMessages(chat.id)
+    except BadRequest as excp:
+        if excp.message == "Chat_not_modified":
+            pass
+        else:
+            raise
+    log_message = (
+        f"<b>{html.escape(chat.title)}:</b>\n"
+        f"#DesfijadoTotal\n"
         f"<b>Administrador:</b> {mention_html(user.id, html.escape(user.first_name))}"
     )
 
@@ -464,6 +493,7 @@ __help__ = """
 *Solo administradores:*
  • `/pin`: Fija silenciosamente el mensaje al que respondió - agregue` 'loud'` o `' notify'` para dar notificaciones a los usuarios.
  •`/unpin`: Quita el mensaje anclado actualmente.
+ •`/unpinall`: Quita las mensajes anclados actualmente.
  •`/link`: Obtén el link del grupo.
  •`/promote`: Promueve al usuario al que respondió.
  •`/demote`: Rebaja al usuario al que respondió.

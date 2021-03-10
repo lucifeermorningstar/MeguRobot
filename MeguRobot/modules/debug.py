@@ -48,9 +48,6 @@ async def i_do_nothing_yes(event):
                 )
 
 
-support_chat = os.getenv("SUPPORT_CHAT")
-
-
 @dev_plus
 def logs(update: Update, context: CallbackContext):
     user = update.effective_user

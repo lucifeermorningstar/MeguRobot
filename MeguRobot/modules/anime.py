@@ -13,8 +13,6 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Upda
 from telegram.ext import CallbackContext
 
 info_btn = "Más Información"
-kaizoku_btn = "Kaizoku ☠️"
-kayo_btn = "Kayo 🏴‍☠️"
 prequel_btn = "⬅️ Precuela"
 sequel_btn = "Secuela ➡️"
 close_btn = "Cerrar ❌"
