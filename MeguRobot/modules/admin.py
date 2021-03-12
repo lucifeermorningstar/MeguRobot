@@ -510,7 +510,7 @@ UNPIN_HANDLER = CommandHandler(
     "unpin", unpin, filters=Filters.chat_type.groups, run_async=True
 )
 UNPINALL_HANDLER = CommandHandler(
-    "unpin", unpinall, filters=Filters.chat_type.groups, run_async=True
+    "unpinall", unpinall, filters=Filters.chat_type.groups, run_async=True
 )
 
 INVITE_HANDLER = DisableAbleCommandHandler("link", invite, run_async=True)
