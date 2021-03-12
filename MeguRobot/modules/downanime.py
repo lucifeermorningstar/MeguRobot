@@ -41,7 +41,12 @@ async def get_animes(name):
         count = 0
         for title in animes:
             pattern_link = r'href=".*"'
-            anime_link = re.findall(pattern_link, anime)[count].replace('href="', "").replace('"', "").replace(r"/anime/", "")
+            anime_link = (
+                re.findall(pattern_link, anime)[count]
+                .replace('href="', "")
+                .replace('"', "")
+                .replace(r"/anime/", "")
+            )
             animes[title] = anime_link
             count += 1
 
@@ -51,28 +56,30 @@ async def get_animes(name):
 async def download_anime(link):
     link_full = "https://tioanime.com/ver/" + link
     page = requests.get(link_full)
-    sp = BeautifulSoup(page.text,'html.parser')
-    nombre = sp.findAll('a',{'class':'btn btn-success btn-download btn-sm rounded-pill'})
-    nombre = [x for x in nombre if 'zippy' in x.get('href')]
-    if len(nombre)==0:
+    sp = BeautifulSoup(page.text, "html.parser")
+    nombre = sp.findAll(
+        "a", {"class": "btn btn-success btn-download btn-sm rounded-pill"}
+    )
+    nombre = [x for x in nombre if "zippy" in x.get("href")]
+    if len(nombre) == 0:
         return
-    nombre = nombre[0].get('href')
+    nombre = nombre[0].get("href")
     no2 = requests.get(unquote(nombre))
-    bp = BeautifulSoup(no2.text,'html.parser')
-    sec = bp.findAll('script')[9]
+    bp = BeautifulSoup(no2.text, "html.parser")
+    sec = bp.findAll("script")[9]
     nombre = sec.next
     cooki = no2.cookies
     cooki = cooki.list_domains()[1]
-    nombre = re.sub('document.getElementById(.*)\.href = ','',nombre)
-    nombre = nombre.replace('\n','')
-    nombre = re.sub('if(.*)','',nombre)
-    suma = nombre.replace(' ','').replace(';','')
-    otro = re.split('\((.*)\)',suma)
+    nombre = re.sub("document.getElementById(.*)\.href = ", "", nombre)
+    nombre = nombre.replace("\n", "")
+    nombre = re.sub("if(.*)", "", nombre)
+    suma = nombre.replace(" ", "").replace(";", "")
+    otro = re.split("\((.*)\)", suma)
     try:
         a = otro[0]
-        suv = "str("+otro[1]+")"
+        suv = "str(" + otro[1] + ")"
         b = otro[2]
-        suma = eval(a+suv+b)
+        suma = eval(a + suv + b)
     except Exception as e:
         return
 
@@ -105,9 +112,20 @@ async def episodes(client, query):
     episodes = await get_episodes(title)
     buttons = []
     for episode in episodes:
-        buttons.append([InlineKeyboardButton(episode, callback_data=f"episode_{episodes[episode]}")])
+        buttons.append(
+            [
+                InlineKeyboardButton(
+                    episode, callback_data=f"episode_{episodes[episode]}"
+                )
+            ]
+        )
     keyboard = InlineKeyboardMarkup(buttons)
-    await client.edit_message_text(query.message.chat.id, query.message.message_id, "Episodios", reply_markup=keyboard)
+    await client.edit_message_text(
+        query.message.chat.id,
+        query.message.message_id,
+        "Episodios",
+        reply_markup=keyboard,
+    )
 
 
 @app.on_message(filters.command("downanime", ["/", "!"]))
@@ -121,7 +139,9 @@ async def downanime(client, message):
         return
     buttons = []
     for title in titles:
-        buttons.append([InlineKeyboardButton(title, callback_data=f"title_{titles[title]}")])
+        buttons.append(
+            [InlineKeyboardButton(title, callback_data=f"title_{titles[title]}")]
+        )
     keyboard = InlineKeyboardMarkup(buttons)
     await client.send_message(message.chat.id, "Animes", reply_markup=keyboard)
 

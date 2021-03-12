@@ -54,7 +54,10 @@ def logs(update: Update, context: CallbackContext):
     msg = update.effective_message
     with open("log.txt", "rb") as f:
         context.bot.send_document(document=f, filename=f.name, chat_id=user.id)
-    msg.reply_text("[Logs enviados](tg://user?id={})".format(context.bot.id),parse_mode=ParseMode.MARKDOWN)
+    msg.reply_text(
+        "[Logs enviados](tg://user?id={})".format(context.bot.id),
+        parse_mode=ParseMode.MARKDOWN,
+    )
 
 
 LOG_HANDLER = CommandHandler("logs", logs, run_async=True)

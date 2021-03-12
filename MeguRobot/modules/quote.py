@@ -91,9 +91,15 @@ async def process(msg, user, client, reply, replied=None):
             functions.channels.GetParticipantRequest(reply.chat_id, user.id)
         )
         if isinstance(details.participant, types.ChannelParticipantCreator):
-            title = details.participant.rank if details.participant.rank else "Creator"
+            title = (
+                details.participant.rank if details.participant.rank else "Propietario"
+            )
         elif isinstance(details.participant, types.ChannelParticipantAdmin):
-            title = details.participant.rank if details.participant.rank else "Admin"
+            title = (
+                details.participant.rank
+                if details.participant.rank
+                else "Administrador"
+            )
     except TypeError:
         pass
     titlewidth = font2.getsize(title)[0]
@@ -176,13 +182,13 @@ async def process(msg, user, client, reply, replied=None):
         if replied.sticker:
             replied.text = "Sticker"
         elif replied.photo:
-            replied.text = "Photo"
+            replied.text = "Foto"
         elif replied.audio:
             replied.text = "Audio"
         elif replied.voice:
-            replied.text = "Voice Message"
+            replied.text = "Mensaje de voz"
         elif replied.document:
-            replied.text = "Document"
+            replied.text = "Documento"
         await replied_user(
             draw,
             reptot,

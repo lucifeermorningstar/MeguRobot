@@ -25,7 +25,8 @@ WHOIS = (
     "**ID:** `{user_id}`\n"
     "**Nombre:** [{full_name}](tg://user?id={userid})\n"
     "**Alias:** `{username}`\n"
-    "**Última vez:** `{last_online}`\n")
+    "**Última vez:** `{last_online}`\n"
+)
 
 WHOIS_PIC = (
     "**Información:**\n\n"
@@ -33,24 +34,27 @@ WHOIS_PIC = (
     "**Nombre:** [{full_name}](tg://user?id={userid})\n"
     "**Alías:** `{username}`\n"
     "**Última vez:** `{last_online}`\n"
-    "**PFPs:** `{profile_pics}`\n")
+    "**PFPs:** `{profile_pics}`\n"
+)
 
 
 def LastOnline(user: User):
     if user.is_bot:
         return ""
-    elif user.status == 'recently':
+    elif user.status == "recently":
         return "Recientemente"
-    elif user.status == 'within_week':
+    elif user.status == "within_week":
         return "Hace unas semanas"
-    elif user.status == 'within_month':
+    elif user.status == "within_month":
         return "Hace un mes"
-    elif user.status == 'long_time_ago':
+    elif user.status == "long_time_ago":
         return "Hace mucho tiempo"
-    elif user.status == 'online':
+    elif user.status == "online":
         return "En línea"
-    elif user.status == 'offline':
-        return datetime.fromtimestamp(user.status.date).strftime("%a, %d %b %Y, %H:%M:%S")
+    elif user.status == "offline":
+        return datetime.fromtimestamp(user.status.date).strftime(
+            "%a, %d %b %Y, %H:%M:%S"
+        )
 
 
 def FullName(user: User):
@@ -90,11 +94,12 @@ async def whois(client, message):
                 full_name=FullName(user),
                 userid=user.id,
                 username=user.username if user.username else "`Sin alias`",
-                last_online=LastOnline(user)),
-            disable_web_page_preview=True)
+                last_online=LastOnline(user),
+            ),
+            disable_web_page_preview=True,
+        )
     else:
-        await client.download_media(user_pic[0],
-                                    file_name=f"./{user.id}.png")
+        await client.download_media(user_pic[0], file_name=f"./{user.id}.png")
         await message.reply_document(
             document=open(f"{user.id}.png", "rb"),
             caption=WHOIS_PIC.format(
@@ -104,7 +109,8 @@ async def whois(client, message):
                 username=user.username if user.username else "`Sin alias`",
                 last_online=LastOnline(user),
                 profile_pics=pic_count,
-                reply_to_message_id=ReplyCheck(message))
+                reply_to_message_id=ReplyCheck(message),
+            ),
         )
         try:
             os.remove(f"./{user.id}.png")

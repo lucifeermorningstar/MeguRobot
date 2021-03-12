@@ -20,6 +20,7 @@ from telegram.ext import CallbackContext
 ADMIN_CACHE = TTLCache(maxsize=512, ttl=60 * 10, timer=perf_counter)
 THREAD_LOCK = RLock()
 
+
 def is_whitelist_plus(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
     return any(
         user_id in user

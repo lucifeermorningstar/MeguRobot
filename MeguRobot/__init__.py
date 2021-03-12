@@ -182,6 +182,14 @@ BotID = 0
 BotName = ""
 
 
+async def get_bot():
+    global BotID, BotName, BotUsername
+    getbot = await pyrogrm.get_me()
+    BotID = getbot.id
+    BotName = getbot.first_name
+    BotUsername = getbot.username
+
+
 SUDO_USERS.add(OWNER_ID)
 DEV_USERS.add(OWNER_ID)
 
@@ -225,14 +233,6 @@ async def get_entity(client, entity):
                 entity = await pyrogrm.get_chat(entity)
                 entity_client = pyrogrm
     return entity, entity_client
-
-
-async def get_bot():
-    global BotID, BotName, BotUsername
-    getbot = await pyrogrm.get_me()
-    BotID = getbot.id
-    BotName = getbot.first_name
-    BotUsername = getbot.username
 
 
 SUDO_USERS = list(SUDO_USERS) + list(DEV_USERS)

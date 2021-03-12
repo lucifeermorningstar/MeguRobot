@@ -434,7 +434,7 @@ def check_and_ban(update, user_id, should_message=True):
                 f"<b>Chat de apelación</b>: @SpamWatchSupport\n"
                 f"<b>ID de Usuario</b>: <code>{sw_ban.id}</code>\n"
                 f"<b>Razón</b>: <code>{html.escape(sw_ban.reason)}</code>",
-                parse_mode=ParseMode.HTML
+                parse_mode=ParseMode.HTML,
             )
             return
         else:

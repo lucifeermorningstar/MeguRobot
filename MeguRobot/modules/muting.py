@@ -174,9 +174,7 @@ def temp_mute(update: Update, context: CallbackContext) -> str:
     member = chat.get_member(user_id)
 
     if not reason:
-        message.reply_text(
-            "No has especificado un tiempo para mutear a este usuario.!"
-        )
+        message.reply_text("No has especificado un tiempo para mutear a este usuario.!")
         return ""
 
     split_reason = reason.split(None, 1)

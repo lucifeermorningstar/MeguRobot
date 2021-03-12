@@ -434,7 +434,9 @@ def user(update: Update, context: CallbackContext):
 
     caption += f"*About*: {about_string}"
 
-    buttons = [[InlineKeyboardButton(info_btn, url=us["url"])],]
+    buttons = [
+        [InlineKeyboardButton(info_btn, url=us["url"])],
+    ]
 
     update.effective_message.reply_photo(
         photo=img,

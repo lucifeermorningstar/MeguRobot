@@ -322,7 +322,7 @@ def unpin(update: Update, context: CallbackContext) -> str:
             raise
     except:
         bot.unpinChatMessage(chat.id, pinned)
-    
+
     log_message = (
         f"<b>{html.escape(chat.title)}:</b>\n"
         f"#Desfijado\n"

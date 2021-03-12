@@ -10,9 +10,9 @@ from MeguRobot import telethn
 
 
 dogheaders = {
-    'Content-type': 'text/plain',
-    'Accept': 'application/json',
-    'charset': 'utf-8'
+    "Content-type": "text/plain",
+    "Accept": "application/json",
+    "charset": "utf-8",
 }
 
 
@@ -27,14 +27,14 @@ async def deldog(event: NewMessage.Event) -> None:
     elif event.reply_to_msg_id:
         reply = await event.get_reply_message()
         text = reply.raw_text
-        if reply.document and reply.document.mime_type.startswith('text'):
+        if reply.document and reply.document.mime_type.startswith("text"):
             text = await reply.download_media(file=bytes)
     else:
         await event.reply("`Dame algo para copiar` https://del.dog", link_preview=False)
         return
     response = requests.post(
-        'https://del.dog/documents',
-        data=text.encode('UTF-8') if isinstance(text, str) else text,
+        "https://del.dog/documents",
+        data=text.encode("UTF-8") if isinstance(text, str) else text,
         headers=dogheaders,
     )
     if not response.ok:
@@ -42,9 +42,9 @@ async def deldog(event: NewMessage.Event) -> None:
             "No se pudo copiar a [DelDog](https://del.dog/)", link_preview=False
         )
         return
-    key = response.json()['key']
+    key = response.json()["key"]
     await event.reply(
-        f'`Copiado a` [DelDog](https://del.dog/{key})', link_preview=False
+        f"`Copiado a` [DelDog](https://del.dog/{key})", link_preview=False
     )
 
 
@@ -82,7 +82,7 @@ PASTE_HANDLER = DisableAbleCommandHandler("paste", paste, run_async=True)
 dispatcher.add_handler(PASTE_HANDLER)
 
 
-DOGBIN_HANDLER = deldog, events.NewMessage(pattern='^[!/]dogbin(?: |$|\n)([\s\S]*)')
+DOGBIN_HANDLER = deldog, events.NewMessage(pattern="^[!/]dogbin(?: |$|\n)([\s\S]*)")
 telethn.add_event_handler(*DOGBIN_HANDLER)
 
 __mod_name__ = "Paste"
