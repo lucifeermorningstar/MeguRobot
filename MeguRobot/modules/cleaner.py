@@ -1,4 +1,5 @@
 import html
+import re
 
 from MeguRobot import ALLOW_EXCL, CustomCommandHandler, dispatcher
 from MeguRobot.modules.disable import DisableAbleCommandHandler
@@ -147,8 +148,16 @@ def remove_bluetext_ignore(update: Update, context: CallbackContext):
 def add_bluetext_ignore_global(update: Update, context: CallbackContext):
     message = update.effective_message
     args = context.args
+    invalid_list = "<"
     if len(args) >= 1:
         val = args[0].lower()
+        
+        invalid = re.findall(invalid_list, val)
+        if invalid:
+            reply = "El comando contiene carácteres inválidos."
+            message.reply_text(reply)
+            return
+            
         added = sql.global_ignore_command(val)
         if added:
             reply = "<b>{}</b> se ha agregado a la lista de ignorados del limpiador de bluetext global.".format(
