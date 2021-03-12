@@ -107,8 +107,16 @@ def add_bluetext_ignore(update: Update, context: CallbackContext):
     message = update.effective_message
     chat = update.effective_chat
     args = context.args
+    invalid_list = "<"
     if len(args) >= 1:
         val = args[0].lower()
+        
+        invalid = re.findall(invalid_list, val)
+        if invalid:
+            reply = "El comando contiene carácteres inválidos."
+            message.reply_text(reply)
+            return
+        
         added = sql.chat_ignore_command(chat.id, val)
         if added:
             reply = "<b>{}</b> se ha agregado a la lista de ignorados del limpiador de bluetext.".format(
