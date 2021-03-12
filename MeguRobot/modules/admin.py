@@ -509,6 +509,9 @@ PIN_HANDLER = CommandHandler(
 UNPIN_HANDLER = CommandHandler(
     "unpin", unpin, filters=Filters.chat_type.groups, run_async=True
 )
+UNPINALL_HANDLER = CommandHandler(
+    "unpin", unpinall, filters=Filters.chat_type.groups, run_async=True
+)
 
 INVITE_HANDLER = DisableAbleCommandHandler("link", invite, run_async=True)
 
@@ -523,6 +526,7 @@ ADMIN_REFRESH_HANDLER = CommandHandler(
 dispatcher.add_handler(ADMINLIST_HANDLER)
 dispatcher.add_handler(PIN_HANDLER)
 dispatcher.add_handler(UNPIN_HANDLER)
+dispatcher.add_handler(UNPINALL_HANDLER)
 dispatcher.add_handler(INVITE_HANDLER)
 dispatcher.add_handler(PROMOTE_HANDLER)
 dispatcher.add_handler(DEMOTE_HANDLER)
@@ -542,6 +546,7 @@ __handlers__ = [
     ADMINLIST_HANDLER,
     PIN_HANDLER,
     UNPIN_HANDLER,
+    UNPINALL_HANDLER,
     INVITE_HANDLER,
     PROMOTE_HANDLER,
     DEMOTE_HANDLER,
