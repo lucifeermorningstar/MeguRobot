@@ -34,6 +34,7 @@ command_list = [
     "aka",
     "leaderboard",
 ]
+VALID_PATTERN = "^[a-zA-Z0-9]+$(?=@|/|!|\.)"
 
 for handler_list in dispatcher.handlers:
     for handler in dispatcher.handlers[handler_list]:
@@ -107,12 +108,11 @@ def add_bluetext_ignore(update: Update, context: CallbackContext):
     message = update.effective_message
     chat = update.effective_chat
     args = context.args
-    invalid_list = "<"
     if len(args) >= 1:
         val = args[0].lower()
         
-        invalid = re.findall(invalid_list, val)
-        if invalid:
+        valid = re.findall(VALID_PATTERN, val)
+        if not valid:
             reply = "El comando contiene carácteres inválidos."
             message.reply_text(reply)
             return
@@ -156,12 +156,11 @@ def remove_bluetext_ignore(update: Update, context: CallbackContext):
 def add_bluetext_ignore_global(update: Update, context: CallbackContext):
     message = update.effective_message
     args = context.args
-    invalid_list = "<"
     if len(args) >= 1:
         val = args[0].lower()
         
-        invalid = re.findall(invalid_list, val)
-        if invalid:
+        valid = re.findall(VALID_PATTERN, val)
+        if not valid:
             reply = "El comando contiene carácteres inválidos."
             message.reply_text(reply)
             return
