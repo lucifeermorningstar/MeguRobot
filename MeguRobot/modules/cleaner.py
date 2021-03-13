@@ -34,7 +34,7 @@ command_list = [
     "aka",
     "leaderboard",
 ]
-VALID_PATTERN = "^[a-zA-Z0-9]+$(?=@|/|!|\.)"
+VALID_PATTERN = "^[a-zA-Z0-9]+$"
 
 for handler_list in dispatcher.handlers:
     for handler in dispatcher.handlers[handler_list]:
