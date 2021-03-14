@@ -463,7 +463,7 @@ async def send_quote(event):
     os.remove("sticker.webp")
 
 
-QUOTE_HANDLER = send_quote, events.NewMessage(pattern="^[!/]q")
+QUOTE_HANDLER = send_quote, events.NewMessage(pattern="^[!/]q ")
 
 telethn.add_event_handler(*QUOTE_HANDLER)
 

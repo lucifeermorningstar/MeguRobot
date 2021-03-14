@@ -17,10 +17,6 @@ dogheaders = {
 
 
 async def deldog(event: NewMessage.Event) -> None:
-    """
-    Pega un documento en DelDog.
-    `{prefix}dogbin` en respuesta a un documento o **{prefix}dogbin (text)**
-    """
     match = event.pattern_match.group(1)
     if match:
         text = match.strip()
@@ -30,7 +26,7 @@ async def deldog(event: NewMessage.Event) -> None:
         if reply.document and reply.document.mime_type.startswith("text"):
             text = await reply.download_media(file=bytes)
     else:
-        await event.reply("`Dame algo para copiar` https://del.dog", link_preview=False)
+        await event.reply("Dame algo para copiar", link_preview=False)
         return
     response = requests.post(
         "https://del.dog/documents",
@@ -44,7 +40,7 @@ async def deldog(event: NewMessage.Event) -> None:
         return
     key = response.json()["key"]
     await event.reply(
-        f"`Copiado a` [DelDog](https://del.dog/{key})", link_preview=False
+        f"Copiado a [DelDog](https://del.dog/{key})", link_preview=False
     )
 
 

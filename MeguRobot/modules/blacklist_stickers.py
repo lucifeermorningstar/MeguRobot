@@ -513,7 +513,7 @@ Los stickers de lista negra se utiliza para bloquear ciertos stickers. Siempre q
  •`/rmblsticker <enlace de sticker o pack>`: Igual que arriba.
  •`/blstickermode <ban/tban/mute/tmute>`: Configura una acción predeterminada sobre qué hacer si los usuarios usan stickers  que estan en la lista negra.
 Nota:
- • `<enlace de etiqueta>` puede ser `https://t.me/addstickers/ <sticker>` o simplemente `<sticker>` o responder al mensaje con el sticker.
+ • El `<enlace de sticker>` puede ser `https://t.me/addstickers/<sticker>` o simplemente `<sticker>` o responder al mensaje con el sticker.
 """
 
 __mod_name__ = "Stickers Blacklist"

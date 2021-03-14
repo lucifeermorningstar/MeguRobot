@@ -131,14 +131,14 @@ def export_data(update, context):
     if conn:
         chat = dispatcher.bot.getChat(conn)
         chat_id = conn
-        # chat_name = dispatcher.bot.getChat(conn).title
+        chat_name = dispatcher.bot.getChat(conn).title
     else:
         if update.effective_message.chat.type == "private":
             update.effective_message.reply_text("Este es un comando solo para grupos!")
             return ""
         chat = update.effective_chat
         chat_id = update.effective_chat.id
-        # chat_name = update.effective_message.chat.title
+        chat_name = update.effective_message.chat.title
 
     jam = time.time()
     new_jam = jam + 10800
@@ -341,7 +341,7 @@ def export_data(update, context):
     context.bot.sendDocument(
         current_chat_id,
         document=open("MeguRobot{}.backup".format(chat_id), "rb"),
-        caption="*Copia de seguridad exportada con éxito:*\nChat: `{}`\nChat ID: `{}`\nEn: `{}`\n\nNota: Este `MeguRobot-Backup`fue hecho especialmente para mensajes.".format(
+        caption="*Copia de seguridad exportada con éxito:*\nChat: `{}`\nChat ID: `{}`\nEn: `{}`\n\nNota: Este `MeguRobot-Backup` fue hecho especialmente para mensajes.".format(
             chat.title, chat_id, tgl
         ),
         timeout=360,

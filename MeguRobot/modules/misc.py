@@ -105,8 +105,8 @@ __help__ = """
 *Markdown:*
  •`/markdownhelp`: resumen rápido de cómo funciona Markdown en Telegram - solo se puede llamar en chats privados
 *Pegar:*
- •`/paste`: Guarda el contenido respondido en` nekobin.com` y responde con una URL
- •`/dogbin`: Guarda el contenido respondido en` del.dog` y responde con una URL
+ •`/paste`: Guarda el contenido respondido en `nekobin.com` y responde con una URL.
+ •`/dogbin`: Guarda el contenido respondido en `del.dog` y responde con una URL.
  
 *Reaccionar:*
  •`/react`: Reacciona con una reacción aleatoria
