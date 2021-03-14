@@ -73,7 +73,7 @@ def list_handlers(update, context):
     if not all_handlers:
         send_message(
             update.effective_message,
-            "No hay triggers guardados en{}!".format(chat_name),
+            "No hay triggers guardados en {}!".format(chat_name),
         )
         return
 

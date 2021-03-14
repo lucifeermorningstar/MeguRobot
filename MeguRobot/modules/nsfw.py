@@ -624,13 +624,13 @@ def dva(update, context):
 
 __help__ = """
     
-•`/addnsfw`: Habilita el modo NSFW
-•`/rmnsfw`: Deshabilita el modo NSFW
+•`/addnsfw`: Habilita el modo NSFW.
+•`/rmnsfw`: Deshabilita el modo NSFW.
  
 *Comandos:*
  •`/waifu`: Envía stickers de Waifu al azar.
  •`/kiss`: Envía GIF de besos aleatorios.
- •`/avatar: Envía stickers de avatar al azar.
+ •`/avatar`: Envía stickers de avatar al azar.
  •`/baka`: Envía GIF aleatorios de Baka Shout.
  •`/neko`: Envía imágenes de SFW Neko aleatorias.
 
