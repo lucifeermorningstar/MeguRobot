@@ -122,6 +122,8 @@ DATA_EXPORT = []
 CHAT_SETTINGS = {}
 USER_SETTINGS = {}
 
+ALL_THE_COMMANDS = []
+
 for module_name in ALL_MODULES:
     imported_module = importlib.import_module("MeguRobot.modules." + module_name)
     if not hasattr(imported_module, "__mod_name__"):
@@ -158,6 +160,10 @@ for module_name in ALL_MODULES:
 
     if hasattr(imported_module, "__user_settings__"):
         USER_SETTINGS[imported_module.__mod_name__.lower()] = imported_module
+
+    if hasattr(imported_module, "__command_list__"):
+        for x in imported_module.__command_list__:
+            ALL_THE_COMMANDS.append(x)
 
 
 # do not async

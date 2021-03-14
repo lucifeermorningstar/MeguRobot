@@ -128,6 +128,12 @@ __help__ = """
 
 __mod_name__ = "Rules"
 
+__command_list__ = [
+    "rules",
+    "setrules",
+    "clearrules"
+]
+
 GET_RULES_HANDLER = CommandHandler(
     "rules", get_rules, filters=Filters.chat_type.groups, run_async=True
 )

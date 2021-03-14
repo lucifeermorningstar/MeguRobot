@@ -54,7 +54,7 @@ def set_cleanbt(chat_id, is_enable):
         if not curr:
             curr = CleanerBlueTextChatSettings(str(chat_id), is_enable)
         else:
-            curr.is_enabled = is_enable
+            curr.is_enable = is_enable
 
         if str(chat_id) not in CLEANER_CHATS:
             CLEANER_CHATS.setdefault(

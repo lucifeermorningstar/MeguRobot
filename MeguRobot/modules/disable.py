@@ -253,6 +253,15 @@ if is_module_loaded(FILENAME):
 
     __mod_name__ = "Comandos"
 
+    __command_list__ = [
+        "cmds",
+        "enable",
+        "disable",
+        "enablemodule",
+        "disablemodule",
+        "listcmds"
+    ]
+
     __help__ = """
 • `/cmds`: Comprobar el estado actual de los comandos desactivados
 

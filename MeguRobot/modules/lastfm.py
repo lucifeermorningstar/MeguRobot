@@ -114,3 +114,9 @@ LASTFM_HANDLER = DisableAbleCommandHandler("lastfm", last_fm, run_async=True)
 dispatcher.add_handler(SET_USER_HANDLER)
 dispatcher.add_handler(CLEAR_USER_HANDLER)
 dispatcher.add_handler(LASTFM_HANDLER)
+
+__command_list__ = [
+    "setuser",
+    "clearuser",
+    "lastfm"
+]

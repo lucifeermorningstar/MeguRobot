@@ -534,3 +534,11 @@ dispatcher.add_handler(RUNBAN_HANDLER)
 dispatcher.add_handler(RKICK_HANDLER)
 dispatcher.add_handler(RMUTE_HANDLER)
 dispatcher.add_handler(RUNMUTE_HANDLER)
+
+__command_list__ = [
+    "rban",
+    "runban",
+    "rexploit",
+    "rmute",
+    "runmute"
+]

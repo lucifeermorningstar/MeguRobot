@@ -629,3 +629,29 @@ __handlers__ = [
     SUDOLIST_HANDLER,
     DEVLIST_HANDLER,
 ]
+
+__command_list__ = [
+    "addsudo",
+    "adddestroyer"
+    "addsupport",
+    "adddemon"
+    "addfrog",
+    "addwhitelist",
+    "addgianttoad",
+    "removesudo",
+    "removedestroyer",
+    "removesupport",
+    "removedemon",
+    "removefrog",
+    "removewhitelist",
+    "removegianttoad",
+    "whitelistlist",
+    "gianttoads",
+    "frogs",
+    "supportlist",
+    "demons",
+    "sudolist",
+    "destroyers",
+    "devlist",
+    "cerdemons"
+]

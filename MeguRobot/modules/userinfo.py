@@ -562,7 +562,17 @@ dispatcher.add_handler(SET_ABOUT_HANDLER)
 dispatcher.add_handler(GET_ABOUT_HANDLER)
 
 __mod_name__ = "Info"
-__command_list__ = ["setbio", "bio", "setme", "me", "info"]
+__command_list__ = [
+    "setbio",
+    "bio",
+    "setme",
+    "me",
+    "info",
+    "book",
+    "gifid",
+    "id",
+    "stats"
+]
 __handlers__ = [
     ID_HANDLER,
     GIFID_HANDLER,

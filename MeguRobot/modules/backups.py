@@ -382,6 +382,11 @@ Tenga en cuenta que los archivos/fotos no se pueden importar debido a restriccio
 •`/export`: Los datos del grupo que se exportarán son: reglas, mensajes (documentos, imágenes, música, video, audio, voz, texto, botones de texto)\
 """
 
+__command_list__ = [
+    "import",
+    "export"
+]
+
 IMPORT_HANDLER = CommandHandler("import", import_data, run_async=True)
 EXPORT_HANDLER = CommandHandler(
     "export", export_data, pass_chat_data=True, run_async=True

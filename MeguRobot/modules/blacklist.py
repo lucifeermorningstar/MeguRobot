@@ -216,6 +216,13 @@ múltiples disparadores a la vez.
  •`/rmblacklist <triggers>`: Igual que arriba.
 """
 
+__command_list__ = [
+    "blacklist",
+    "addblacklist",
+    "unblacklist",
+    "rmblacklist"
+]
+
 BLACKLIST_HANDLER = DisableAbleCommandHandler("blacklist", blacklist, run_async=True)
 ADD_BLACKLIST_HANDLER = CommandHandler("addblacklist", add_blacklist, run_async=True)
 UNBLACKLIST_HANDLER = CommandHandler(

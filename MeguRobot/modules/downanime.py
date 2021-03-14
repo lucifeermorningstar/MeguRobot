@@ -152,3 +152,5 @@ __help__ = """
 """
 
 __mod_name__ = "Anime Video"
+
+__command_list__ = ["downanime"]

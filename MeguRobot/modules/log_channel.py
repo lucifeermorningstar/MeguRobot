@@ -218,6 +218,8 @@ La configuración del canal de registro se realiza mediante:
 
     __mod_name__ = "Canal Log"
 
+    __command_list__ = ["logchanel", "setlog", "unsetlog"]
+
     LOG_HANDLER = CommandHandler("logchannel", logging, run_async=True)
     SET_LOG_HANDLER = CommandHandler("setlog", setlog, run_async=True)
     UNSET_LOG_HANDLER = CommandHandler("unsetlog", unsetlog, run_async=True)

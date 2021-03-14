@@ -1,8 +1,8 @@
 import html
 import re
 
-from MeguRobot import ALLOW_EXCL, CustomCommandHandler, dispatcher
-from MeguRobot.modules.disable import DisableAbleCommandHandler
+from MeguRobot.__main__ import ALL_THE_COMMANDS
+from MeguRobot import ALLOW_EXCL, dispatcher
 from MeguRobot.modules.helper_funcs.chat_status import (
     bot_can_delete,
     connection_status,
@@ -19,7 +19,7 @@ else:
     CMD_STARTERS = "/"
 
 BLUE_TEXT_CLEAN_GROUP = 15
-CommandHandlerList = (CommandHandler, CustomCommandHandler, DisableAbleCommandHandler)
+
 command_list = [
     "cleanblue",
     "ignoreblue",
@@ -35,14 +35,11 @@ command_list = [
     "leaderboard",
 ]
 VALID_PATTERN = "^[a-zA-Z0-9]+$"
-
-for handler_list in dispatcher.handlers:
-    for handler in dispatcher.handlers[handler_list]:
-        if any(isinstance(handler, cmd_handler) for cmd_handler in CommandHandlerList):
-            command_list += handler.command
+command_list += ALL_THE_COMMANDS
 
 
 def clean_blue_text_must_click(update: Update, context: CallbackContext):
+
     bot = context.bot
     chat = update.effective_chat
     message = update.effective_message
@@ -55,7 +52,6 @@ def clean_blue_text_must_click(update: Update, context: CallbackContext):
             ):
 
                 command = fst_word[1:].split("@")
-                chat = update.effective_chat
 
                 ignored = sql.is_command_ignored(chat.id, command[0])
                 if ignored:
@@ -241,6 +237,15 @@ El limpiador de bluetext elimina los comandos inventados que las personas envía
  •`/ungignoreblue <palabra>`: Eliminar dicho comando de la lista de limpieza global
 """
 
+__command_list__ = [
+    "cleanblue",
+    "ignoreblue",
+    "unignoreblue",
+    "listblue",
+    "gignoreblue",
+    "ungignoreblue"
+]
+
 SET_CLEAN_BLUE_TEXT_HANDLER = CommandHandler(
     "cleanblue", set_blue_text_must_click, run_async=True
 )
@@ -260,7 +265,7 @@ LIST_CLEAN_BLUE_TEXT_HANDLER = CommandHandler(
     "listblue", bluetext_ignore_list, run_async=True
 )
 CLEAN_BLUE_TEXT_HANDLER = MessageHandler(
-    Filters.command & Filters.chat_type.groups,
+    Filters.text & Filters.chat_type.groups,
     clean_blue_text_must_click,
     run_async=True,
 )

@@ -402,6 +402,14 @@ Esto le permite conectarse a la base de datos de un chat y agregar cosas sin que
  •`/allowconnect <yes/no>`: Permite que un usuario se conecte a un grupo
 """
 
+__command_list__ = [
+    "connect",
+    "connection",
+    "disconnect",
+    "helpconnect",
+    "allowconnect"
+]
+
 CONNECT_CHAT_HANDLER = CommandHandler(
     "connect", connect_chat, pass_args=True, run_async=True
 )

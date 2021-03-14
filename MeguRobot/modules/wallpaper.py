@@ -54,5 +54,7 @@ def wall(update: Update, context: CallbackContext):
                 )
 
 
+__mod_name__ = "Wallpapers"
 WALLPAPER_HANDLER = DisableAbleCommandHandler("wall", wall, run_async=True)
 dispatcher.add_handler(WALLPAPER_HANDLER)
+__command_list__ = ["wall"]

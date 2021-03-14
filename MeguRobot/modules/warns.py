@@ -508,6 +508,17 @@ __help__ = """
 
 __mod_name__ = "Advertencias"
 
+__command_list__ = [
+    "warns",
+    "warnlist",
+    "warn",
+    "resetwarn",
+    "addwarn",
+    "nowarn",
+    "warnlimit",
+    "strongwarn"
+]
+
 WARN_HANDLER = CommandHandler("warn", warn_user, filters=Filters.chat_type.groups)
 RESET_WARN_HANDLER = CommandHandler(
     ["resetwarn", "resetwarns"], reset_warns, filters=Filters.chat_type.groups

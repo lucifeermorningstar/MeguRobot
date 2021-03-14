@@ -439,6 +439,12 @@ resultará en la restricción de ese usuario.
 
 __mod_name__ = "Anti-Flood"
 
+__command_list__ = [
+    "flood",
+    "setflood",
+    "setfloodmode"
+]
+
 FLOOD_BAN_HANDLER = MessageHandler(
     Filters.all & ~Filters.status_update & Filters.chat_type.groups,
     check_flood,

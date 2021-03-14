@@ -49,3 +49,5 @@ COMMON_CHATS_HANDLER = CommandHandler(
 )
 
 dispatcher.add_handler(COMMON_CHATS_HANDLER)
+
+__command_list__ = ["getchats"]

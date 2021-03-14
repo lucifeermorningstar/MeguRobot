@@ -702,7 +702,6 @@ LESBIAN_HANDLER = CommandHandler("lesbian", lesbian, run_async=True)
 LEWDK_HANDLER = CommandHandler("lewdk", lewdk, run_async=True)
 NGIF_HANDLER = CommandHandler("ngif", ngif, run_async=True)
 TICKLE_HANDLER = CommandHandler("tickle", tickle, run_async=True)
-LEWD_HANDLER = CommandHandler("lewd", lewd, run_async=True)
 FEED_HANDLER = CommandHandler("feed", feed, run_async=True)
 EROYURI_HANDLER = CommandHandler("eroyuri", eroyuri, run_async=True)
 ERON_HANDLER = CommandHandler("eron", eron, run_async=True)
@@ -851,4 +850,60 @@ __handlers__ = [
     SMUG_HANDLER,
     BAKA_HANDLER,
     DVA_HANDLER,
+]
+
+__command_list__ = [
+    "addnsfw",
+    "rmnsfw",
+    "nsfwchats",
+    "lewdkemo",
+    "neko",
+    "feet",
+    "yuri",
+    "trap",
+    "futanari",
+    "hololewd",
+    "sologif",
+    "cumgif",
+    "erokemo",
+    "lesbian",
+    "lewdk",
+    "ngif",
+    "tickle",
+    "lewd",
+    "feed",
+    "eroyuri",
+    "eron",
+    "cum",
+    "bjgif",
+    "bj",
+    "nekonsfw",
+    "solo",
+    "kemonomimi",
+    "avatarlewd",
+    "gasm",
+    "poke",
+    "anal",
+    "hentai",
+    "avatar",
+    "erofeet",
+    "holo",
+    "tits",
+    "pussygif",
+    "holoero",
+    "pussy",
+    "hentaigif",
+    "classic",
+    "kuni",
+    "waifu",
+    "kiss",
+    "femdom",
+    "hug",
+    "erok",
+    "foxgirl",
+    "titsgif",
+    "ero",
+    "smug",
+    "baka",
+    "dva"
 ]

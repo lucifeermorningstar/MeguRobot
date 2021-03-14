@@ -183,3 +183,5 @@ dispatcher.add_handler(UNLOAD_HANDLER)
 dispatcher.add_handler(LISTMODULES_HANDLER)
 
 __mod_name__ = "Módulos"
+
+__command_list__ = ["load", "unload", "listmodules"]

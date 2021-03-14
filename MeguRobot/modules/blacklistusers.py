@@ -166,3 +166,4 @@ dispatcher.add_handler(BLUSERS_HANDLER)
 
 __mod_name__ = "BlackList de Usuarios"
 __handlers__ = [BL_HANDLER, UNBL_HANDLER, BLUSERS_HANDLER]
+__command_list__ = ["ignore", "notice", "ignoredlist"]

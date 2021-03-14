@@ -1121,7 +1121,19 @@ dispatcher.add_handler(BUTTON_VERIFY_HANDLER)
 dispatcher.add_handler(WELCOME_MUTE_HELP)
 
 __mod_name__ = "Saludos"
-__command_list__ = []
+__command_list__ = [
+    "welcome",
+    "goodbye",
+    "setwelcome",
+    "setgoodbye",
+    "resetwelcome",
+    "resetgoodbye",
+    "welcomemute",
+    "cleanservice",
+    "cleanwelcome",
+    "welcomehelp",
+    "welcomemutehelp"
+]
 __handlers__ = [
     NEW_MEM_HANDLER,
     LEFT_MEM_HANDLER,

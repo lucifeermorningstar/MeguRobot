@@ -106,6 +106,8 @@ __help__ = """
  •`/markdownhelp`: resumen rápido de cómo funciona Markdown en Telegram - solo se puede llamar en chats privados
 *Pegar:*
  •`/paste`: Guarda el contenido respondido en` nekobin.com` y responde con una URL
+ •`/dogbin`: Guarda el contenido respondido en` del.dog` y responde con una URL
+ 
 *Reaccionar:*
  •`/react`: Reacciona con una reacción aleatoria
 *Urban Dictonary(ENG):*
@@ -130,7 +132,7 @@ dispatcher.add_handler(SAY_HANDLER)
 dispatcher.add_handler(MD_HELP_HANDLER)
 
 __mod_name__ = "Extras"
-__command_list__ = ["say"]
+__command_list__ = ["say", "markdownhelp"]
 __handlers__ = [
     SAY_HANDLER,
     MD_HELP_HANDLER,

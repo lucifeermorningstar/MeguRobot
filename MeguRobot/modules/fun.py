@@ -159,10 +159,10 @@ def toss(update: Update, context: CallbackContext):
     update.message.reply_text(random.choice(fun_strings.TOSS))
 
 
-def roll(update, context):
+def dice(update, context):
     bot = context.bot
     chat_id = update.message.chat_id
-    bot.send_dice(chat_id, value=6, emoji="")
+    bot.send_dice(chat_id, emoji="🎲")
 
 
 def shrug(update: Update, context: CallbackContext):
@@ -210,11 +210,10 @@ __help__ = """
  •`/table`: Obtener flip/unflip.
  •`/decide`: Responde aleatoriamente sí/no/tal vez
  •`/toss`: Lanza una moneda
- •`/roll`: Tira un dado
+ •`/dice`: Tira un dado
  •`/rlg`: Une oídos, nariz, boca y crea un emo ;-;
  •`/shout <palabra clave>`: Escribe cualquier cosa que quieras dar un grito fuerte
  •`/weebify <text>`: Devuelve un texto weebify
- •`/police`: Envía una animación con emojis de sirena de policía.
 """
 
 
@@ -222,7 +221,7 @@ WEEBIFY_HANDLER = DisableAbleCommandHandler("weebify", weebify, run_async=True)
 RUNS_HANDLER = DisableAbleCommandHandler("runs", runs, run_async=True)
 SLAP_HANDLER = DisableAbleCommandHandler("slap", slap, run_async=True)
 TOSS_HANDLER = DisableAbleCommandHandler("toss", toss, run_async=True)
-ROLL_HANDLER = DisableAbleCommandHandler("roll", roll, run_async=True)
+DICE_HANDLER = DisableAbleCommandHandler("dice", dice, run_async=True)
 SHRUG_HANDLER = DisableAbleCommandHandler("shrug", shrug, run_async=True)
 RLG_HANDLER = DisableAbleCommandHandler("rlg", rlg, run_async=True)
 DECIDE_HANDLER = DisableAbleCommandHandler("decide", decide, run_async=True)
@@ -232,7 +231,7 @@ dispatcher.add_handler(WEEBIFY_HANDLER)
 dispatcher.add_handler(RUNS_HANDLER)
 dispatcher.add_handler(SLAP_HANDLER)
 dispatcher.add_handler(TOSS_HANDLER)
-dispatcher.add_handler(ROLL_HANDLER)
+dispatcher.add_handler(DICE_HANDLER)
 dispatcher.add_handler(SHRUG_HANDLER)
 dispatcher.add_handler(RLG_HANDLER)
 dispatcher.add_handler(DECIDE_HANDLER)
@@ -244,7 +243,7 @@ __command_list__ = [
     "runs",
     "slap",
     "toss",
-    "roll",
+    "dice",
     "shrug",
     "rlg",
     "decide",
@@ -255,7 +254,7 @@ __handlers__ = [
     RUNS_HANDLER,
     SLAP_HANDLER,
     TOSS_HANDLER,
-    ROLL_HANDLER,
+    DICE_HANDLER,
     SHRUG_HANDLER,
     RLG_HANDLER,
     DECIDE_HANDLER,

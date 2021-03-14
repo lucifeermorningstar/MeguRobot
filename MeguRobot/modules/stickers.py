@@ -513,6 +513,8 @@ __help__ = """
 •`/steal`: Responde a un sticker para agregarlo a tu Stickerpack.
 """
 
+__command_list__ = ["stickerid", "getsticker", "steal", "kang", "stickers"]
+
 __mod_name__ = "Stickers"
 STICKERID_HANDLER = DisableAbleCommandHandler("stickerid", stickerid, run_async=True)
 STICKERS_HANDLER = DisableAbleCommandHandler("stickers", cb_sticker, run_async=True)

@@ -296,3 +296,8 @@ __handlers__ = [
     (ADMIN_REPORT_HANDLER, REPORT_GROUP),
     (SETTING_HANDLER),
 ]
+
+__command_list__ = [
+    "report",
+    "reports"
+]

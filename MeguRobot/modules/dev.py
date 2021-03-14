@@ -32,3 +32,4 @@ dispatcher.add_handler(LEAVE_HANDLER)
 
 __mod_name__ = "Dev"
 __handlers__ = [LEAVE_HANDLER]
+__command_list__ = ["leave"]

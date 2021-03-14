@@ -251,3 +251,4 @@ dispatcher.add_handler(TEMPMUTE_HANDLER)
 
 __mod_name__ = "Muteo"
 __handlers__ = [MUTE_HANDLER, UNMUTE_HANDLER, TEMPMUTE_HANDLER]
+__command_list__ = ["mute", "tmute", "unmute", "tempmute"]
