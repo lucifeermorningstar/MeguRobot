@@ -115,8 +115,4 @@ dispatcher.add_handler(SET_USER_HANDLER)
 dispatcher.add_handler(CLEAR_USER_HANDLER)
 dispatcher.add_handler(LASTFM_HANDLER)
 
-__command_list__ = [
-    "setuser",
-    "clearuser",
-    "lastfm"
-]
+__command_list__ = ["setuser", "clearuser", "lastfm"]

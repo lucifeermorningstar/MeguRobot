@@ -407,7 +407,7 @@ __command_list__ = [
     "connection",
     "disconnect",
     "helpconnect",
-    "allowconnect"
+    "allowconnect",
 ]
 
 CONNECT_CHAT_HANDLER = CommandHandler(

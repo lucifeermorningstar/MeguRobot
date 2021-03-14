@@ -571,7 +571,7 @@ __command_list__ = [
     "book",
     "gifid",
     "id",
-    "stats"
+    "stats",
 ]
 __handlers__ = [
     ID_HANDLER,

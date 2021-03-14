@@ -259,7 +259,7 @@ if is_module_loaded(FILENAME):
         "disable",
         "enablemodule",
         "disablemodule",
-        "listcmds"
+        "listcmds",
     ]
 
     __help__ = """

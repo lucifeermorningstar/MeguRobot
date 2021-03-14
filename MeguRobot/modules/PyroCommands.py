@@ -23,11 +23,4 @@ handlers = [
 for handler in handlers:
     pyrogrm.add_handler(handler)
 
-__command_list__ = [
-    "whois",
-    "telegraph",
-    "reverse",
-    "spbinfo",
-    "usage",
-    "whatanime"
-]
+__command_list__ = ["whois", "telegraph", "reverse", "spbinfo", "usage", "whatanime"]

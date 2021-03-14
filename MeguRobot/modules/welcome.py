@@ -1132,7 +1132,7 @@ __command_list__ = [
     "cleanservice",
     "cleanwelcome",
     "welcomehelp",
-    "welcomemutehelp"
+    "welcomemutehelp",
 ]
 __handlers__ = [
     NEW_MEM_HANDLER,

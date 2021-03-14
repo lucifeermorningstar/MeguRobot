@@ -78,9 +78,7 @@ def disapprove(update, context):
         message.reply_text(f"{member.user['first_name']} isn't approved yet!")
         return ""
     sql.disapprove(message.chat_id, user_id)
-    message.reply_text(
-        f"{member.user['first_name']} ya no es libre en {chat_title}."
-    )
+    message.reply_text(f"{member.user['first_name']} ya no es libre en {chat_title}.")
     log_message = (
         f"<b>{html.escape(chat.title)}:</b>\n"
         f"#QuitaLibre\n"

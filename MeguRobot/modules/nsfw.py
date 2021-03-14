@@ -905,5 +905,5 @@ __command_list__ = [
     "ero",
     "smug",
     "baka",
-    "dva"
+    "dva",
 ]

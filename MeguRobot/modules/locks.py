@@ -612,9 +612,4 @@ dispatcher.add_handler(
     MessageHandler(Filters.all & Filters.chat_type.groups, del_lockables), PERM_GROUP
 )
 
-__command_list__ = [
-    "lock",
-    "unlock",
-    "locks",
-    "locktypes"
-]
+__command_list__ = ["lock", "unlock", "locks", "locktypes"]

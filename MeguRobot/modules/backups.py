@@ -232,8 +232,7 @@ def export_data(update, context):
     bl = list(blacklistsql.get_chat_blacklist(chat_id))
     # Disabled command
     disabledcmd = list(disabledsql.get_all_disabled(chat_id))
-    # Filters (TODO)
-    
+    # Filters (TODO) 
 	all_filters = list(filtersql.get_chat_triggers(chat_id))
 	export_filters = {}
 	for filters in all_filters:

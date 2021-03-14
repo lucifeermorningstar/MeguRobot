@@ -516,7 +516,7 @@ __command_list__ = [
     "addwarn",
     "nowarn",
     "warnlimit",
-    "strongwarn"
+    "strongwarn",
 ]
 
 WARN_HANDLER = CommandHandler("warn", warn_user, filters=Filters.chat_type.groups)

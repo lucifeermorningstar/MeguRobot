@@ -601,12 +601,7 @@ Si desea que su palabra clave sea una oración, use comillas.
 
 __mod_name__ = "Triggers"
 
-__command_list__ = [
-    "triggers",
-    "settrigger",
-    "deltrigger",
-    "removealltriggers"
-]
+__command_list__ = ["triggers", "settrigger", "deltrigger", "removealltriggers"]
 
 FILTER_HANDLER = CommandHandler("settrigger", filters, run_async=False)
 STOP_HANDLER = CommandHandler("deltrigger", stop_filter, run_async=False)

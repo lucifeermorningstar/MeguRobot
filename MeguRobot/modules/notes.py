@@ -534,11 +534,4 @@ dispatcher.add_handler(SLASH_GET_HANDLER)
 dispatcher.add_handler(CLEARALL)
 dispatcher.add_handler(CLEARALL_BTN)
 
-__command_list__ = [
-    "get",
-    "save",
-    "clear",
-    "notes",
-    "saved",
-    "removeallnotes"
-]
+__command_list__ = ["get", "save", "clear", "notes", "saved", "removeallnotes"]

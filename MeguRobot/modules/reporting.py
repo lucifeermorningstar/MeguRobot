@@ -297,7 +297,4 @@ __handlers__ = [
     (SETTING_HANDLER),
 ]
 
-__command_list__ = [
-    "report",
-    "reports"
-]
+__command_list__ = ["report", "reports"]

@@ -518,12 +518,7 @@ Nota:
 
 __mod_name__ = "Stickers Blacklist"
 
-__command_list__ = [
-    "addblsticker",
-    "unblsticker",
-    "rmblsticker",
-    "blstickermode"
-]
+__command_list__ = ["addblsticker", "unblsticker", "rmblsticker", "blstickermode"]
 
 BLACKLIST_STICKER_HANDLER = DisableAbleCommandHandler(
     "blsticker", blackliststicker, admin_ok=True, run_async=True

@@ -588,9 +588,4 @@ if STRICT_GBAN:  # enforce GBANS if this is set
     __handlers__.append((GBAN_ENFORCER, GBAN_ENFORCE_GROUP))
 
 
-__command_list__ = [
-    "antispam",
-    "gban",
-    "ungban",
-    "gbanlist"
-]
+__command_list__ = ["antispam", "gban", "ungban", "gbanlist"]

@@ -632,10 +632,8 @@ __handlers__ = [
 
 __command_list__ = [
     "addsudo",
-    "adddestroyer"
-    "addsupport",
-    "adddemon"
-    "addfrog",
+    "adddestroyer" "addsupport",
+    "adddemon" "addfrog",
     "addwhitelist",
     "addgianttoad",
     "removesudo",
@@ -653,5 +651,5 @@ __command_list__ = [
     "sudolist",
     "destroyers",
     "devlist",
-    "cerdemons"
+    "cerdemons",
 ]

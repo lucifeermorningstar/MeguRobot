@@ -406,14 +406,7 @@ __help__ = """
  •`/kick o /exploit <usuario>`: Saca a un usuario del grupo. (a través del ID o respondiendo)
 """
 
-__command_list__ = [
-    "exploitme",
-    "ban",
-    "tban",
-    "unban",
-    "kick",
-    "exploit"
-]
+__command_list__ = ["exploitme", "ban", "tban", "unban", "kick", "exploit"]
 
 BAN_HANDLER = CommandHandler("ban", ban, run_async=True)
 TEMPBAN_HANDLER = CommandHandler(["tban"], temp_ban, run_async=True)

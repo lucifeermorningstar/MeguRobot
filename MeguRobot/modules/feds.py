@@ -2507,5 +2507,5 @@ __command_list__ = [
     "subfed",
     "unsubfed",
     "fedsubs",
-    "myfeds"
+    "myfeds",
 ]
