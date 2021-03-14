@@ -179,7 +179,7 @@ async def group_info(event) -> None:
         )
     except:
         await event.reply(
-            "El canal especificado es privado y **no tengo permiso para acceder a él**. Otra razón puede ser que **esté baneada**."
+            "El grupo especificado es privado o **no tengo permiso para acceder a él**. Otra razón puede ser que **esté baneada**."
         )
         return
     msg = f"**ID**: `{entity.id}`"
@@ -276,7 +276,7 @@ def info(update: Update, context: CallbackContext):
         userhp = hpmanager(user)
         text += f"\n\n<b>Vida:</b> <code>{userhp['earnedhp']}/{userhp['totalhp']}</code>\n »{make_bar(int(userhp['percentage']))}«"
         text += f"\n[{userhp['percentage']}%] "
-        text += '» [<a href="https://t.me/MeguBotChannel/7">Info</a>]'
+        text += '» [<a href="https://t.me/MeguRobotChannel/7">Info</a>]'
 
     try:
         spamwtc = sw.get_ban(int(user.id))
