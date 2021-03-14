@@ -94,7 +94,7 @@ if ENV:
     CASH_API_KEY = os.environ.get("CASH_API_KEY", None)
     TIME_API_KEY = os.environ.get("TIME_API_KEY", None)
     AI_API_KEY = os.environ.get("AI_API_KEY", None)
-    WALL_API = os.environ.get("WALL_API", None)
+    WALL_API_KEY = os.environ.get("WALL_API_KEY", None)
     SUPPORT_CHAT = os.environ.get("SUPPORT_CHAT", None)
     SPAMWATCH_API = os.environ.get("SPAMWATCH_API", None)
     HEROKU_API = os.environ.get("HEROKU_API", None)
@@ -165,7 +165,7 @@ else:
     CASH_API_KEY = Config.CASH_API_KEY
     TIME_API_KEY = Config.TIME_API_KEY
     AI_API_KEY = Config.AI_API_KEY
-    WALL_API = Config.WALL_API
+    WALL_API_KEY = Config.WALL_API_KEY
     HEROKU_API = Config.HEROKU_API
     SUPPORT_CHAT = Config.SUPPORT_CHAT
     SPAMWATCH_API = Config.SPAMWATCH_API

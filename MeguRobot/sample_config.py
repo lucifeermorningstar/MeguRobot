@@ -30,7 +30,7 @@ class Config(object):
     # RECOMMENDED
     SQLALCHEMY_DATABASE_URI = "something://somewhat:user@hosturl:port/databasename"  # needed for any database modules
     LOAD = []
-    NO_LOAD = ["rss", "cleaner", "connection", "math"]
+    NO_LOAD = ["cleaner", "connection"]
     WEBHOOK = False
     INFOPIC = True
     URL = None
@@ -61,7 +61,7 @@ class Config(object):
         "API"  # Get your API key from https://www.alphavantage.co/support/#api-key
     )
     TIME_API_KEY = "API"  # Get your API key from https://timezonedb.com/api
-    WALL_API = (
+    WALL_API_KEY = (
         "API"  # For wallpapers, get one from https://wall.alphacoders.com/api.php
     )
     AI_API_KEY = (
