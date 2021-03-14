@@ -233,36 +233,36 @@ def export_data(update, context):
     # Disabled command
     disabledcmd = list(disabledsql.get_all_disabled(chat_id))
     # Filters (TODO) 
-	all_filters = list(filtersql.get_chat_triggers(chat_id))
-	export_filters = {}
-	for filters in all_filters:
-		filt = filtersql.get_filter(chat_id, filters)
-		# print(vars(filt))
-		if filt.is_sticker:
-			tipefilt = "sticker"
-		elif filt.is_document:
-			tipefilt = "doc"
-		elif filt.is_image:
-			tipefilt = "img"
-		elif filt.is_audio:
-			tipefilt = "audio"
-		elif filt.is_voice:
-			tipefilt = "voice"
-		elif filt.is_video:
-			tipefilt = "video"
-		elif filt.has_buttons:
-			tipefilt = "button"
-			buttons = filtersql.get_buttons(chat.id, filt.keyword)
-			print(vars(buttons))
-		elif filt.has_markdown:
-			tipefilt = "text"
-		if tipefilt == "button":
-			content = "{}#=#{}|btn|{}".format(tipefilt, filt.reply, buttons)
-		else:
-			content = "{}#=#{}".format(tipefilt, filt.reply)
-		print(content)
-		export_filters[filters] = content
-	print(export_filters)
+    all_filters = list(filtersql.get_chat_triggers(chat_id))
+    export_filters = {}
+    for filters in all_filters:
+            filt = filtersql.get_filter(chat_id, filters)
+            # print(vars(filt))
+            if filt.is_sticker:
+                    tipefilt = "sticker"
+            elif filt.is_document:
+                    tipefilt = "doc"
+            elif filt.is_image:
+                    tipefilt = "img"
+            elif filt.is_audio:
+                    tipefilt = "audio"
+            elif filt.is_voice:
+                    tipefilt = "voice"
+            elif filt.is_video:
+                    tipefilt = "video"
+            elif filt.has_buttons:
+                    tipefilt = "button"
+                    buttons = filtersql.get_buttons(chat.id, filt.keyword)
+                    print(vars(buttons))
+            elif filt.has_markdown:
+                    tipefilt = "text"
+            if tipefilt == "button":
+                    content = "{}#=#{}|btn|{}".format(tipefilt, filt.reply, buttons)
+            else:
+                    content = "{}#=#{}".format(tipefilt, filt.reply)
+            print(content)
+            export_filters[filters] = content
+    print(export_filters)
 	
     # Welcome (TODO)
     welc = welcsql.get_welc_pref(chat_id)
