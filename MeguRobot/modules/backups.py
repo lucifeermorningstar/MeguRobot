@@ -11,15 +11,15 @@ from MeguRobot.__main__ import DATA_IMPORT
 from MeguRobot.modules.helper_funcs.chat_status import user_admin
 from MeguRobot.modules.helper_funcs.alternate import typing_action
 
-# from MeguRobot.modules.rules import get_rules
+from MeguRobot.modules.rules import get_rules
 import MeguRobot.modules.sql.rules_sql as rulessql
 
-# from MeguRobot.modules.sql import warns_sql as warnssql
+from MeguRobot.modules.sql import warns_sql as warnssql
 import MeguRobot.modules.sql.blacklist_sql as blacklistsql
 from MeguRobot.modules.sql import disable_sql as disabledsql
 
-# from MeguRobot.modules.sql import cust_filters_sql as filtersql
-# import MeguRobot.modules.sql.welcome_sql as welcsql
+from MeguRobot.modules.sql import cust_filters_sql as filtersql
+import MeguRobot.modules.sql.welcome_sql as welcsql
 import MeguRobot.modules.sql.locks_sql as locksql
 from MeguRobot.modules.connection import connected
 
@@ -165,7 +165,7 @@ def export_data(update, context):
     note_list = sql.get_all_chat_notes(chat_id)
     backup = {}
     notes = {}
-    # button = ""
+    button = ""
     buttonlist = []
     namacat = ""
     isicat = ""
@@ -175,11 +175,11 @@ def export_data(update, context):
     # Notes
     for note in note_list:
         count += 1
-        # getnote = sql.get_note(chat_id, note.name)
+        getnote = sql.get_note(chat_id, note.name)
         namacat += "{}<###splitter###>".format(note.name)
         if note.msgtype == 1:
             tombol = sql.get_buttons(chat_id, note.name)
-            # keyb = []
+            keyb = []
             for btn in tombol:
                 countbtn += 1
                 if btn.same_line:
@@ -233,7 +233,7 @@ def export_data(update, context):
     # Disabled command
     disabledcmd = list(disabledsql.get_all_disabled(chat_id))
     # Filters (TODO)
-    """
+    
 	all_filters = list(filtersql.get_chat_triggers(chat_id))
 	export_filters = {}
 	for filters in all_filters:
@@ -264,9 +264,9 @@ def export_data(update, context):
 		print(content)
 		export_filters[filters] = content
 	print(export_filters)
-	"""
+	
     # Welcome (TODO)
-    # welc = welcsql.get_welc_pref(chat_id)
+    welc = welcsql.get_welc_pref(chat_id)
     # Locked
     curr_locks = locksql.get_locks(chat_id)
     curr_restr = locksql.get_restr(chat_id)
@@ -311,7 +311,7 @@ def export_data(update, context):
 
     locks = {"locks": locked_lock, "restrict": locked_restr}
     # Warns (TODO)
-    # warns = warnssql.get_warns(chat_id)
+    warns = warnssql.get_warns(chat_id)
     # Backing up
     backup[chat_id] = {
         "bot": context.bot.id,
