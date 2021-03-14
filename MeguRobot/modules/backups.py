@@ -253,16 +253,16 @@ def export_data(update, context):
             elif filt.has_buttons:
                     tipefilt = "button"
                     buttons = filtersql.get_buttons(chat.id, filt.keyword)
-                    print(vars(buttons))
+                    # print(vars(buttons))
             elif filt.has_markdown:
                     tipefilt = "text"
             if tipefilt == "button":
                     content = "{}#=#{}|btn|{}".format(tipefilt, filt.reply, buttons)
             else:
                     content = "{}#=#{}".format(tipefilt, filt.reply)
-            print(content)
+            # print(content)
             export_filters[filters] = content
-    print(export_filters)
+    # print(export_filters)
 	
     # Welcome (TODO)
     welc = welcsql.get_welc_pref(chat_id)
