@@ -310,7 +310,7 @@ def export_data(update, context):
 
     locks = {"locks": locked_lock, "restrict": locked_restr}
     # Warns (TODO)
-    warns = warnssql.get_warns(chat_id)
+    warns = warnssql.get_warns(user.id, chat_id)
     # Backing up
     backup[chat_id] = {
         "bot": context.bot.id,
