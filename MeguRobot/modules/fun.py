@@ -2,13 +2,368 @@ import html
 import random
 import time
 
-import MeguRobot.modules.fun_strings as fun_strings
 from MeguRobot import dispatcher
 from MeguRobot.modules.disable import DisableAbleCommandHandler
 from MeguRobot.modules.helper_funcs.chat_status import is_user_admin
 from MeguRobot.modules.helper_funcs.extraction import extract_user
 from telegram import ParseMode, Update, ChatPermissions
 from telegram.ext import CallbackContext
+
+
+runs_templates = (
+    "Ahora me ves, ahora no",
+    "ε=ε=ε=ε=┌(;￣ ▽￣)┘",
+    "¡Regresa aquí!",
+    "¡Cuidado con la pared!",
+    "¡¡No me dejes solo con ellos!!",
+    "¡Tienes compañía!",
+    "¡Chotto mate!",
+    "Yare yare daze",
+    "*Naruto Run activado*",
+    "*Nezuko run activado*",
+    "¡Oye, hazte responsable de lo que acabas de hacer!",
+    "Que las probabilidades estén siempre a tu favor.",
+    "Corran todos, acaban de lanzar una bomba 💣💣",
+    "Y desaparecieron para siempre, nunca más se los volvió a ver",
+    "Hasta la vista baby.",
+    "Como diría el Doctor... ¡CORRE!",
+)
+
+slap_megu_templates = (
+    "Dame una bofetada más y te mutearé",
+    [
+        "Te estoy silenciando por un minuto :3",  # respuesta normal
+        "Deja de abofetearme solo porque no puedo silenciarte.",  # Responder al administrador
+        "tmute",  # comando
+        "¡Cállate!",
+        "¡Silencio!",
+    ],
+)
+
+slap_templates = (
+    "{user2} fue asesinado por arte de magia",
+    "{user2} murió de hambre sin caricias",
+    "{user2} fue derribado por {user1}.",
+    "{user2} se desmayó",
+    "¡{user2} se ha quedado sin Pokémon utilizable! ¡{user2} se ha agotado!",
+    "¡{user2} no tiene Pokémon utilizables! ¡{user2} se desmayó!",
+    "El melón de {user2} fue dividido por {user1}.",
+    "{user2} fue cortado y cortado en cubitos por {user1}.",
+    "{user2} jugó a la patata caliente con una granada.",
+    "{user2} fue apuñalado por {user1}.",
+    "{user2} se comió una granada",
+    "¡{user2} es lo que hay para cenar!",
+    "{user1} envió spam al correo electrónico de {user2}.",
+    "{user1} puso a {user2} en la friendzone",
+    "¡{user1} abofetea a {user2} con una solicitud de eliminación de DMCA!",
+    "{user2} recibió una visita domiciliaria del doctor {user1}.",
+    "{user1} decapitó a {user2}.",
+    "{user2} se apedreó... por una turba furiosa",
+    "{user1} demandó a {user2}.",
+    "{user2} fue KO de un golpe por {user1}.",
+    "{user1} envió a {user2} por el agujero de la memoria",
+    "{user2} fue un error. - '{user1}'",
+    "{user2} fue despedido.",
+    "¡{user1} {hits} a {user2} con un bate!",
+    "¡{user1} {hits} a {user2} con una patada de Taijutsu!.",
+    "{user1} {hits} a {user2} con X-Gloves!.",
+    "{user1} {hits} a {user2} with a Jet Punch!.",
+    "¡{user1} {hits} a {user2} con una pistola Jet!.",
+    "{user1} {hits} a {user2} con un United States of Smash!.",
+    "¡{user1} {hits} a {user2} con un Detroit Smash!.",
+    "{user1} {hits} a {user2} con un Texas Smash!.",
+    "{user1} {hits} a {user2} con un California Smash!.",
+    "{user1} {hits} a {user2} con un New Hampshire Smash!.",
+    "{user1} {hits} a {user2} con un Missouri Smash!.",
+    "{user1} {hits} a {user2} con un Carolina Smash!.",
+    "¡{user1} {hits} a {user2} con una pistola King Kong!.",
+    "{user1} {hits} a {user2} con un bate de béisbol, ¡uno de metal!",
+    "*Serios golpes a {user2}*.",
+    "*Punzones normales a {user2} *.",
+    "*Punzones normales consecutivos a {user2}*.",
+    "*Golpes normales consecutivos a dos manos a {user2}*.",
+    "*Ignora a {user2} para dejar que muera de vergüenza*.",
+    "*Señala a {user2} * ¿Qué pasa con este descarado... niño perdido?",
+    "*Golpea a {user2} con un Tornado de fuego*.",
+    "¡{user1} golpea a {user2} en el ojo!",
+    "¡{user1} golpea a {user2} en los costados!",
+    "¡{user1} empuja a {user2}!",
+    "¡{user1} pincha a {user2} con una aguja!",
+    "¡{user1} pincha a {user2} con un bolígrafo!",
+    "¡{user1} golpea a {user2} con una pistola paralizante!",
+    "¡{user2} es secretamente un furro! >:3",
+    "¡Hola a todos! ¡{user1} me está pidiendo que sea mala!",
+    "( ･_･)ﾉ⌒●~* (･.･;) <- {user2}",
+    "Toma este {user2}\n(ﾉ ﾟ Д ﾟ)ﾉ))))●~*",
+    "Aquí {user2} mantén presionado este\n(｀・ω・)つ●~＊",
+    "( ・_・)ノΞ●~* {user2} \nMueré!!.",
+    "( ・∀・)ｒ鹵~<≪巛;ﾟДﾟ)ﾉ\n*Aerosoles de insectos a {user2}*.",
+    "( ﾟДﾟ)ﾉ占~<巛巛巛.\n- {user2} ¡Eres una plaga!",
+    "( う-´)づ︻╦̵̵̿╤── \(˚☐˚”)/ {user2}. ",
+    "{user1} {hits} {user2} con un {item}.",
+    "{user1} {hits} {user2} en la cara con un {item}.",
+    "{user1} {hits} {user2} alrededor un poco con un {item}.",
+    "{user1} {lanza} un {item} a {user2}.",
+    "{user1} agarra un {item} y {lo arroja} a la cara de {user2}.",
+    "{user1} lanza un {item} en la dirección general de {user2}.",
+    "{user1} comienza a abofetear a {user2} tontamente con un {item}.",
+    "{user1} fija a {user2} y repetidamente {los golpea} con un {item}.",
+    "{user1} agarra un {item} y {hits} {user2} con él.",
+    "{user1} ata a {user2} a una silla y {lanza} un {item} hacia ellos.",
+    "{user1} dio un empujón amistoso para ayudar a {user2} a aprender a nadar en lava",
+    "{user1} acosó a {user2}.",
+    "Nyaan se comió la pierna de {user2}. *Nomnomnom*",
+    "{user1} lanza una bola maestra a {user2}, la resistencia es inútil.",
+    "{user1} golpea a {user2} con un rayo de acción... bbbbbb (ง ・ ω ・)ง ====*",
+    "{user1} ara ara's a {user2}.",
+    "{user1} ora ora's a {user2}.",
+    "{user1} muda muda's a {user2}.",
+    "¡{user2} se convirtió en una Jojo referencia!",
+    "{user1} golpeó a {user2} con un {item}.",
+    "¡Ronda 2! ..¿Listo?.. ¡¡LUCHA!!",
+    "WhoPixel saldrá de {user2}, hasta el infinito y más allá",
+    "{user2} se comió un murciélago y descubrió una nueva enfermedad",
+    "{user1} dobló a {user2} en un avión de papel",
+    "{user2} hizo un 69 con un cactus",
+    "{user1} le sirvió a {user2} sopa de murciélago.",
+    "{user2} fue enviado a su casa, el planeta de los simios",
+    "{user1} echó a {user2} de un tren en movimiento",
+    "{user1} viajó al futuro y escupió en la tumba de {user2}.",
+    "{user2} murió de talk-no-jutsu.",
+    "{user2} se colocó como alfombra para una competencia de baile de pisotones",
+    "{user2} acaba de matar al perro de John Wick",
+    "{user1} realizó un hechizo Avada Kadavra en {user2}.",
+    "{user1} sometió a {user2} a un horno de fuego.",
+    "Sakura Haruno se volvió más útil que {user2}",
+    "{user1} desconectó el soporte vital de {user2}.",
+    "{user2} se suscribió a 5 años de mal Internet",
+    "¿Sabes qué es peor que los chistes de papá? ¡{User2}!",
+    "{user2} wa mou....... ¡Shindeiru! - {user1}.",
+    "¡{user2} perdió su pieza de ajedrez!",
+    "Cállate {user2}, solo eres {user2}.",
+    "¡{user1} golpea a {user2} con Aka si anse!",
+)
+
+items = (
+    "sartén de hierro fundido",
+    "neko enojado",
+    "Bate de cricket",
+    "bastón de madera",
+    "libro",
+    "ordenador portátil",
+    "pollo de goma",
+    "murciélago con púas",
+    "trozo de tierra",
+    "tonelada de ladrillos",
+    "rasengan",
+    "bomba espiritual",
+    "Bodhisattva Guanyin de tipo 100",
+    "rasenshuriken",
+    "Murasame",
+    "banea",
+    "chunchunmaru",
+    "Kubikiribōchō",
+    "rasengan",
+)
+
+throw = (
+    "aventuras",
+    "mandriles",
+    "lanza",
+)
+
+hit = (
+    "bofeteó",
+    "golpeó",
+    "palmeó",
+)
+
+eyes = [
+    ["⌐■", "■"],
+    [" ͠°", " °"],
+    ["⇀", "↼"],
+    ["´• ", " •`"],
+    ["´", "`"],
+    ["`", "´"],
+    ["ó", "ò"],
+    ["ò", "ó"],
+    ["⸌", "⸍"],
+    [">", "<"],
+    ["Ƹ̵̡", "Ʒ"],
+    ["ᗒ", "ᗕ"],
+    ["⟃", "⟄"],
+    ["⪧", "⪦"],
+    ["⪦", "⪧"],
+    ["⪩", "⪨"],
+    ["⪨", "⪩"],
+    ["⪰", "⪯"],
+    ["⫑", "⫒"],
+    ["⨴", "⨵"],
+    ["⩿", "⪀"],
+    ["⩾", "⩽"],
+    ["⩺", "⩹"],
+    ["⩹", "⩺"],
+    ["◥▶", "◀◤"],
+    ["◍", "◎"],
+    ["/͠-", "┐͡-\\"],
+    ["⌣", "⌣”"],
+    [" ͡⎚", " ͡⎚"],
+    ["≋"],
+    ["૦ઁ"],
+    ["  ͯ"],
+    ["  ͌"],
+    ["ළ"],
+    ["◉"],
+    ["☉"],
+    ["・"],
+    ["▰"],
+    ["ᵔ"],
+    [" ﾟ"],
+    ["□"],
+    ["☼"],
+    ["*"],
+    ["`"],
+    ["⚆"],
+    ["⊜"],
+    [">"],
+    ["❍"],
+    ["￣"],
+    ["─"],
+    ["✿"],
+    ["•"],
+    ["T"],
+    ["^"],
+    ["ⱺ"],
+    ["@"],
+    ["ȍ"],
+    ["  "],
+    ["  "],
+    ["x"],
+    ["-"],
+    ["$"],
+    ["Ȍ"],
+    ["ʘ"],
+    ["Ꝋ"],
+    [""],
+    ["⸟"],
+    ["๏"],
+    ["ⴲ"],
+    ["◕"],
+    ["◔"],
+    ["✧"],
+    ["■"],
+    ["♥"],
+    [" ͡°"],
+    ["¬"],
+    [" º "],
+    ["⨶"],
+    ["⨱"],
+    ["⏓"],
+    ["⏒"],
+    ["⍜"],
+    ["⍤"],
+    ["ᚖ"],
+    ["ᴗ"],
+    ["ಠ"],
+    ["σ"],
+    ["☯"],
+]
+
+mouths = [
+    ["v"],
+    ["ᴥ"],
+    ["ᗝ"],
+    ["Ѡ"],
+    ["ᗜ"],
+    ["Ꮂ"],
+    ["ᨓ"],
+    ["ᨎ"],
+    ["ヮ"],
+    ["╭͜ʖ╮"],
+    [" ͟ل͜"],
+    [" ͜ʖ"],
+    [" ͟ʖ"],
+    [" ʖ̯"],
+    ["ω"],
+    [" ³"],
+    [" ε "],
+    ["﹏"],
+    ["□"],
+    ["ل͜"],
+    ["‿"],
+    ["╭╮"],
+    ["‿‿"],
+    ["▾"],
+    ["‸"],
+    ["Д"],
+    ["∀"],
+    ["!"],
+    ["人"],
+    ["."],
+    ["ロ"],
+    ["_"],
+    ["෴"],
+    ["ѽ"],
+    ["ഌ"],
+    ["⏠"],
+    ["⏏"],
+    ["⍊"],
+    ["⍘"],
+    ["ツ"],
+    ["益"],
+    ["╭∩╮"],
+    ["Ĺ̯"],
+    ["◡"],
+    [" ͜つ"],
+]
+
+ears = [
+    ["q", "p"],
+    ["ʢ", "ʡ"],
+    ["⸮", "?"],
+    ["ʕ", "ʔ"],
+    ["ᖗ", "ᖘ"],
+    ["ᕦ", "ᕥ"],
+    ["ᕦ(", ")ᕥ"],
+    ["ᕙ(", ")ᕗ"],
+    ["ᘳ", "ᘰ"],
+    ["ᕮ", "ᕭ"],
+    ["ᕳ", "ᕲ"],
+    ["(", ")"],
+    ["[", "]"],
+    ["¯\\_", "_/¯"],
+    ["୧", "୨"],
+    ["୨", "୧"],
+    ["⤜(", ")⤏"],
+    ["☞", "☞"],
+    ["ᑫ", "ᑷ"],
+    ["ᑴ", "ᑷ"],
+    ["ヽ(", ")ﾉ"],
+    ["\\(", ")/"],
+    ["乁(", ")ㄏ"],
+    ["└[", "]┘"],
+    ["(づ", ")づ"],
+    ["(ง", ")ง"],
+    ["⎝", "⎠"],
+    ["ლ(", "ლ)"],
+    ["ᕕ(", ")ᕗ"],
+    ["(∩", ")⊃━☆ﾟ.*"],
+]
+
+toss = (
+    "Cara",
+    "Cruz",
+)
+
+decide = ("Si.", "No.", "Talvez.")
+
+table = (
+    "(╯°□°）╯彡 ┻━┻",
+    "Me quedé sin mesas, pediré más.",
+    "Ve a trabajar un poco en lugar de girar mesas.",
+)
+
+
 
 normiefont = [
     "a",
@@ -97,7 +452,7 @@ def weebify(update: Update, context: CallbackContext):
 
 
 def runs(update: Update, context: CallbackContext):
-    update.effective_message.reply_text(random.choice(fun_strings.RUN_STRINGS))
+    update.effective_message.reply_text(random.choice(runs_templates))
 
 
 def slap(update: Update, context: CallbackContext):
@@ -115,7 +470,7 @@ def slap(update: Update, context: CallbackContext):
     user_id = extract_user(message, args)
 
     if user_id == bot.id:
-        temp = random.choice(fun_strings.SLAP_MEGU_TEMPLATES)
+        temp = random.choice(slap_megu_templates)
 
         if isinstance(temp, list):
             if temp[2] == "tmute":
@@ -145,10 +500,10 @@ def slap(update: Update, context: CallbackContext):
         user1 = bot.first_name
         user2 = curr_user
 
-    temp = random.choice(fun_strings.SLAP_TEMPLATES)
-    item = random.choice(fun_strings.ITEMS)
-    hit = random.choice(fun_strings.HIT)
-    throw = random.choice(fun_strings.THROW)
+    temp = random.choice(slap_templates)
+    item = random.choice(items)
+    hit = random.choice(hit)
+    throw = random.choice(throw)
 
     reply = temp.format(user1=user1, user2=user2, item=item, hits=hit, throws=throw)
 
@@ -156,7 +511,7 @@ def slap(update: Update, context: CallbackContext):
 
 
 def toss(update: Update, context: CallbackContext):
-    update.message.reply_text(random.choice(fun_strings.TOSS))
+    update.message.reply_text(random.choice(toss))
 
 
 def dice(update, context):
@@ -174,9 +529,9 @@ def shrug(update: Update, context: CallbackContext):
 
 
 def rlg(update: Update, context: CallbackContext):
-    eyes = random.choice(fun_strings.EYES)
-    mouth = random.choice(fun_strings.MOUTHS)
-    ears = random.choice(fun_strings.EARS)
+    eyes = random.choice(eyes)
+    mouth = random.choice(mouths)
+    ears = random.choice(ears)
 
     if len(eyes) == 2:
         repl = ears[0] + eyes[0] + mouth[0] + eyes[1] + ears[1]
@@ -191,7 +546,7 @@ def decide(update: Update, context: CallbackContext):
         if update.effective_message.reply_to_message
         else update.effective_message.reply_text
     )
-    reply_text(random.choice(fun_strings.DECIDE))
+    reply_text(random.choice(decide))
 
 
 def table(update: Update, context: CallbackContext):
@@ -200,7 +555,7 @@ def table(update: Update, context: CallbackContext):
         if update.effective_message.reply_to_message
         else update.effective_message.reply_text
     )
-    reply_text(random.choice(fun_strings.TABLE))
+    reply_text(random.choice(table))
 
 
 __help__ = """
