@@ -137,9 +137,7 @@ async def deldog(event: NewMessage.Event) -> None:
         )
         return
     key = response.json()["key"]
-    await event.reply(
-        f"Copiado a [DelDog](https://del.dog/{key})", link_preview=False
-    )
+    await event.reply(f"Copiado a [DelDog](https://del.dog/{key})", link_preview=False)
 
 
 def paste(update: Update, context: CallbackContext):

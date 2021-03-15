@@ -10,7 +10,7 @@ from telegram import ParseMode, Update, ChatPermissions
 from telegram.ext import CallbackContext
 
 
-runs_templates = (
+RUNS_TEMPLATES = (
     "Ahora me ves, ahora no",
     "ε=ε=ε=ε=┌(;￣ ▽￣)┘",
     "¡Regresa aquí!",
@@ -29,7 +29,7 @@ runs_templates = (
     "Como diría el Doctor... ¡CORRE!",
 )
 
-slap_megu_templates = (
+SLAP_MEGU_TEMPLATES = (
     "Dame una bofetada más y te mutearé",
     [
         "Te estoy silenciando por un minuto :3",  # respuesta normal
@@ -40,7 +40,7 @@ slap_megu_templates = (
     ],
 )
 
-slap_templates = (
+SLAP_TEMPLATES = (
     "{user2} fue asesinado por arte de magia",
     "{user2} murió de hambre sin caricias",
     "{user2} fue derribado por {user1}.",
@@ -79,7 +79,7 @@ slap_templates = (
     "¡{user1} {hits} a {user2} con una pistola King Kong!.",
     "{user1} {hits} a {user2} con un bate de béisbol, ¡uno de metal!",
     "*Serios golpes a {user2}*.",
-    "*Punzones normales a {user2} *.",
+    "*Punzones normales a {user2}*.",
     "*Punzones normales consecutivos a {user2}*.",
     "*Golpes normales consecutivos a dos manos a {user2}*.",
     "*Ignora a {user2} para dejar que muera de vergüenza*.",
@@ -107,7 +107,7 @@ slap_templates = (
     "{user1} agarra un {item} y {lo arroja} a la cara de {user2}.",
     "{user1} lanza un {item} en la dirección general de {user2}.",
     "{user1} comienza a abofetear a {user2} tontamente con un {item}.",
-    "{user1} fija a {user2} y repetidamente {los golpea} con un {item}.",
+    "{user1} fija a {user2} y repetidamente lo golpea con un {item}.",
     "{user1} agarra un {item} y {hits} {user2} con él.",
     "{user1} ata a {user2} a una silla y {lanza} un {item} hacia ellos.",
     "{user1} dio un empujón amistoso para ayudar a {user2} a aprender a nadar en lava",
@@ -137,14 +137,14 @@ slap_templates = (
     "Sakura Haruno se volvió más útil que {user2}",
     "{user1} desconectó el soporte vital de {user2}.",
     "{user2} se suscribió a 5 años de mal Internet",
-    "¿Sabes qué es peor que los chistes de papá? ¡{User2}!",
+    "¿Sabes qué es peor que los chistes de papá? ¡{user2}!",
     "{user2} wa mou....... ¡Shindeiru! - {user1}.",
     "¡{user2} perdió su pieza de ajedrez!",
     "Cállate {user2}, solo eres {user2}.",
     "¡{user1} golpea a {user2} con Aka si anse!",
 )
 
-items = (
+ITEMS = (
     "sartén de hierro fundido",
     "neko enojado",
     "Bate de cricket",
@@ -166,19 +166,19 @@ items = (
     "rasengan",
 )
 
-throws = (
+THROWS = (
     "aventuras",
     "mandriles",
     "lanza",
 )
 
-hits = (
+HITS = [
     "bofeteó",
     "golpeó",
     "palmeó",
-)
+]
 
-eyes = [
+EYES = [
     ["⌐■", "■"],
     [" ͠°", " °"],
     ["⇀", "↼"],
@@ -269,7 +269,7 @@ eyes = [
     ["☯"],
 ]
 
-mouths = [
+MOUTHS = [
     ["v"],
     ["ᴥ"],
     ["ᗝ"],
@@ -317,7 +317,7 @@ mouths = [
     [" ͜つ"],
 ]
 
-ears = [
+EARS = [
     ["q", "p"],
     ["ʢ", "ʡ"],
     ["⸮", "?"],
@@ -350,19 +350,18 @@ ears = [
     ["(∩", ")⊃━☆ﾟ.*"],
 ]
 
-toss = (
+TOSS = [
     "Cara",
     "Cruz",
-)
+]
 
-decide = ("Si.", "No.", "Talvez.")
+DECIDE = ["Si.", "No.", "Talvez."]
 
-table = (
+TABLE = [
     "(╯°□°）╯彡 ┻━┻",
     "Me quedé sin mesas, pediré más.",
     "Ve a trabajar un poco en lugar de girar mesas.",
-)
-
+]
 
 
 normiefont = [
@@ -452,7 +451,7 @@ def weebify(update: Update, context: CallbackContext):
 
 
 def runs(update: Update, context: CallbackContext):
-    update.effective_message.reply_text(random.choice(runs_templates))
+    update.effective_message.reply_text(random.choice(RUNS_TEMPLATES))
 
 
 def slap(update: Update, context: CallbackContext):
@@ -500,10 +499,10 @@ def slap(update: Update, context: CallbackContext):
         user1 = bot.first_name
         user2 = curr_user
 
-    temp = random.choice(slap_templates)
-    item = random.choice(items)
-    hit = random.choice(hits)
-    throw = random.choice(throws)
+    temp = random.choice(SLAP_TEMPLATES)
+    item = random.choice(ITEMS)
+    hit = random.choice(HITS)
+    throw = random.choice(THROWS)
 
     reply = temp.format(user1=user1, user2=user2, item=items, hits=hits, throws=throws)
 
@@ -511,7 +510,7 @@ def slap(update: Update, context: CallbackContext):
 
 
 def toss(update: Update, context: CallbackContext):
-    update.message.reply_text(random.choice(toss))
+    update.message.reply_text(random.choice(TOSS))
 
 
 def dice(update, context):
@@ -529,9 +528,9 @@ def shrug(update: Update, context: CallbackContext):
 
 
 def rlg(update: Update, context: CallbackContext):
-    eye = random.choice(eyes)
-    mouth = random.choice(mouths)
-    ear = random.choice(ears)
+    eye = random.choice(EYES)
+    mouth = random.choice(MOUTHS)
+    ear = random.choice(EARS)
 
     if len(eye) == 2:
         repl = ear[0] + eye[0] + mouth[0] + eye[1] + ear[1]
@@ -546,7 +545,7 @@ def decide(update: Update, context: CallbackContext):
         if update.effective_message.reply_to_message
         else update.effective_message.reply_text
     )
-    reply_text(random.choice(decide))
+    reply_text(random.choice(DECIDE))
 
 
 def table(update: Update, context: CallbackContext):
@@ -555,7 +554,7 @@ def table(update: Update, context: CallbackContext):
         if update.effective_message.reply_to_message
         else update.effective_message.reply_text
     )
-    reply_text(random.choice(table))
+    reply_text(random.choice(TABLE))
 
 
 __help__ = """

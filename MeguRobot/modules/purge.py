@@ -1,77 +1,72 @@
 import time
-from telethon import events
 
-from MeguRobot.modules.helper_funcs.telethn.chatstatus import (
-    can_delete_messages,
-    user_is_admin,
-)
-from MeguRobot import telethn
+from MeguRobot import pyrogrm
+from MeguRobot.modules.helper_funcs.pyrogrm import admincheck
 
 
-async def purge_messages(event):
-    start = time.perf_counter()
-    if event.from_id is None:
+async def purge_messages(client, message):
+    if message.chat.type not in ("supergroup", "channel"):
         return
-
-    if not await user_is_admin(
-        user_id=event.sender_id, message=event
-    ) and event.from_id not in [1087968824]:
-        await event.reply("Solo los administradores pueden usar este comando.")
-        return
-
-    if not await can_delete_messages(message=event) and event.from_id not in [
-        1087968824
-    ]:
-        await event.reply("Parece que no puedo eliminar el mensaje")
-        return
-
-    reply_msg = await event.get_reply_message()
-    if not reply_msg:
-        await event.reply(
-            "Responde a un mensaje para seleccionar desde dónde empezar a eliminar."
+    is_admin = await admin_check(message)
+    if not is_admin:
+        await client.send_message(
+            message.chat.id, "Solo los administradores pueden usar este comando."
         )
         return
-    messages = []
-    message_id = reply_msg.id
-    delete_to = event.message.id
+    start_t = datetime.now()
+    await message.delete()
+    message_ids = []
+    count_del_etion_s = 0
+    if not message.reply_to_message:
+        await client.send_message(
+            message.chat.id,
+            "Responde a un mensaje para seleccionar desde dónde empezar a eliminar.",
+        )
+    if message.reply_to_message:
+        for a_s_message_id in range(
+            message.reply_to_message.message_id,
+            message.message_id,
+        ):
+            message_ids.append(a_s_message_id)
+            if len(message_ids) == 100:
+                await client.delete_messages(
+                    chat_id=message.chat.id,
+                    message_ids=message_ids,
+                    revoke=True,
+                )
+                count_del_etion_s += len(message_ids)
+                message_ids = []
+        if message_ids:
+            await client.delete_messages(
+                chat_id=message.chat.id,
+                message_ids=message_ids,
+                revoke=True,
+            )
+            count_del_etion_s += len(message_ids)
+    end_t = datetime.now()
+    time_taken_ms = (end_t - start_t).seconds
+    ms_g = await client.send_message(
+        message.chat.id,
+        f"Se eliminaron {count_del_etion_s} mensajes en {time_taken_ms} segundos",
+    )
+    await asyncio.sleep(5)
+    await ms_g.delete()
 
-    messages.append(event.reply_to_msg_id)
-    for msg_id in range(message_id, delete_to + 1):
-        messages.append(msg_id)
-        if len(messages) == 100:
-            await event.client.delete_messages(event.chat_id, messages)
-            messages = []
 
-    try:
-        await event.client.delete_messages(event.chat_id, messages)
-    except:
-        pass
-    time_ = time.perf_counter() - start
-    text = f"Eliminacion exitosa en {time_:0.2f} segundo(s)"
-    await event.respond(text, parse_mode="markdown")
+async def delete_message(client, message):
+    msg_ids = [message.message_id]
+    is_admin = await admin_check(message)
+    if not is_admin:
+        await client.send_message(
+            message.chat.id, "Solo los administradores pueden usar este comando."
+        )
+    
+    if not message.reply_to_message:
+        client.send_message(message.chat.id, "Que quieres eliminar?")
+    if message.reply_to_message:
+        msg_ids.append(message.reply_to_message.message_id)
+    await client.delete_messages(message.chat.id, msg_ids)
 
-
-async def delete_messages(event):
-    if event.from_id is None:
-        return
-
-    if not await user_is_admin(
-        user_id=event.sender_id, message=event
-    ) and event.from_id not in [1087968824]:
-        await event.reply("Solo los administradores pueden usar este comando.")
-        return
-
-    if not await can_delete_messages(message=event):
-        await event.reply("Parece que no puedes eliminar esto?")
-        return
-
-    message = await event.get_reply_message()
-    if not message:
-        await event.reply("Qué quieres eliminar?")
-        return
-    chat = await event.get_input_chat()
-    del_message = [message, event.message]
-    await event.client.delete_messages(chat, del_message)
 
 
 __help__ = """
@@ -81,12 +76,5 @@ __help__ = """
  •`/purge <X>`*:* Elimina el mensaje respondido y los X mensajes que lo siguen si respondieron a un mensaje.
 """
 
-PURGE_HANDLER = purge_messages, events.NewMessage(pattern="^[!/]purge$")
-DEL_HANDLER = delete_messages, events.NewMessage(pattern="^[!/]del$")
-
-telethn.add_event_handler(*PURGE_HANDLER)
-telethn.add_event_handler(*DEL_HANDLER)
 
 __mod_name__ = "Eliminacion"
-__command_list__ = ["del", "purge"]
-__handlers__ = [PURGE_HANDLER, DEL_HANDLER]
