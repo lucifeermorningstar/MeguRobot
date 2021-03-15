@@ -166,13 +166,13 @@ items = (
     "rasengan",
 )
 
-throw = (
+throws = (
     "aventuras",
     "mandriles",
     "lanza",
 )
 
-hit = (
+hits = (
     "bofeteó",
     "golpeó",
     "palmeó",
@@ -502,10 +502,10 @@ def slap(update: Update, context: CallbackContext):
 
     temp = random.choice(slap_templates)
     item = random.choice(items)
-    hit = random.choice(hit)
-    throw = random.choice(throw)
+    hit = random.choice(hits)
+    throw = random.choice(throws)
 
-    reply = temp.format(user1=user1, user2=user2, item=item, hits=hit, throws=throw)
+    reply = temp.format(user1=user1, user2=user2, item=items, hits=hits, throws=throws)
 
     reply_text(reply, parse_mode=ParseMode.HTML)
 
@@ -529,14 +529,14 @@ def shrug(update: Update, context: CallbackContext):
 
 
 def rlg(update: Update, context: CallbackContext):
-    eyes = random.choice(eyes)
+    eye = random.choice(eyes)
     mouth = random.choice(mouths)
-    ears = random.choice(ears)
+    ear = random.choice(ears)
 
-    if len(eyes) == 2:
-        repl = ears[0] + eyes[0] + mouth[0] + eyes[1] + ears[1]
+    if len(eye) == 2:
+        repl = ear[0] + eye[0] + mouth[0] + eye[1] + ear[1]
     else:
-        repl = ears[0] + eyes[0] + mouth[0] + eyes[0] + ears[1]
+        repl = ear[0] + eye[0] + mouth[0] + eye[0] + ear[1]
     update.message.reply_text(repl)
 
 
