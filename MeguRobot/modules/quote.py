@@ -62,7 +62,7 @@ async def process(msg, user, client, reply, replied=None):
 
     # Splitting text
     maxlength = 0
-    width = 0
+    width = 50
     text = []
     for line in msg.split("\n"):
         length = len(line)
@@ -130,8 +130,8 @@ async def process(msg, user, client, reply, replied=None):
         paste = Image.open(pfp)
         try:
             os.remove(pfp)
-        except:
-            LOGGER.exception("Error al remover foto de perfil")
+        except Exception as e:
+            LOGGER.exception(f"Error al remover foto de perfil: {e}")
         paste.thumbnail((105, 105))
 
         # Mask
@@ -458,14 +458,14 @@ async def send_quote(event):
     )
     res, canvas = await process(msg, user, event.client, reply, repliedreply)
     if not res:
-        await info.delete()
         await event.reply("Ocurrió un error.")
+        await info.delete()
         return
     canvas.save("sticker.webp")
-    await info.delete()
     await event.client.send_file(
         event.chat_id, "sticker.webp", reply_to=event.reply_to_msg_id
     )
+    await info.delete()
     os.remove("sticker.webp")
 
 
