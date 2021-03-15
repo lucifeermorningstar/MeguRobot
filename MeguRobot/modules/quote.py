@@ -448,6 +448,7 @@ async def send_quote(event):
     reply = await event.get_reply_message()
     if not reply:
         return
+    info = await event.reply("Procesando.")
     msg = reply.message
     repliedreply = await reply.get_reply_message()
     user = (
@@ -457,8 +458,11 @@ async def send_quote(event):
     )
     res, canvas = await process(msg, user, event.client, reply, repliedreply)
     if not res:
+        await info.delete()
+        await event.reply("Ocurrió un error.")
         return
     canvas.save("sticker.webp")
+    await info.delete()
     await event.client.send_file(
         event.chat_id, "sticker.webp", reply_to=event.reply_to_msg_id
     )
