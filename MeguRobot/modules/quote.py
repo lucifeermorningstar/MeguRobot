@@ -62,7 +62,7 @@ async def process(msg, user, client, reply, replied=None):
 
     # Splitting text
     maxlength = 0
-    width = 50
+    width = 0
     text = []
     for line in msg.split("\n"):
         length = len(line)
@@ -113,6 +113,7 @@ async def process(msg, user, client, reply, replied=None):
     if namewidth > width:
         width = namewidth
     width += titlewidth + 30 if titlewidth > width - namewidth else -(titlewidth - 30)
+    width += 50
     height = len(text) * 40
 
     # Profile Photo BG
