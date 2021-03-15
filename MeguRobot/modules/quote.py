@@ -446,6 +446,8 @@ async def send_quote(event):
     if event.fwd_from:
         return
     reply = await event.get_reply_message()
+    if not reply:
+        return
     msg = reply.message
     repliedreply = await reply.get_reply_message()
     user = (
@@ -463,7 +465,7 @@ async def send_quote(event):
     os.remove("sticker.webp")
 
 
-QUOTE_HANDLER = send_quote, events.NewMessage(pattern="^[!/]q")
+QUOTE_HANDLER = send_quote, events.NewMessage(pattern="^[!/]q$")
 
 telethn.add_event_handler(*QUOTE_HANDLER)
 
