@@ -65,6 +65,8 @@ def clean_blue_text_must_click(update: Update, context: CallbackContext):
 @bot_can_delete
 @user_admin
 def set_blue_text_must_click(update: Update, context: CallbackContext):
+    print("------------------------------")
+    print(command_list)
     chat = update.effective_chat
     message = update.effective_message
     bot, args = context.bot, context.args
@@ -265,7 +267,7 @@ LIST_CLEAN_BLUE_TEXT_HANDLER = CommandHandler(
     "listblue", bluetext_ignore_list, run_async=True
 )
 CLEAN_BLUE_TEXT_HANDLER = MessageHandler(
-    Filters.text & Filters.chat_type.groups,
+    Filters.regex('^[/.!]') & Filters.chat_type.groups,
     clean_blue_text_must_click,
     run_async=True,
 )
