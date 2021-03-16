@@ -1,4 +1,5 @@
 from pyrogram.types import Message
+from MeguRobot import DEV_USERS, SUDO_USERS, pyrogrm
 
 
 async def admin_check(message: Message) -> bool:

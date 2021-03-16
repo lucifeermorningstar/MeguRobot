@@ -9,6 +9,7 @@ from MeguRobot.modules.telegraph import telegraph
 from MeguRobot.modules.spbinfo import lookup
 from MeguRobot.modules.usage import usage
 from MeguRobot.modules.whatanime import whatanime
+from MeguRobot.modules.purge import purge_messages, delete_message
 
 
 handlers = [
@@ -18,9 +19,20 @@ handlers = [
     MessageHandler(lookup, custom_filters.command("spbinfo")),
     MessageHandler(usage, custom_filters.command("usage") & filters.user(DEV_USERS)),
     MessageHandler(whatanime, custom_filters.command("whatanime")),
+    MessageHandler(purge_messages, custom_filters.command("purge")),
+    MessageHandler(delete_message, custom_filters.command("del")),
 ]
 
 for handler in handlers:
     pyrogrm.add_handler(handler)
 
-__command_list__ = ["whois", "telegraph", "reverse", "spbinfo", "usage", "whatanime"]
+__command_list__ = [
+    "whois",
+    "telegraph",
+    "reverse",
+    "spbinfo",
+    "usage",
+    "whatanime",
+    "purge",
+    "del",
+]

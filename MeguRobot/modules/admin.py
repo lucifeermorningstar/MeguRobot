@@ -179,7 +179,7 @@ def demote(update: Update, context: CallbackContext) -> str:
         return log_message
     except BadRequest:
         message.reply_text(
-            "No lo puedo rebajar. Puede que no sea administrador o que el estado de administrador fue designado por otro"
+            "No lo puedo rebajar. Puede que no sea administrador o que el estado de administrador fue designado por otro "
             "administrador, por lo que no puedo actuar sobre ellos!"
         )
         return

@@ -98,6 +98,7 @@ if ENV:
     SUPPORT_CHAT = os.environ.get("SUPPORT_CHAT", None)
     SPAMWATCH_API = os.environ.get("SPAMWATCH_API", None)
     HEROKU_API = os.environ.get("HEROKU_API", None)
+    BOT_USERNAME = os.environ.get("BOT_USERNAME", None)
 
     try:
         BL_CHATS = set(int(x) for x in os.environ.get("BL_CHATS", "").split())
@@ -170,24 +171,12 @@ else:
     SUPPORT_CHAT = Config.SUPPORT_CHAT
     SPAMWATCH_API = Config.SPAMWATCH_API
     INFOPIC = Config.INFOPIC
+    BOT_USERNAME = Config.BOT_USERNAME
 
     try:
         BL_CHATS = set(int(x) for x in Config.BL_CHATS or [])
     except ValueError:
         raise Exception("Your blacklisted chats list does not contain valid integers.")
-
-
-BotUsername = ""
-BotID = 0
-BotName = ""
-
-
-async def get_bot():
-    global BotID, BotName, BotUsername
-    getbot = await pyrogrm.get_me()
-    BotID = getbot.id
-    BotName = getbot.first_name
-    BotUsername = getbot.username
 
 
 SUDO_USERS.add(OWNER_ID)

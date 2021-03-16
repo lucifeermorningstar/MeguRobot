@@ -3,7 +3,7 @@ import shlex
 from pyrogram.filters import *
 from pyrogram.types import Message
 
-from MeguRobot import BotUsername
+from MeguRobot import BOT_USERNAME
 
 
 def command(
@@ -30,7 +30,7 @@ def command(
         regex = "^({prefix})+\\b({regex})\\b(\\b@{bot_name}\\b)?(.*)".format(
             prefix="|".join(re.escape(x) for x in flt.prefixes),
             regex="|".join(flt.commands),
-            bot_name=BotUsername,
+            bot_name=BOT_USERNAME,
         )
 
         matches = re.search(re.compile(regex), text)

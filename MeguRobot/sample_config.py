@@ -71,6 +71,7 @@ class Config(object):
     BL_CHATS = []  # List of groups that you want blacklisted.
     SPAMMERS = get_user_list("elevated_users.json", "spammers")
     LASTFM_API_KEY = None
+    BOT_USERNAME = "MeguRobot"
 
 
 class Production(Config):
