@@ -65,8 +65,6 @@ def clean_blue_text_must_click(update: Update, context: CallbackContext):
 @bot_can_delete
 @user_admin
 def set_blue_text_must_click(update: Update, context: CallbackContext):
-    print("------------------------------")
-    print(command_list)
     chat = update.effective_chat
     message = update.effective_message
     bot, args = context.bot, context.args
