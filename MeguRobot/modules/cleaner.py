@@ -265,7 +265,7 @@ LIST_CLEAN_BLUE_TEXT_HANDLER = CommandHandler(
     "listblue", bluetext_ignore_list, run_async=True
 )
 CLEAN_BLUE_TEXT_HANDLER = MessageHandler(
-    Filters.regex('^[/.!]') & Filters.chat_type.groups,
+    Filters.regex(r'^[/.!]\w') & Filters.chat_type.groups,
     clean_blue_text_must_click,
     run_async=True,
 )
