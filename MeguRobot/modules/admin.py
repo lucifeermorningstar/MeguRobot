@@ -84,6 +84,7 @@ def promote(update: Update, context: CallbackContext) -> str:
             can_delete_messages=bot_member.can_delete_messages,
             can_invite_users=bot_member.can_invite_users,
             # can_promote_members=bot_member.can_promote_members,
+            can_manage_voice_chats=bot_member.can_manage_voice_chats,
             can_restrict_members=bot_member.can_restrict_members,
             can_pin_messages=bot_member.can_pin_messages,
         )
@@ -160,6 +161,7 @@ def demote(update: Update, context: CallbackContext) -> str:
             can_invite_users=False,
             can_restrict_members=False,
             can_pin_messages=False,
+            can_manage_voice_chats=False,
             can_promote_members=False,
         )
 
@@ -259,6 +261,25 @@ def set_title(update: Update, context: CallbackContext):
         f"a <code>{html.escape(title[:16])}</code>!",
         parse_mode=ParseMode.HTML,
     )
+
+
+@bot_admin
+@user_admin
+def chat_title(update: Update, context: CallbackContext):
+    chat = update.effective_chat
+    args = context.args
+    bot = context.bot
+    title = extract_user_and_text(message, args)
+    try:
+        bot.set_chat_title(chat.id, title=title)
+        bot.send_message(
+            chat.id,
+            f"Se estableció correctamente el titulo del grupo a:\n <code>{html.escape(title[:255])}</code>!",
+        )
+    except len(title) > 255:
+        message.reply_text(
+            "La longitud del título es superior a 255 caracteres.\nRebajalo a 255 caracteres."
+        )
 
 
 @bot_admin
@@ -498,6 +519,7 @@ __help__ = """
  •`/promote`: Promueve al usuario al que respondió.
  •`/demote`: Rebaja al usuario al que respondió.
  •`/title`: Establece un título personalizado para un administrador que promovió el bot.
+ •`/setchattitle`: Cambia el titulo del chat.
  •`/admincache`: Actúaliza la lista de administradores.
 """
 
@@ -514,11 +536,10 @@ UNPINALL_HANDLER = CommandHandler(
 )
 
 INVITE_HANDLER = DisableAbleCommandHandler("link", invite, run_async=True)
-
 PROMOTE_HANDLER = DisableAbleCommandHandler("promote", promote, run_async=True)
 DEMOTE_HANDLER = DisableAbleCommandHandler("demote", demote, run_async=True)
-
-SET_TITLE_HANDLER = CommandHandler("title", set_title, run_async=True)
+SET_TITLE_HANDLER = DisableAbleCommandHandler("title", set_title, run_async=True)
+SET_CHAT_TITLE = DisableAbleCommandHandler("setchattitle", chat_title, run_async=True)
 ADMIN_REFRESH_HANDLER = CommandHandler(
     "admincache", refresh_admin, filters=Filters.chat_type.groups, run_async=True
 )
@@ -531,6 +552,7 @@ dispatcher.add_handler(INVITE_HANDLER)
 dispatcher.add_handler(PROMOTE_HANDLER)
 dispatcher.add_handler(DEMOTE_HANDLER)
 dispatcher.add_handler(SET_TITLE_HANDLER)
+dispatcher.add_handler(SET_CHAT_TITLE)
 dispatcher.add_handler(ADMIN_REFRESH_HANDLER)
 
 __mod_name__ = "Admin"
@@ -551,5 +573,6 @@ __handlers__ = [
     PROMOTE_HANDLER,
     DEMOTE_HANDLER,
     SET_TITLE_HANDLER,
+    SET_CHAT_TITLE,
     ADMIN_REFRESH_HANDLER,
 ]

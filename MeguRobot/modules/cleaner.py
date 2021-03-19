@@ -90,9 +90,9 @@ def set_blue_text_must_click(update: Update, context: CallbackContext):
     else:
         clean_status = sql.is_enabled(chat.id)
         if clean_status:
-            clean_status = "Enabled"
+            clean_status = "Activado"
         else:
-            clean_status = "Disabled"
+            clean_status = "Desactivado"
         reply = "Limpieza de Bluetext para <b>{}</b> : <b>{}</b>".format(
             chat.title, clean_status
         )
@@ -265,7 +265,7 @@ LIST_CLEAN_BLUE_TEXT_HANDLER = CommandHandler(
     "listblue", bluetext_ignore_list, run_async=True
 )
 CLEAN_BLUE_TEXT_HANDLER = MessageHandler(
-    Filters.regex(r'^[/.!]\w') & Filters.chat_type.groups,
+    Filters.regex(r"^[/.!]\w") & Filters.chat_type.groups,
     clean_blue_text_must_click,
     run_async=True,
 )

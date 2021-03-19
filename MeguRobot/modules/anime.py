@@ -184,7 +184,7 @@ def anime(update: Update, context: CallbackContext):
     message = update.effective_message
     search = message.text.split(" ", 1)
     if len(search) == 1:
-        update.effective_message.reply_text("Formato: `/anime <nombre de anime>`")
+        update.effective_message.reply_text("Formato: `/anime <nombre de anime>`", parse_mode=ParseMode.MARKDOWN)
         return
     else:
         search = search[1]
@@ -260,7 +260,7 @@ def character(update: Update, context: CallbackContext):
     search = message.text.split(" ", 1)
     if len(search) == 1:
         update.effective_message.reply_text(
-            "Formato: `/character <nombre del personaje>`"
+            "Formato: `/character <nombre del personaje>`", parse_mode=ParseMode.MARKDOWN
         )
         return
     search = search[1]
@@ -296,7 +296,7 @@ def manga(update: Update, context: CallbackContext):
     message = update.effective_message
     search = message.text.split(" ", 1)
     if len(search) == 1:
-        update.effective_message.reply_text("Formato : `/manga <nombre de manga>`")
+        update.effective_message.reply_text("Formato: `/manga <nombre de manga>`", parse_mode=ParseMode.MARKDOWN)
         return
     search = search[1]
     variables = {"search": search}
@@ -322,7 +322,7 @@ def manga(update: Update, context: CallbackContext):
             if title_native:
                 msg += f"(`{title_native}`)"
         if start_date:
-            msg += f"\n*Fecha de Inicio*: `{start_date}`"
+            msg += f"\n*Fecha de inicio*: `{start_date}`"
         if status:
             msg += f"\n*Estado*: `{status}`"
         if score:
@@ -377,7 +377,7 @@ def user(update: Update, context: CallbackContext):
         if message.reply_to_message:
             search_query = message.reply_to_message.text
         else:
-            update.effective_message.reply_text("Format : /user <username>")
+            update.effective_message.reply_text("Formato: `/user <usuario>`", parse_mode=ParseMode.MARKDOWN)
             return
 
     jikan = jikanpy.jikan.Jikan()
@@ -385,10 +385,10 @@ def user(update: Update, context: CallbackContext):
     try:
         us = jikan.user(search_query)
     except jikanpy.APIException:
-        update.effective_message.reply_text("Username not found.")
+        update.effective_message.reply_text("Usuario no encontrado.")
         return
 
-    progress_message = update.effective_message.reply_text("Searching.... ")
+    progress_message = update.effective_message.reply_text("Buscando... ")
 
     date_format = "%Y-%m-%d"
     if us["image_url"] is None:
@@ -400,14 +400,14 @@ def user(update: Update, context: CallbackContext):
         user_birthday = datetime.datetime.fromisoformat(us["birthday"])
         user_birthday_formatted = user_birthday.strftime(date_format)
     except:
-        user_birthday_formatted = "Unknown"
+        user_birthday_formatted = "Desconocido"
 
     user_joined_date = datetime.datetime.fromisoformat(us["joined"])
     user_joined_date_formatted = user_joined_date.strftime(date_format)
 
     for entity in us:
         if us[entity] is None:
-            us[entity] = "Unknown"
+            us[entity] = "Desconocido"
 
     about = us["about"].split(" ", 60)
 
@@ -423,16 +423,16 @@ def user(update: Update, context: CallbackContext):
 
     caption += textwrap.dedent(
         f"""
-    *Username*: [{us['username']}]({us['url']})
-    *Gender*: `{us['gender']}`
-    *Birthday*: `{user_birthday_formatted}`
-    *Joined*: `{user_joined_date_formatted}`
-    *Days wasted watching anime*: `{us['anime_stats']['days_watched']}`
-    *Days wasted reading manga*: `{us['manga_stats']['days_read']}`
+    *Alias*: [{us['username']}]({us['url']})
+    *Género*: `{us['gender']}`
+    *Cumpleaños*: `{user_birthday_formatted}`
+    *Inició*: `{user_joined_date_formatted}`
+    *Días perdidos viendo anime*: `{us['anime_stats']['days_watched']}`
+    *Días perdidos leyendo manga*: `{us['manga_stats']['days_read']}`
     """
     )
 
-    caption += f"*About*: {about_string}"
+    caption += f"*Acerca de*: {about_string}"
 
     buttons = [
         [InlineKeyboardButton(info_btn, url=us["url"])],

@@ -32,17 +32,17 @@ async def purge_messages(client, message):
                 message_ids.append(a_s_message_id)
                 if len(message_ids) == 100:
                     await client.delete_messages(
-                      chat_id=message.chat.id,
-                      message_ids=message_ids,
+                        chat_id=message.chat.id,
+                        message_ids=message_ids,
                         revoke=True,
                     )
                     count_del_etion_s += len(message_ids)
                     message_ids = []
             if message_ids:
                 await client.delete_messages(
-                chat_id=message.chat.id,
-                message_ids=message_ids,
-                revoke=True,
+                    chat_id=message.chat.id,
+                    message_ids=message_ids,
+                    revoke=True,
                 )
                 count_del_etion_s += len(message_ids)
                 end_t = time.perf_counter()
@@ -53,8 +53,10 @@ async def purge_messages(client, message):
                 )
                 await message.delete()
         except errors.exceptions.forbidden_403.MessageDeleteForbidden:
-            await client.send_message(message.chat.id, "No tengo derechos para borrar mensajes.")
-    
+            await client.send_message(
+                message.chat.id, "No tengo derechos para borrar mensajes."
+            )
+
 
 async def delete_message(client, message):
     msg_ids = [message.message_id]
@@ -70,7 +72,9 @@ async def delete_message(client, message):
             msg_ids.append(message.reply_to_message.message_id)
             await client.delete_messages(message.chat.id, msg_ids)
         except errors.exceptions.forbidden_403.MessageDeleteForbidden:
-            await client.send_message(message.chat.id, "No tengo derechos para borrar el mensaje.")
+            await client.send_message(
+                message.chat.id, "No tengo derechos para borrar el mensaje."
+            )
 
 
 __help__ = """
