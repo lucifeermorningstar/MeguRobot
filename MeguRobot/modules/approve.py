@@ -40,7 +40,7 @@ def approve(update, context):
         return ""
     sql.approve(message.chat_id, user_id)
     message.reply_text(
-        f"[{member.user['first_name']}](tg://user?id={member.user['id']}) ha sido liberado en {chat_title}. Ahora será ignorado por acciones de administración automatizadas como bloqueode la lista negra y anti-flood.",
+        f"[{member.user['first_name']}](tg://user?id={member.user['id']}) ha sido liberado en {chat_title}. Ahora será ignorado por acciones de administración automatizadas como bloqueo de la lista negra y anti-flood.",
         parse_mode=ParseMode.MARKDOWN,
     )
     log_message = (
