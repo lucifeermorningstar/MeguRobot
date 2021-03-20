@@ -90,8 +90,7 @@ async def download_anime(link):
     return dw
 
 
-@app.on_callback_query(filters.regex("^episode_.*"))
-async def download(client, query):
+async def download_episode(client, query):
     await query.message.edit("Descargando episodio.")
     link = query.data.replace("episode_", "")
     status = await download_anime(link)
@@ -105,8 +104,7 @@ async def download(client, query):
     os.system(f"rm temp/{link}.mp4")
 
 
-@app.on_callback_query(filters.regex("^title_.*"))
-async def episodes(client, query):
+async def search_episodes(client, query):
     title = query.data.replace("title_", "")
     await query.message.edit("Buscando episodios.")
     episodes = await get_episodes(title)
@@ -128,7 +126,6 @@ async def episodes(client, query):
     )
 
 
-@app.on_message(filters.command("downanime", ["/", "!"]))
 async def downanime(client, message):
     cmd = message.command
     name = "+".join(cmd[1:])
@@ -152,5 +149,3 @@ __help__ = """
 """
 
 __mod_name__ = "Anime Video"
-
-__command_list__ = ["downanime"]

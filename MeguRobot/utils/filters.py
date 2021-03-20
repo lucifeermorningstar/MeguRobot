@@ -3,7 +3,7 @@ import shlex
 from pyrogram.filters import *
 from pyrogram.types import Message
 
-from MeguRobot import BOT_USERNAME
+from MeguRobot import BOT_USERNAME, SUDO_USERS, DEV_USERS
 
 
 def command(
@@ -56,3 +56,28 @@ def command(
         prefixes=prefixes,
         case_sensitive=case_sensitive,
     )
+
+
+async def admin_filter(_, __, m: Message):
+    user = await m.chat.get_member(m.from_user.id)
+    user_id = m.from_user.id
+    is_admin = user.status == "administrator" or user.status == "creator"
+    is_sudo = user_id in SUDO_USERS
+    if is_admin or is_sudo:
+        return True 
+
+admin = create(admin_filter)
+
+
+async def sudo_filter(_, __, m: Message):
+    if m.from_user_id in SUDO_USERS:
+        return True 
+
+sudo = create(sudo_filter)
+
+
+async def dev_filter(_, __, m: Message):
+    if m.from_user_id in DEV_USERS:
+        return True 
+
+dev = create(dev_filter)

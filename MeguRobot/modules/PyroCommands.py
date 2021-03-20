@@ -1,7 +1,6 @@
 from pyrogram.handlers import MessageHandler, CallbackQueryHandler
-from pyrogram import filters
-from MeguRobot.modules.utils import custom_filters
-from MeguRobot import pyrogrm, DEV_USERS
+from MeguRobot.utils import filters
+from MeguRobot import pyrogrm
 
 from MeguRobot.modules.whois import whois
 from MeguRobot.modules.reverse import google_rs
@@ -10,17 +9,21 @@ from MeguRobot.modules.spbinfo import lookup
 from MeguRobot.modules.usage import usage
 from MeguRobot.modules.whatanime import whatanime
 from MeguRobot.modules.purge import purge_messages, delete_message
+from MeguRobot.modules.downanime import downanime, search_episodes, download_episode
 
 
 handlers = [
-    MessageHandler(whois, custom_filters.command("whois")),
-    MessageHandler(telegraph, custom_filters.command("telegraph")),
-    MessageHandler(google_rs, custom_filters.command("reverse")),
-    MessageHandler(lookup, custom_filters.command("spbinfo")),
-    MessageHandler(usage, custom_filters.command("usage") & filters.user(DEV_USERS)),
-    MessageHandler(whatanime, custom_filters.command("whatanime")),
-    MessageHandler(purge_messages, custom_filters.command("purge")),
-    MessageHandler(delete_message, custom_filters.command("del")),
+    MessageHandler(whois, filters.command("whois")),
+    MessageHandler(telegraph, filters.command("telegraph")),
+    MessageHandler(google_rs, filters.command("reverse")),
+    MessageHandler(lookup, filters.command("spbinfo")),
+    MessageHandler(usage, filters.command("usage") & filters.dev),
+    MessageHandler(whatanime, filters.command("whatanime")),
+    MessageHandler(purge_messages, filters.command("purge")),
+    MessageHandler(delete_message, filters.command("del")),
+    MessageHandler(downanime, filters.command("downanime")),
+    CallbackQueryHandler(search_episodes, filters.regex("^title_.*$")),
+    CallbackQueryHandler(download_episode, filters.regex("^episode_.*$"))
 ]
 
 for handler in handlers:
@@ -35,4 +38,5 @@ __command_list__ = [
     "whatanime",
     "purge",
     "del",
+    "downanime",
 ]
