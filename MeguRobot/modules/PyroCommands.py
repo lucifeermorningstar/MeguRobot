@@ -25,7 +25,7 @@ handlers = [
     MessageHandler(downanime, filters.command("downanime")),
     CallbackQueryHandler(search_episodes, filters.regex("^title_.*$")),
     CallbackQueryHandler(download_episode, filters.regex("^episode_.*$")),
-    MessageHandler(anime_airing, filters.command("airing"))
+    MessageHandler(anime_airing, filters.command("airing")),
     MessageHandler(anime_search, filters.command("anime")),
     MessageHandler(character_search, filters.command("character")),
     MessageHandler(manga_search, filters.command("manga")),
