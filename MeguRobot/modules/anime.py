@@ -184,7 +184,9 @@ def anime(update: Update, context: CallbackContext):
     message = update.effective_message
     search = message.text.split(" ", 1)
     if len(search) == 1:
-        update.effective_message.reply_text("Formato: `/anime <nombre de anime>`", parse_mode=ParseMode.MARKDOWN)
+        update.effective_message.reply_text(
+            "Formato: `/anime <nombre de anime>`", parse_mode=ParseMode.MARKDOWN
+        )
         return
     else:
         search = search[1]
@@ -260,7 +262,8 @@ def character(update: Update, context: CallbackContext):
     search = message.text.split(" ", 1)
     if len(search) == 1:
         update.effective_message.reply_text(
-            "Formato: `/character <nombre del personaje>`", parse_mode=ParseMode.MARKDOWN
+            "Formato: `/character <nombre del personaje>`",
+            parse_mode=ParseMode.MARKDOWN,
         )
         return
     search = search[1]
@@ -296,7 +299,9 @@ def manga(update: Update, context: CallbackContext):
     message = update.effective_message
     search = message.text.split(" ", 1)
     if len(search) == 1:
-        update.effective_message.reply_text("Formato: `/manga <nombre de manga>`", parse_mode=ParseMode.MARKDOWN)
+        update.effective_message.reply_text(
+            "Formato: `/manga <nombre de manga>`", parse_mode=ParseMode.MARKDOWN
+        )
         return
     search = search[1]
     variables = {"search": search}
@@ -377,7 +382,9 @@ def user(update: Update, context: CallbackContext):
         if message.reply_to_message:
             search_query = message.reply_to_message.text
         else:
-            update.effective_message.reply_text("Formato: `/user <usuario>`", parse_mode=ParseMode.MARKDOWN)
+            update.effective_message.reply_text(
+                "Formato: `/user <usuario>`", parse_mode=ParseMode.MARKDOWN
+            )
             return
 
     jikan = jikanpy.jikan.Jikan()

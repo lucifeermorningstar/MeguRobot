@@ -3,7 +3,6 @@ import time
 
 from pyrogram import errors
 from MeguRobot import pyrogrm
-from MeguRobot.modules.helper_funcs.pyrogrm.admincheck import admin_check
 
 
 async def purge_messages(client, message):

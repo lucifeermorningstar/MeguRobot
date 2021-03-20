@@ -64,23 +64,28 @@ async def admin_filter(_, __, m: Message):
     is_admin = user.status == "administrator" or user.status == "creator"
     is_sudo = user_id in SUDO_USERS
     if is_admin or is_sudo:
-        return True 
+        return True
     if not is_admin:
-        await pyrogrm.send_message(m.chat.id, "Solo los administradores pueden usar este comando")
+        await pyrogrm.send_message(
+            m.chat.id, "Solo los administradores pueden usar este comando"
+        )
         return False
+
 
 admin = create(admin_filter)
 
 
 async def sudo_filter(_, __, m: Message):
     if m.from_user.id in SUDO_USERS:
-        return True 
+        return True
+
 
 sudo = create(sudo_filter)
 
 
 async def dev_filter(_, __, m: Message):
     if m.from_user.id in DEV_USERS:
-        return True 
+        return True
+
 
 dev = create(dev_filter)
