@@ -37,26 +37,6 @@ def t(milliseconds: int) -> str:
     return tmp[:-2]
 
 
-airing_query = '''
-    query ($id: Int,$search: String) { 
-      Media (id: $id, type: ANIME,search: $search) { 
-        id
-        episodes
-        title {
-          romaji
-          english
-          native
-        }
-        siteUrl
-        nextAiringEpisode {
-           airingAt
-           timeUntilAiring
-           episode
-        } 
-      }
-    }
-    '''
-
 fav_query = """
 query ($id: Int) { 
       Media (id: $id, type: ANIME) { 
@@ -152,24 +132,6 @@ query ($id: Int,$search: String) {
 
 
 url = 'https://graphql.anilist.co'
-
-
-async def anime_airing(_client, message):
-    search_str = message.text.split(' ', 1)
-    if len(search_str) == 1:
-        await message.reply_text('Provide anime name!')
-        return
-    variables = {'search': search_str[1]}
-    response = requests.post(
-        url, json={'query': airing_query, 'variables': variables}).json()['data']['Media']
-    ms_g = f"**Name**: **{response['title']['romaji']}**(`{response['title']['native']}`)\n**ID**: `{response['id']}`"
-    if response['nextAiringEpisode']:
-        airing_time = response['nextAiringEpisode']['timeUntilAiring'] * 1000
-        airing_time_final = t(airing_time)
-        ms_g += f"\n**Episode**: `{response['nextAiringEpisode']['episode']}`\n**Airing In**: `{airing_time_final}`"
-    else:
-        ms_g += f"\n**Episode**:{response['episodes']}\n**Status**: `N/A`"
-    await message.reply_text(ms_g)
 
 
 async def anime_search(client, message):
@@ -283,4 +245,3 @@ async def manga_search(client, message):
                 await message.reply(ms_g)
         else:
             await message.reply(ms_g)
-
