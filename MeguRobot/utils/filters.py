@@ -70,14 +70,14 @@ admin = create(admin_filter)
 
 
 async def sudo_filter(_, __, m: Message):
-    if m.from_user_id in SUDO_USERS:
+    if m.from_user.id in SUDO_USERS:
         return True 
 
 sudo = create(sudo_filter)
 
 
 async def dev_filter(_, __, m: Message):
-    if m.from_user_id in DEV_USERS:
+    if m.from_user.id in DEV_USERS:
         return True 
 
 dev = create(dev_filter)
