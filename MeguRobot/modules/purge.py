@@ -9,12 +9,6 @@ from MeguRobot.modules.helper_funcs.pyrogrm.admincheck import admin_check
 async def purge_messages(client, message):
     if message.chat.type not in ("supergroup", "channel"):
         return
-    is_admin = await admin_check(message)
-    if not is_admin:
-        await client.send_message(
-            message.chat.id, "Solo los administradores pueden usar este comando."
-        )
-        return
     start_t = time.perf_counter()
     message_ids = []
     count_del_etion_s = 0
@@ -60,11 +54,6 @@ async def purge_messages(client, message):
 
 async def delete_message(client, message):
     msg_ids = [message.message_id]
-    is_admin = await admin_check(message)
-    if not is_admin:
-        await client.send_message(
-            message.chat.id, "Solo los administradores pueden usar este comando."
-        )
     if not message.reply_to_message:
         await client.send_message(message.chat.id, "Que quieres eliminar?")
     if message.reply_to_message:

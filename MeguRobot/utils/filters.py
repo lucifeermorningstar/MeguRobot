@@ -3,7 +3,7 @@ import shlex
 from pyrogram.filters import *
 from pyrogram.types import Message
 
-from MeguRobot import BOT_USERNAME, SUDO_USERS, DEV_USERS
+from MeguRobot import BOT_USERNAME, SUDO_USERS, DEV_USERS, pyrogrm
 
 
 def command(
@@ -65,6 +65,9 @@ async def admin_filter(_, __, m: Message):
     is_sudo = user_id in SUDO_USERS
     if is_admin or is_sudo:
         return True 
+    if not is_admin:
+        await pyrogrm.send_message(m.chat.id, "Solo los administradores pueden usar este comando")
+        return False
 
 admin = create(admin_filter)
 
