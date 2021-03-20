@@ -19,14 +19,8 @@ handlers = [
     MessageHandler(lookup, filters.command("spbinfo")),
     MessageHandler(usage, filters.command("usage") & filters.dev),
     MessageHandler(whatanime, filters.command("whatanime")),
-    MessageHandler(
-        purge_messages,
-        filters.command("purge") & filters.admin & filters.dev & filters.sudo,
-    ),
-    MessageHandler(
-        delete_message,
-        filters.command("del") & filters.admin & filters.dev & filters.sudo,
-    ),
+    MessageHandler(purge_messages, filters.command("purge") & filters.admin),
+    MessageHandler(delete_message, filters.command("del") & filters.admin),
     MessageHandler(downanime, filters.command("downanime")),
     CallbackQueryHandler(search_episodes, filters.regex("^title_.*$")),
     CallbackQueryHandler(download_episode, filters.regex("^episode_.*$")),
