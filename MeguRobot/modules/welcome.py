@@ -622,13 +622,13 @@ def welcome(update: Update, context: CallbackContext):
                 )
 
     elif len(args) >= 1:
-        if args[0].lower() in ("on", "si"):
+        if args[1].lower() in ("on", "si"):
             sql.set_welc_preference(str(chat.id), True)
             update.effective_message.reply_text(
                 "Bueno! Saludaré a los miembros cuando se unan."
             )
 
-        elif args[0].lower() in ("off", "no"):
+        elif args[1].lower() in ("off", "no"):
             sql.set_welc_preference(str(chat.id), False)
             update.effective_message.reply_text(
                 "Ok, voy a holgazanear y no dar la bienvenida a nadie entonces."
