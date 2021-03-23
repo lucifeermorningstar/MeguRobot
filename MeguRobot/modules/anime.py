@@ -3,6 +3,8 @@ import time
 import requests
 import json
 import asyncio
+
+from gpytranslate import Translator
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
@@ -10,9 +12,9 @@ def shorten(description, info='anilist.co'):
     ms_g = ""
     if len(description) > 700:
         description = description[0:500] + '....'
-        ms_g += f"\n**Description**: __{description}__[Read More]({info})"
+        ms_g += f"\n**Descripción**:\n\n__{description}__ [Leer Más]({info})"
     else:
-        ms_g += f"\n**Description**: __{description}__"
+        ms_g += f"\n**Descripción**:\n\n__{description}__"
     return (
         ms_g.replace("<br>", "")
         .replace("</br>", "")
@@ -29,13 +31,33 @@ def t(milliseconds: int) -> str:
     minutes, seconds = divmod(seconds, 60)
     hours, minutes = divmod(minutes, 60)
     days, hours = divmod(hours, 24)
-    tmp = ((str(days) + " Days, ") if days else "") + \
-        ((str(hours) + " Hours, ") if hours else "") + \
-        ((str(minutes) + " Minutes, ") if minutes else "") + \
-        ((str(seconds) + " Seconds, ") if seconds else "") + \
+    tmp = ((str(days) + " Días, ") if days else "") + \
+        ((str(hours) + " Horas, ") if hours else "") + \
+        ((str(minutes) + " Minutos y ") if minutes else "") + \
+        ((str(seconds) + " Segundos, ") if seconds else "") + \
         ((str(milliseconds) + " ms, ") if milliseconds else "")
     return tmp[:-2]
 
+
+airing_query = '''
+    query ($id: Int,$search: String) { 
+      Media (id: $id, type: ANIME,search: $search) { 
+        id
+        episodes
+        title {
+          romaji
+          english
+          native
+        }
+        siteUrl
+        nextAiringEpisode {
+           airingAt
+           timeUntilAiring
+           episode
+        } 
+      }
+    }
+    '''
 
 fav_query = """
 query ($id: Int) { 
@@ -134,6 +156,24 @@ query ($id: Int,$search: String) {
 url = 'https://graphql.anilist.co'
 
 
+async def anime_airing(client, message):
+    search_str = message.text.split(' ', 1)
+    if len(search_str) == 1:
+        await message.reply_text(message.chat.id, "Formato: `/airing <nombre del anime>`")
+        return
+    variables = {'search': search_str[1]}
+    response = requests.post(
+        url, json={'query': airing_query, 'variables': variables}).json()['data']['Media']
+    ms_g = f"**Nombre**: **{response['title']['romaji']}**(`{response['title']['native']}`)\n**ID**: `{response['id']}`"
+    if response['nextAiringEpisode']:
+        airing_time = response['nextAiringEpisode']['timeUntilAiring'] * 1000
+        airing_time_final = t(airing_time)
+        ms_g += f"\n**Episodio**: `{response['nextAiringEpisode']['episode']}`\n**Transmitiéndose en**: `{airing_time_final}`"
+    else:
+        ms_g += f"\n**Episodio**:{response['episodes']}\n**Estado**: `N/A`"
+    await client.send_message(message.chat.id, ms_g)
+
+
 async def anime_search(client, message):
     search = message.text.split(' ', 1)
     if len(search) == 1:
@@ -145,11 +185,11 @@ async def anime_search(client, message):
     json = requests.post(url, json={'query': anime_query, 'variables': variables}).json()[
         'data'].get('Media', None)
     if json:
-        msg = f"**{json['title']['romaji']}**(`{json['title']['native']}`)\n**Type**: {json['format']}\n**Status**: {json['status']}\n**Episodes**: {json.get('episodes', 'N/A')}\n**Duration**: {json.get('duration', 'N/A')} Per Ep.\n**Score**: {json['averageScore']}\n**Genres**: `"
+        msg = f"**{json['title']['romaji']}**(`{json['title']['native']}`)\n**Tipo**: {json['format']}\n**Estado**: {json['status']}\n**Episodios**: {json.get('episodes', 'N/A')}\n**Duración**: {json.get('duration', 'N/A')} minutos por episodio.\n**Calificación**: {json['averageScore']}\n**Géneros**: `"
         for x in json['genres']:
             msg += f"{x}, "
         msg = msg[:-2] + '`\n'
-        msg += "**Studios**: `"
+        msg += "**Estudios**: `"
         for x in json['studios']['nodes']:
             msg += f"{x['name']}, "
         msg = msg[:-2] + '`\n'
@@ -160,22 +200,27 @@ async def anime_search(client, message):
             site = trailer.get('site', None)
             if site == "youtube":
                 trailer = 'https://youtu.be/' + trailer_id
-        description = json.get(
-            'description', 'N/A').replace('<i>', '').replace('</i>', '').replace('<br>', '')
+        description = (
+            json.get("description", "N/A")
+            .replace("<i>", "")
+            .replace("</i>", "")
+            .replace("<br>", "")
+        )
+        description = await translate(description)
         msg += shorten(description, info)
         image = info.replace('anilist.co/anime/', 'img.anili.st/media/')
         if trailer:
             buttons = [
-                    [InlineKeyboardButton("More Info", url=info),
+                    [InlineKeyboardButton("Más Información", url=info),
                     InlineKeyboardButton("Trailer 🎬", url=trailer)]
                     ]
         else:
             buttons = [
-                    [InlineKeyboardButton("More Info", url=info)]
+                    [InlineKeyboardButton("Más Información", url=info)]
                     ]
         if image:
             try:
-                await message.reply_photo(image, caption=msg, reply_markup=InlineKeyboardMarkup(buttons))
+                await message.send_photo(image, caption=msg, reply_markup=InlineKeyboardMarkup(buttons))
             except:
                 msg += f" [〽️]({image})"
                 await message.edit(msg)
@@ -186,7 +231,7 @@ async def anime_search(client, message):
 async def character_search(client, message):
     search = message.text.split(' ', 1)
     if len(search) == 1:
-        await message.delete()
+        await message.reply_text("Formato: `/character <nombre del personaje>`")
         return
     search = search[1]
     variables = {'query': search}
@@ -194,21 +239,28 @@ async def character_search(client, message):
         'data'].get('Character', None)
     if json:
         ms_g = f"**{json.get('name').get('full')}**(`{json.get('name').get('native')}`)\n"
-        description = f"{json['description']}"
+        description = (
+            json.get("description")
+            .replace("<i>", "")
+            .replace("</i>", "")
+            .replace("<br>", "")
+        )
+        description = await translate(description)
         site_url = json.get('siteUrl')
         ms_g += shorten(description, site_url)
         image = json.get('image', None)
         if image:
             image = image.get('large')
-            await message.reply_photo(image, caption=ms_g)
+            await message.send_photo(message.chat.id, image, caption=ms_g)
+            
         else:
-            await message.reply(ms_g)
+            await message.reply_text(ms_g)
 
 
 async def manga_search(client, message):
     search = message.text.split(' ', 1)
     if len(search) == 1:
-        await message.delete()
+        await client.send_message("Formato: `/manga <nombre del manga>")
         return
     search = search[1]
     variables = {'search': search}
@@ -225,23 +277,36 @@ async def manga_search(client, message):
             if title_native:
                 ms_g += f"(`{title_native}`)"
         if start_date:
-            ms_g += f"\n**Start Date** - `{start_date}`"
+            ms_g += f"\n**Inicio**: `{start_date}`"
         if status:
-            ms_g += f"\n**Status** - `{status}`"
+            ms_g += f"\n**Estado**: `{status}`"
         if score:
-            ms_g += f"\n**Score** - `{score}`"
-        ms_g += '\n**Genres** - '
+            ms_g += f"\n**Calificación**: `{score}`"
+        ms_g += '\n**Géneros** - '
         for x in json.get('genres', []):
             ms_g += f"{x}, "
         ms_g = ms_g[:-2]
 
         image = json.get("bannerImage", False)
-        ms_g += f"_{json.get('description', None)}_"
+        description = (
+            json.get("description", "N/A")
+            .replace("<i>", "")
+            .replace("</i>", "")
+            .replace("<br>", "")
+        )
+        description = await translate(description)
+        ms_g += f"_{description}_"
         if image:
             try:
-                await message.reply_photo(image, caption=ms_g)
+                await client.send_photo(message.chat.id, image, caption=ms_g)
             except:
                 ms_g += f" [〽️]({image})"
-                await message.reply(ms_g)
+                await message.reply_text(ms_g)
         else:
             await message.reply(ms_g)
+
+
+async def translate(text):
+    tr = Translator()
+    teks = await tr(text, targetlang="es")
+    return teks.text
