@@ -10,7 +10,12 @@ from MeguRobot.modules.usage import usage
 from MeguRobot.modules.whatanime import whatanime
 from MeguRobot.modules.purge import purge_messages, delete_message
 from MeguRobot.modules.downanime import downanime, search_episodes, download_episode
-from MeguRobot.modules.anime import anime_airing, anime_search, character_search, manga_search
+from MeguRobot.modules.anime import (
+    anime_airing,
+    anime_search,
+    character_search,
+    manga_search,
+)
 
 
 handlers = [
