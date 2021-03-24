@@ -65,7 +65,7 @@ RUN apt update && apt upgrade -y && \
 RUN pip3 install --upgrade pip setuptools
 
 # Copy Python Requirements to /root/MeguRobot
-RUN git clone -b dev https://github.com/NachABR/MeguRobot /root/MeguRobot
+RUN git clone -b master https://github.com/NachABR/MeguRobot /root/MeguRobot
 WORKDIR /root/MeguRobot
 
 #Copy config file to /root/MeguRobot/MeguRobot
