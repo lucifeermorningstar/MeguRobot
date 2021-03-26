@@ -133,6 +133,19 @@ def paste(update: Update, context: CallbackContext):
     )
 
 
+def ud(update: Update, context: CallbackContext):
+    message = update.effective_message
+    text = message.text[len("/ud ") :]
+    results = requests.get(
+        f"https://api.urbandictionary.com/v0/define?term={text}"
+    ).json()
+    try:
+        reply_text = f'*{text}*\n\n{results["list"][0]["definition"]}\n\n_{results["list"][0]["example"]}_'
+    except:
+        reply_text = "Sin resultados."
+    message.reply_text(reply_text, parse_mode=ParseMode.MARKDOWN)
+
+
 def convert(update: Update, context: CallbackContext):
     args = update.effective_message.text.split(" ")
 
@@ -295,11 +308,13 @@ SAY_HANDLER = DisableAbleCommandHandler(
     "say", say, filters=Filters.chat_type.groups, run_async=True
 )
 MD_HELP_HANDLER = CommandHandler("markdownhelp", markdown_help, run_async=True)
+UD_HANDLER = DisableAbleCommandHandler("ud", ud, run_async=True)
 PASTE_HANDLER = DisableAbleCommandHandler("paste", paste, run_async=True)
 CONVERTER_HANDLER = CommandHandler("cash", convert, run_async=True)
 TIME_HANDLER = DisableAbleCommandHandler("time", gettime, run_async=True)
 
 dispatcher.add_handler(SAY_HANDLER)
+dispatcher.add_handler(UD_HANDLER)
 dispatcher.add_handler(MD_HELP_HANDLER)
 dispatcher.add_handler(PASTE_HANDLER)
 dispatcher.add_handler(CONVERTER_HANDLER)
@@ -307,10 +322,11 @@ dispatcher.add_handler(TIME_HANDLER)
 
 
 __mod_name__ = "Extras"
-__command_list__ = ["say", "markdownhelp", "cash", "time"]
+__command_list__ = ["say", "markdownhelp", "ud","cash", "time"]
 __handlers__ = [
     SAY_HANDLER,
     MD_HELP_HANDLER,
+    UD_HANDLER,
     CONVERTER_HANDLER,
     TIME_HANDLER,
 ]
