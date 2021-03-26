@@ -1,9 +1,4 @@
-import math
-import time
 import requests
-import json
-import asyncio
-
 from gpytranslate import Translator
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
@@ -17,9 +12,9 @@ def shorten(description, info="anilist.co"):
         ms_g += f"\n**Descripción**:\n__{description}__"
     return (
         ms_g.replace("<br>", "")
-        .replace("</br>", "")
-        .replace("<i>", "")
-        .replace("</i>", "")
+            .replace("</br>", "")
+            .replace("<i>", "")
+            .replace("</i>", "")
     )
 
 
@@ -32,11 +27,11 @@ def t(milliseconds: int) -> str:
     hours, minutes = divmod(minutes, 60)
     days, hours = divmod(hours, 24)
     tmp = (
-        ((str(days) + " Días, ") if days else "")
-        + ((str(hours) + " Horas, ") if hours else "")
-        + ((str(minutes) + " Minutos y ") if minutes else "")
-        + ((str(seconds) + " Segundos, ") if seconds else "")
-        + ((str(milliseconds) + " ms, ") if milliseconds else "")
+            ((str(days) + " Días, ") if days else "")
+            + ((str(hours) + " Horas, ") if hours else "")
+            + ((str(minutes) + " Minutos y ") if minutes else "")
+            + ((str(seconds) + " Segundos, ") if seconds else "")
+            + ((str(milliseconds) + " ms, ") if milliseconds else "")
     )
     return tmp[:-2]
 
@@ -119,6 +114,7 @@ character_query = """
                      first
                      last
                      full
+                     native
                }
                siteUrl
                favourites
@@ -153,7 +149,6 @@ query ($id: Int,$search: String) {
       }
     }
 """
-
 
 url = "https://graphql.anilist.co"
 
@@ -191,8 +186,8 @@ async def anime_search(client, message):
     variables = {"search": search}
     json = (
         requests.post(url, json={"query": anime_query, "variables": variables})
-        .json()["data"]
-        .get("Media", None)
+            .json()["data"]
+            .get("Media", None)
     )
     if json:
         msg = f"**{json['title']['romaji']}**(`{json['title']['native']}`)\n**Tipo**: "
@@ -237,9 +232,9 @@ async def anime_search(client, message):
                 trailer = "https://youtu.be/" + trailer_id
         description = (
             json.get("description", "N/A")
-            .replace("<i>", "")
-            .replace("</i>", "")
-            .replace("<br>", "")
+                .replace("<i>", "")
+                .replace("</i>", "")
+                .replace("<br>", "")
         )
         description = await translate(description)
         msg += shorten(description, info)
@@ -292,7 +287,7 @@ async def character_search(client, message):
     if json:
         json = json["data"]["Character"]
         msg = f"**{json.get('name').get('full')}**"
-        if json.get("name").get("native") == None:
+        if json.get("name").get("native") is None:
             msg += "\n\n"
         else:
             msg += f"(`{json.get('name').get('native')}`)\n\n"
@@ -300,19 +295,22 @@ async def character_search(client, message):
         description = json.get("description")
         description = await translate(description)
         description = (
-            (description)
-            .replace("<i>", "")
-            .replace("</i>", "")
-            .replace("<br>", "")
-            .replace("__", "__**")
-            .replace("__:", ":**__")
-            .replace("__**: ", "**:__ ")
+            description
+                .replace("<i>", "")
+                .replace("</i>", "")
+                .replace("<br>", "")
+                .replace("__", "**")
+                .replace("~", "~~")
+                .replace(" ~", "~")
+                .replace("! ", "!")
+                .replace("\n ", " \n")
         )
+        # print(repr(description))
         if len(description) > 700:
             description = description[0:600] + "..."
-            msg += f"**Descripción**:\n__{description}__\n[Leer Más]({site_url})"
+            msg += f"{description}[Leer Más]({site_url})"
         else:
-            msg += f"**Descripción**:\n__{description}__"
+            msg += description
         image = json.get("image", None)
         if image:
             image = image.get("large")
@@ -334,8 +332,8 @@ async def manga_search(client, message):
     variables = {"search": search}
     json = (
         requests.post(url, json={"query": manga_query, "variables": variables})
-        .json()["data"]
-        .get("Media", None)
+            .json()["data"]
+            .get("Media", None)
     )
     ms_g = ""
     if json:
@@ -366,9 +364,9 @@ async def manga_search(client, message):
         image = json.get("bannerImage", False)
         description = (
             json.get("description", "N/A")
-            .replace("<i>", "")
-            .replace("</i>", "")
-            .replace("<br>", "")
+                .replace("<i>", "")
+                .replace("</i>", "")
+                .replace("<br>", "")
         )
         description = await translate(description)
         site_url = json.get("siteUrl")
