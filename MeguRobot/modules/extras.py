@@ -1,14 +1,15 @@
 import datetime
+import wikipedia
 from typing import List
 
 from MeguRobot.modules.helper_funcs.chat_status import user_admin
 from MeguRobot.modules.disable import DisableAbleCommandHandler
-from MeguRobot import dispatcher, SUPPORT_CHAT, CASH_API_KEY, TIME_API_KEY, telethn
+from MeguRobot import dispatcher, SUPPORT_CHAT, CASH_API_KEY, TIME_API_KEY
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram import MessageEntity, ParseMode, Update
 from telegram.ext import CallbackContext, Filters, CommandHandler
-
+from wikipedia.exceptions import DisambiguationError, PageError
 
 MARKDOWN_HELP = f"""
 Markdown es una herramienta de formato muy poderosa compatible con Telegram. {dispatcher.bot.first_name} tiene algunas mejoras, para asegurarse de que
@@ -144,6 +145,51 @@ def ud(update: Update, context: CallbackContext):
     except:
         reply_text = "Sin resultados."
     message.reply_text(reply_text, parse_mode=ParseMode.MARKDOWN)
+
+
+def wiki(update: Update, context: CallbackContext):
+    msg = (
+        update.effective_message.reply_to_message
+        if update.effective_message.reply_to_message
+        else update.effective_message
+    )
+    res = ""
+    if msg == update.effective_message:
+        search = msg.text.split(" ", maxsplit=1)[1]
+    else:
+        search = msg.text
+    try:
+        res = wikipedia.summary(search)
+    except DisambiguationError as e:
+        update.message.reply_text(
+            "¡Se han encontrado páginas desambiguadas! Ajuste su busqueda en consecuencia.\n<i>{}</i>".format(
+                e
+            ),
+            parse_mode=ParseMode.HTML,
+        )
+    except PageError as e:
+        update.message.reply_text(
+            "<code>{}</code>".format(e), parse_mode=ParseMode.HTML
+        )
+    if res:
+        result = f"<b>{search}</b>\n\n"
+        result += f"<i>{res}</i>\n"
+        result += f"""<a href="https://es.wikipedia.org/wiki/{search.replace(" ", "%20")}">Leer más...</a>"""
+        if len(result) > 4000:
+            with open("result.txt", "w") as f:
+                f.write(f"{result}\n\nUwU OwO OmO UmU")
+            with open("result.txt", "rb") as f:
+                context.bot.send_document(
+                    document=f,
+                    filename=f.name,
+                    reply_to_message_id=update.message.message_id,
+                    chat_id=update.effective_chat.id,
+                    parse_mode=ParseMode.HTML,
+                )
+        else:
+            update.message.reply_text(
+                result, parse_mode=ParseMode.HTML, disable_web_page_preview=True
+            )
 
 
 def convert(update: Update, context: CallbackContext):
@@ -308,12 +354,14 @@ SAY_HANDLER = DisableAbleCommandHandler(
     "say", say, filters=Filters.chat_type.groups, run_async=True
 )
 MD_HELP_HANDLER = CommandHandler("markdownhelp", markdown_help, run_async=True)
+WIKI_HANDLER = DisableAbleCommandHandler("wiki", wiki, run_async=True)
 UD_HANDLER = DisableAbleCommandHandler("ud", ud, run_async=True)
 PASTE_HANDLER = DisableAbleCommandHandler("paste", paste, run_async=True)
 CONVERTER_HANDLER = CommandHandler("cash", convert, run_async=True)
 TIME_HANDLER = DisableAbleCommandHandler("time", gettime, run_async=True)
 
 dispatcher.add_handler(SAY_HANDLER)
+dispatcher.add_handler(WIKI_HANDLER)
 dispatcher.add_handler(UD_HANDLER)
 dispatcher.add_handler(MD_HELP_HANDLER)
 dispatcher.add_handler(PASTE_HANDLER)
@@ -322,10 +370,11 @@ dispatcher.add_handler(TIME_HANDLER)
 
 
 __mod_name__ = "Extras"
-__command_list__ = ["say", "markdownhelp", "ud","cash", "time"]
+__command_list__ = ["say", "markdownhelp", "wiki", "ud","cash", "time"]
 __handlers__ = [
     SAY_HANDLER,
     MD_HELP_HANDLER,
+    WIKI_HANDLER,
     UD_HANDLER,
     CONVERTER_HANDLER,
     TIME_HANDLER,

@@ -383,7 +383,8 @@ def about_me(update: Update, context: CallbackContext):
     elif message.reply_to_message:
         username = message.reply_to_message.from_user.first_name
         update.effective_message.reply_text(
-            f"{username} aún no ha puesto un mensaje sobre él!"
+            f"*{username}* aún no ha puesto un mensaje sobre él!",
+            parse_mode=ParseMode.MARKDOWN,
         )
     else:
         update.effective_message.reply_text(
@@ -451,7 +452,7 @@ def about_bio(update: Update, context: CallbackContext):
     elif message.reply_to_message:
         username = user.first_name
         update.effective_message.reply_text(
-            f"{username} aún no ha establecido un mensaje sobre sí mismo!\nEstablezca uno usando `/setbio`",
+            f"*{username}* aún no ha establecido un mensaje sobre sí mismo!\nEstablezca uno usando `/setbio`",
             parse_mode=ParseMode.MARKDOWN,
         )
     else:
