@@ -3,6 +3,7 @@ telethon
 pyrogram
 aiohttp
 bleach
+pretty_errors
 emoji
 future
 google_trans_new
