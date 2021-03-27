@@ -61,9 +61,9 @@ def command(
 async def admin_filter(_, __, m: Message):
     user = await m.chat.get_member(m.from_user.id)
     user_id = m.from_user.id
-    is_admin = user.status == "administrator" or user.status == "creator"
+    is_admin = user.status == "administrator" or user.status == "creator" or user.is_anonymous
     is_sudo = user_id in SUDO_USERS
-    if is_admin or is_sudo or is_admin_bot:
+    if is_admin or is_sudo:
         return True
     if not is_admin:
         await pyrogrm.send_message(
@@ -73,11 +73,6 @@ async def admin_filter(_, __, m: Message):
 
 
 admin = create(admin_filter)
-
-
-async def is_admin_bot(_, __, m: Message):
-    if m.form_user.id in [1087968824, 777000]:
-        return True
 
 
 async def sudo_filter(_, __, m: Message):
