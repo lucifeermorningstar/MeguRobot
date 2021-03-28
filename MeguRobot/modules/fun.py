@@ -167,11 +167,11 @@ ITEMS = (
 )
 
 
-HITS = [
+HITS = (
     "bofeteó",
     "golpeó",
     "palmeó",
-]
+    )
 
 EYES = [
     ["⌐■", "■"],
