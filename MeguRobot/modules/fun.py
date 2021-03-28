@@ -64,20 +64,20 @@ SLAP_TEMPLATES = (
     "{user1} envió a {user2} por el agujero de la memoria",
     "{user2} fue un error. - '{user1}'",
     "{user2} fue despedido.",
-    "¡{user1} {hit} a {user2} con un bate!",
-    "¡{user1} {hit} a {user2} con una patada de Taijutsu!.",
-    "{user1} {hit} a {user2} con X-Gloves!.",
-    "{user1} {hit} a {user2} with a Jet Punch!.",
-    "¡{user1} {hit} a {user2} con una pistola Jet!.",
-    "{user1} {hit} a {user2} con un United States of Smash!.",
-    "¡{user1} {hit} a {user2} con un Detroit Smash!.",
-    "{user1} {hit} a {user2} con un Texas Smash!.",
-    "{user1} {hit} a {user2} con un California Smash!.",
-    "{user1} {hit} a {user2} con un New Hampshire Smash!.",
-    "{user1} {hit} a {user2} con un Missouri Smash!.",
-    "{user1} {hit} a {user2} con un Carolina Smash!.",
-    "¡{user1} {hit} a {user2} con una pistola King Kong!.",
-    "{user1} {hit} a {user2} con un bate de béisbol, ¡uno de metal!",
+    "¡{user1} {hits} a {user2} con un bate!",
+    "¡{user1} {hits} a {user2} con una patada de Taijutsu!.",
+    "{user1} {hits} a {user2} con X-Gloves!.",
+    "{user1} {hits} a {user2} with a Jet Punch!.",
+    "¡{user1} {hits} a {user2} con una pistola Jet!.",
+    "{user1} {hits} a {user2} con un United States of Smash!.",
+    "¡{user1} {hits} a {user2} con un Detroit Smash!.",
+    "{user1} {hits} a {user2} con un Texas Smash!.",
+    "{user1} {hits} a {user2} con un California Smash!.",
+    "{user1} {hits} a {user2} con un New Hampshire Smash!.",
+    "{user1} {hits} a {user2} con un Missouri Smash!.",
+    "{user1} {hits} a {user2} con un Carolina Smash!.",
+    "¡{user1} {hits} a {user2} con una pistola King Kong!.",
+    "{user1} {hits} a {user2} con un bate de béisbol, ¡uno de metal!",
     "*Serios golpes a {user2}*.",
     "*Punzones normales a {user2}*.",
     "*Punzones normales consecutivos a {user2}*.",
@@ -100,16 +100,16 @@ SLAP_TEMPLATES = (
     "( ・∀・)ｒ鹵~<≪巛;ﾟДﾟ)ﾉ\n*Aerosoles de insectos a {user2}*.",
     "( ﾟДﾟ)ﾉ占~<巛巛巛.\n- {user2} ¡Eres una plaga!",
     "( う-´)づ︻╦̵̵̿╤── \(˚☐˚”)/ {user2}. ",
-    "{user1} {hit} a {user2} con un {item}.",
-    "{user1} {hit} a {user2} en la cara con un {item}.",
-    "{user1} {hit} a {user2} alrededor un poco con un {item}.",
-    "{user1} lanza un {item} a {user2}.",
+    "{user1} {hits} {user2} con un {item}.",
+    "{user1} {hits} {user2} en la cara con un {item}.",
+    "{user1} {hits} {user2} alrededor un poco con un {item}.",
+    "{user1} {lanza} un {item} a {user2}.",
     "{user1} agarra un {item} y {lo arroja} a la cara de {user2}.",
     "{user1} lanza un {item} en la dirección general de {user2}.",
     "{user1} comienza a abofetear a {user2} tontamente con un {item}.",
     "{user1} fija a {user2} y repetidamente lo golpea con un {item}.",
-    "{user1} agarra un {item} y {hit} a {user2} con él.",
-    "{user1} ata a {user2} a una silla y lanza un {item} hacia ellos.",
+    "{user1} agarra un {item} y {hits} {user2} con él.",
+    "{user1} ata a {user2} a una silla y {lanza} un {item} hacia ellos.",
     "{user1} dio un empujón amistoso para ayudar a {user2} a aprender a nadar en lava",
     "{user1} acosó a {user2}.",
     "Nyaan se comió la pierna de {user2}. *Nomnomnom*",
@@ -166,12 +166,17 @@ ITEMS = (
     "rasengan",
 )
 
+THROWS = (
+    "aventuras",
+    "mandriles",
+    "lanza",
+)
 
-HITS = (
+HITS = [
     "bofeteó",
     "golpeó",
     "palmeó",
-    )
+]
 
 EYES = [
     ["⌐■", "■"],
@@ -497,8 +502,9 @@ def slap(update: Update, context: CallbackContext):
     temp = random.choice(SLAP_TEMPLATES)
     item = random.choice(ITEMS)
     hit = random.choice(HITS)
+    throw = random.choice(THROWS)
 
-    reply = temp.format(user1=user1, user2=user2, item=ITEMS, hit=HITS)
+    reply = temp.format(user1=user1, user2=user2, item=item, hits=hit, throws=throw)
 
     reply_text(reply, parse_mode=ParseMode.HTML)
 
