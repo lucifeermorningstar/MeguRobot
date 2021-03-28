@@ -498,7 +498,7 @@ def slap(update: Update, context: CallbackContext):
     item = random.choice(ITEMS)
     hit = random.choice(HITS)
 
-    reply = temp.format(user1=user1, user2=user2, item=ITEMS, hits=HITS)
+    reply = temp.format(user1=user1, user2=user2, item=ITEMS, hit=HITS)
 
     reply_text(reply, parse_mode=ParseMode.HTML)
 
