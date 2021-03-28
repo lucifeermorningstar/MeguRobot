@@ -464,7 +464,7 @@ def slap(update: Update, context: CallbackContext):
     user_id = extract_user(message, args)
 
     if user_id == bot.id:
-        temp = random.choice(slap_megu_templates)
+        temp = random.choice(SLAP_MEGU_TEMPLATES)
 
         if isinstance(temp, list):
             if temp[2] == "tmute":
