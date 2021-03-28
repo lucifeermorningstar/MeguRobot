@@ -16,45 +16,33 @@ from telegram.utils.helpers import mention_html, mention_markdown, escape_markdo
 
 
 @user_admin
-@gloggable
 def add_nsfw(update: Update, context: CallbackContext):
     chat = update.effective_chat
     msg = update.effective_message
     user = update.effective_user  # Remodified by @EverythingSuckz
     is_nsfw = sql.is_nsfw(chat.id)
+    if chat.type == "private":
+        msg.reply_text("El modo NSFW está activado en chats privados por defecto.")
     if not is_nsfw:
         sql.set_nsfw(chat.id)
         msg.reply_text("Modo NSFW activado!")
-        message = (
-            f"<b>{html.escape(chat.title)}:</b>\n"
-            f"#NSFW_Activado\n"
-            f"<b>Administrador:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
-        )
-        return message
     else:
         msg.reply_text("El modo NSFW ya está activado para este chat!")
-        return ""
 
 
 @user_admin
-@gloggable
 def rem_nsfw(update: Update, context: CallbackContext):
     msg = update.effective_message
     chat = update.effective_chat
     user = update.effective_user
     is_nsfw = sql.is_nsfw(chat.id)
+    if chat.type == "private":
+        msg.reply_text("Esta funcion solo está disponible en grupos")
     if not is_nsfw:
         msg.reply_text("El modo NSFW ya está desactivado")
-        return ""
     else:
         sql.rem_nsfw(chat.id)
         msg.reply_text("Modo NSFW desactivado!")
-        message = (
-            f"<b>{html.escape(chat.title)}:</b>\n"
-            f"#NSFW_Desactivado\n"
-            f"<b>Administrador:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
-        )
-        return message
 
 
 def list_nsfw_chats(update: Update, context: CallbackContext):

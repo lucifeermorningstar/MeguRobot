@@ -19,7 +19,7 @@ def get_readable_time(seconds: int) -> str:
     count = 0
     ping_time = ""
     time_list = []
-    time_suffix_list = [" Segundos", " Minutos y ", " Horas,", " Días,"]
+    time_suffix_list = [" Segundos", " Minutos y ", " Horas, ", " Días, "]
 
     while count < 4:
         count += 1

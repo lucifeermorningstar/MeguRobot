@@ -65,12 +65,10 @@ def say(update: Update, context: CallbackContext):
 
     if message.reply_to_message:
         message.reply_to_message.reply_text(
-            args[1], parse_mode="MARKDOWN", disable_web_page_preview=True
-        )
+            args[1], parse_mode=ParseMode.MARKDOWN)
     else:
         message.reply_text(
-            args[1], quote=False, parse_mode="MARKDOWN", disable_web_page_preview=True
-        )
+            args[1], quote=False, parse_mode=ParseMode.MARKDOWN)
     message.delete()
 
 

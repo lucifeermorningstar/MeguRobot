@@ -103,13 +103,13 @@ SLAP_TEMPLATES = (
     "{user1} {hits} {user2} con un {item}.",
     "{user1} {hits} {user2} en la cara con un {item}.",
     "{user1} {hits} {user2} alrededor un poco con un {item}.",
-    "{user1} {lanza} un {item} a {user2}.",
+    "{user1} lanza un {item} a {user2}.",
     "{user1} agarra un {item} y {lo arroja} a la cara de {user2}.",
     "{user1} lanza un {item} en la dirección general de {user2}.",
     "{user1} comienza a abofetear a {user2} tontamente con un {item}.",
     "{user1} fija a {user2} y repetidamente lo golpea con un {item}.",
     "{user1} agarra un {item} y {hits} {user2} con él.",
-    "{user1} ata a {user2} a una silla y {lanza} un {item} hacia ellos.",
+    "{user1} ata a {user2} a una silla y lanza un {item} hacia ellos.",
     "{user1} dio un empujón amistoso para ayudar a {user2} a aprender a nadar en lava",
     "{user1} acosó a {user2}.",
     "Nyaan se comió la pierna de {user2}. *Nomnomnom*",
@@ -166,11 +166,6 @@ ITEMS = (
     "rasengan",
 )
 
-THROWS = (
-    "aventuras",
-    "mandriles",
-    "lanza",
-)
 
 HITS = [
     "bofeteó",
@@ -502,9 +497,8 @@ def slap(update: Update, context: CallbackContext):
     temp = random.choice(SLAP_TEMPLATES)
     item = random.choice(ITEMS)
     hit = random.choice(HITS)
-    throw = random.choice(THROWS)
 
-    reply = temp.format(user1=user1, user2=user2, item=ITEMS, hits=HITS, throws=THROWS)
+    reply = temp.format(user1=user1, user2=user2, item=ITEMS, hits=HITS)
 
     reply_text(reply, parse_mode=ParseMode.HTML)
 
