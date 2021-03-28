@@ -215,19 +215,6 @@ def hash_get(update: Update, context: CallbackContext):
     get(update, context, no_hash, show_none=False)
 
 
-def slash_get(update: Update, context: CallbackContext):
-    message, chat_id = update.effective_message.text, update.effective_chat.id
-    no_slash = message[1:]
-    note_list = sql.get_all_chat_notes(chat_id)
-
-    try:
-        noteid = note_list[int(no_slash) - 1]
-        note_name = str(noteid).strip(">").split()[1]
-        get(update, context, note_name, show_none=False)
-    except IndexError:
-        update.effective_message.reply_text("ID de nota incorrecta")
-
-
 @user_admin
 def save(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
@@ -244,7 +231,7 @@ def save(update: Update, context: CallbackContext):
     )
 
     msg.reply_text(
-        f"Yas! Added `{note_name}`.\nConsíguelo con /get `{note_name}`, or `#{note_name}`",
+        f"Se añadió `{note_name}`.\nConsíguelo con /get `{note_name}`, o `#{note_name}`",
         parse_mode=ParseMode.MARKDOWN,
     )
 
@@ -342,7 +329,7 @@ def list_notes(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
     note_list = sql.get_all_chat_notes(chat_id)
     notes = len(note_list) + 1
-    msg = "Obtén la nota con /get o #nombredenota \n\n  *ID*    *Notas* \n"
+    msg = "Obtén la nota con /get o #nombredenota"
     for note_id, note in zip(range(1, notes), note_list):
         if note_id < 10:
             note_name = f"`{note_id:2}.`  `#{(note.name.lower())}`\n"
@@ -497,12 +484,6 @@ Esto puede ser útil al actualizar una nota actual.
 Se puede agregar un botón a una nota usando markdown; el enlace debe ir después de un `buttonurl:` al principio, de esta forma: `[NombredeBotón](buttonurl:ejemplo.com)`. 
 Pon `/markdownhelp` para obtener más información.
  •`/save <NombredeNota>`: Guarda el mensaje respondido como una nota con el nombre de la nota.
-Separa las respuestas con `%%%` para obtener respuestas respuestas
-*Ejemplo:*
-`/save <NombredeNota>
-Respuesta 1
-%%%
-Respuesta 2`
  •`/clear <NombredeNota>`: Borrar nota con ese nombre.
 *Nota:* Los nombres de las notas no distinguen entre mayúsculas y minúsculas y se convierten automáticamente a minúsculas antes de minúsculas
 """
@@ -511,9 +492,6 @@ __mod_name__ = "Notas"
 
 GET_HANDLER = CommandHandler("get", cmd_get, run_async=True)
 HASH_GET_HANDLER = MessageHandler(Filters.regex(r"^#[^\s]+"), hash_get, run_async=True)
-SLASH_GET_HANDLER = MessageHandler(
-    Filters.regex(r"^\/[0-9]*$"), slash_get, run_async=True
-)
 SAVE_HANDLER = CommandHandler("save", save, run_async=True)
 DELETE_HANDLER = CommandHandler("clear", clear, run_async=True)
 
@@ -529,7 +507,6 @@ dispatcher.add_handler(SAVE_HANDLER)
 dispatcher.add_handler(LIST_HANDLER)
 dispatcher.add_handler(DELETE_HANDLER)
 dispatcher.add_handler(HASH_GET_HANDLER)
-dispatcher.add_handler(SLASH_GET_HANDLER)
 dispatcher.add_handler(CLEARALL)
 dispatcher.add_handler(CLEARALL_BTN)
 
