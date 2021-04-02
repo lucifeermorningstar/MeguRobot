@@ -246,11 +246,11 @@ def info(update: Update, context: CallbackContext):
     text = (
         f"<b>Información:</b>\n"
         f"<b>ID:</b> <code>{user.id}</code>\n"
-        f"<b>Nombre:</b> {mention_html(user.id, user.first_name)} "
+        f"<b>Nombre:</b> {html.escape(user.id, user.first_name)} "
     )
 
     if user.last_name:
-        text += f"{mention_html(user.id, user.last_name)}"
+        text += f"{html.escape(user.id, user.last_name)}"
 
     if user.username:
         text += f"\n<b>Alías:</b> <code>{html.escape(user.username)}</code>"
@@ -508,13 +508,13 @@ def set_about_bio(update: Update, context: CallbackContext):
 
 
 def __user_info__(user_id):
-    bio = html.escape(sql.get_user_bio(user.id) or "")
-    me = html.escape(sql.get_user_me_info(user.id) or "")
+    bio = html.escape(sql.get_user_bio(user_id) or "")
+    me = html.escape(sql.get_user_me_info(user_id) or "")
     result = ""
     if me:
-        result += f"<b>Informacion:</b>\n{me}\n"
+        result += f"<b>Informacion:</b> {me}\n"
     if bio:
-        result += f"<b>Biografia:</b>\n{bio}\n"
+        result += f"<b>Biografia:</b> {bio}\n"
     result = result.strip("\n")
     return result
 
