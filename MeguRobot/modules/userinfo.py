@@ -246,11 +246,11 @@ def info(update: Update, context: CallbackContext):
     text = (
         f"<b>Información:</b>\n"
         f"<b>ID:</b> <code>{user.id}</code>\n"
-        f"<b>Nombre:</b> {html.escape(user.id, user.first_name)} "
+        f"<b>Nombre:</b> {html.escape(user.first_name)} "
     )
 
     if user.last_name:
-        text += f"{html.escape(user.id, user.last_name)}"
+        text += f"{html.escape(user.last_name)}"
 
     if user.username:
         text += f"\n<b>Alías:</b> <code>{html.escape(user.username)}</code>"
