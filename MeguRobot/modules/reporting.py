@@ -268,6 +268,7 @@ __help__ = """
 *NOTA:* Ninguno de estos se activará si lo utilizan los administradores.
 
 *Solo administradores:*
+
  •`/reports <on/off>`*:* Cambiar la configuración del los reportes o ver el estado actual.
    • Si lo hace en privado, cambia su estado.
    • Si está en el grupo, cambia el estado de ese grupo.

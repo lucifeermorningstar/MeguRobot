@@ -477,14 +477,18 @@ __help__ = """
  •`#<nombre>` : Igual que `/get`.
  •`/notes` o `/saved`: Lista todas las notas guardadas en este chat.
  •`/<número`: Sacará la nota de ese número en la lista.
+
 Si desea recuperar el contenido de una nota sin ningún formato, use `/get <nombrenota> noformat`.
 Esto puede ser útil al actualizar una nota actual.
+
 *Solo administradores:*
+
  •`/save <nombre> <datos>`: Guarda los datos de la nota con un nombre.
 Se puede agregar un botón a una nota usando markdown; el enlace debe ir después de un `buttonurl:` al principio, de esta forma: `[NombredeBotón](buttonurl:ejemplo.com)`. 
 Pon `/markdownhelp` para obtener más información.
  •`/save <NombredeNota>`: Guarda el mensaje respondido como una nota con el nombre de la nota.
  •`/clear <NombredeNota>`: Borrar nota con ese nombre.
+
 *Nota:* Los nombres de las notas no distinguen entre mayúsculas y minúsculas y se convierten automáticamente a minúsculas antes de minúsculas
 """
 

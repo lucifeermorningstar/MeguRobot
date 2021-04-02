@@ -562,12 +562,12 @@ __help__ = """
  •`/slap`: Abofetear a un usuario, o recibir una bofetada si no hay a quien reponder.
  •`/shrug`: Shrugs XD.
  •`/table`: Obtener flip/unflip.
- •`/decide`: Responde aleatoriamente sí/no/tal vez
- •`/toss`: Lanza una moneda
- •`/dice`: Tira un dado
+ •`/decide`: Responde aleatoriamente sí/no/tal vez.
+ •`/toss`: Lanza una moneda.
+ •`/dice`: Tira un dado.
  •`/rlg`: Une oídos, nariz, boca y crea un emo ;-;
- •`/shout <palabra clave>`: Escribe cualquier cosa que quieras dar un grito fuerte
- •`/weebify <text>`: Devuelve un texto weebify
+ •`/shout <palabra clave>`: Escribe cualquier cosa que quieras dar un grito fuerte.
+ •`/weebify <text>`: Devuelve un texto weebify.
 """
 
 

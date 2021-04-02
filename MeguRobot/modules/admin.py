@@ -511,7 +511,9 @@ def adminlist(update, context):
 
 __help__ = """
  • `/admins`: Lista de administradores en el chat
+ 
 *Solo administradores:*
+
  • `/pin`: Fija silenciosamente el mensaje al que respondió - agregue` 'loud'` o `' notify'` para dar notificaciones a los usuarios.
  •`/unpin`: Quita el mensaje anclado actualmente.
  •`/unpinall`: Quita las mensajes anclados actualmente.

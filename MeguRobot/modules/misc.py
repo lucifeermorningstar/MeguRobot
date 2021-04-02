@@ -4,6 +4,7 @@ import os
 import requests
 import datetime
 import platform
+import subprocess
 
 from platform import python_version
 from telegram import MAX_MESSAGE_LENGTH, ParseMode, Update, __version__
@@ -11,7 +12,16 @@ from telegram.ext import CallbackContext, CommandHandler
 from telegram.error import BadRequest
 from telegram.utils.helpers import escape_markdown, mention_html
 
-from MeguRobot import dispatcher, OWNER_ID, DEV_USERS, SUDO_USERS, SUPPORT_USERS, FROG_USERS, WHITELIST_USERS, INFOPIC
+from MeguRobot import (
+    dispatcher,
+    OWNER_ID,
+    DEV_USERS,
+    SUDO_USERS,
+    SUPPORT_USERS,
+    FROG_USERS,
+    WHITELIST_USERS,
+    INFOPIC,
+)
 from MeguRobot.__main__ import STATS, TOKEN, USER_INFO
 from MeguRobot.modules.disable import DisableAbleCommandHandler
 import MeguRobot.modules.sql.userinfo_sql as sql
@@ -202,7 +212,7 @@ def info(update: Update, context: CallbackContext):
         disaster_level_present = True
 
     if disaster_level_present:
-        text += ' »[<a href="https://t.me/{}?start=adventurers">Info</a>]'.format(
+        text += '\n » [<a href="https://t.me/{}?start=adventurers">Info</a>]'.format(
             bot.username
         )
 
@@ -215,7 +225,7 @@ def info(update: Update, context: CallbackContext):
             result = result.json()["result"]
             if "custom_title" in result.keys():
                 custom_title = result["custom_title"]
-                text += f"\n<b>Título:</b> <code>{custom_title}</code>"
+                text += f"\n\n<b>Título:</b> <code>{custom_title}</code>"
     except BadRequest:
         pass
 
@@ -317,43 +327,29 @@ def gifid(update: Update, context: CallbackContext):
         update.effective_message.reply_text("Responde a un gif para obtener su ID.")
 
 
+@sudo_plus
 def sisinfo(update: Update, context: CallbackContext):
-    uptime = datetime.datetime.fromtimestamp(boot_time()).strftime("%Y-%m-%d %H:%M:%S")
-    status = "*>-------< Sistema >-------<*\n"
-    status += "*T.A del sistema:* " + str(uptime) + "\n"
-
-    uname = platform.uname()
-    status += "*Sistema:* " + str(uname.system) + "\n"
-    status += "*Nombre de nodo:* " + str(uname.node) + "\n"
-    status += "*Versión:* " + str(uname.release) + "\n"
-    status += "*Máquina:* " + str(uname.machine) + "\n"
-
-    mem = virtual_memory()
-    cpu = cpu_percent()
-    disk = disk_usage("/")
-    status += "*Uso de CPU:* " + str(cpu) + " %\n"
-    status += "*Uso de RAM:* " + str(mem[2]) + " %\n"
-    status += "*Espacio en uso:* " + str(disk[3]) + " %\n\n"
-    status += "*Python:* " + python_version() + "\n"
-    status += "*Versíon de Libreria:* " + str(__version__) + "\n"
-    
+    process = subprocess.Popen(
+        "neofetch --stdout", shell=True, text=True, stdout=subprocess.PIPE
+    )
+    output = process.communicate()[0]
+    status = "<b>Información del sistema:</b>\n" + "\n" + output
     update.effective_message.reply_text(status)
-    
-
 
 
 INFO_HANDLER = DisableAbleCommandHandler("info", info, pass_args=True, run_async=True)
 STATS_HANDLER = CommandHandler("stats", stats, run_async=True)
 ID_HANDLER = DisableAbleCommandHandler("id", get_id, run_async=True)
 GIFID_HANDLER = DisableAbleCommandHandler("gifid", gifid, run_async=True)
-
+SISINFO_HANDLER = CommandHandler("sinfo", sisinfo, run_async=True)
 
 dispatcher.add_handler(INFO_HANDLER)
 dispatcher.add_handler(STATS_HANDLER)
 dispatcher.add_handler(ID_HANDLER)
 dispatcher.add_handler(GIFID_HANDLER)
+dispatcher.add_handler(SISINFO_HANDLER)
 
 
 __mod_name__ = "Misceláneo"
-__command_list__ = ["info", "id", "stats", "gifid"]
-__handlers__ = [INFO_HANDLER, STATS_HANDLER, GIFID_HANDLER, ID_HANDLER]
+__command_list__ = ["info", "id", "stats", "gifid", "sinfo"]
+__handlers__ = [INFO_HANDLER, STATS_HANDLER, GIFID_HANDLER, ID_HANDLER, SISINFO_HANDLER]

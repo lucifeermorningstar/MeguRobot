@@ -225,7 +225,14 @@ def convert(update: Update, context: CallbackContext):
         )
 
     elif len(args) == 1:
-        update.effective_message.reply_text(__help__, parse_mode=ParseMode.MARKDOWN)
+        update.effective_message.reply_text(
+            "*Ejemplo:*"
+            "  `/cash 1 USD INR`"
+            "        O          "
+            "  `/cash 1 usd inr`"
+            "*Salida:* `1.0 USD = 75.505 INR`",
+            parse_mode=ParseMode.MARKDOWN,
+        )
 
     else:
         update.effective_message.reply_text(

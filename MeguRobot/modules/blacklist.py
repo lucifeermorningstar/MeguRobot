@@ -204,7 +204,7 @@ __help__ = """
 La lista negra se utiliza para evitar que ciertos factores desencadenantes se digan en un grupo. Cada vez que se menciona el disparador, \
 el mensaje se eliminará inmediatamente. A veces, una buena combinación es combinar esto con filtros de advertencia.
 
-* NOTA:* las listas negras no afectan a los administradores de grupo.
+*NOTA:* las listas negras no afectan a los administradores de un grupo.
 
  •`/blacklist`: Ver las palabras actuales de la lista negra.
 

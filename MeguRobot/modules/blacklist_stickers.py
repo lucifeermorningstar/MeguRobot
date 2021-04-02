@@ -505,8 +505,11 @@ def __stats__():
 
 __help__ = """
 Los stickers de lista negra se utiliza para bloquear ciertos stickers. Siempre que se envíe un , el mensaje se eliminará inmediatamente.
-*NOTA:* Las stickers de la lista negra no afectan al administrador del grupo.
- administrador: Ver el sticker actual en la lista negra.
+
+*NOTA:* Los stickers de la lista negra no afectan a los administradores del grupo.
+
+ •`/blstickers: Ver los stickers actuales en la lista negra.
+
 *Solo administrador:*
  •`/addblsticker <enlace de sticker o pack>`: Agrega el disparador de sticker a la lista negra. Se puede agregar repondiendo al sticker.
  •`/unblsticker <enlace de sticker o pack>`: Elimina los disparadores de la lista negra. Aquí se aplica la misma lógica de nueva línea, por lo que puede eliminar varios activadores a la vez.
@@ -521,7 +524,7 @@ __mod_name__ = "Stickers Blacklist"
 __command_list__ = ["addblsticker", "unblsticker", "rmblsticker", "blstickermode"]
 
 BLACKLIST_STICKER_HANDLER = DisableAbleCommandHandler(
-    "blsticker", blackliststicker, admin_ok=True, run_async=True
+    "blstickers", blackliststicker, admin_ok=True, run_async=True
 )
 ADDBLACKLIST_STICKER_HANDLER = DisableAbleCommandHandler(
     "addblsticker", add_blackliststicker, run_async=True

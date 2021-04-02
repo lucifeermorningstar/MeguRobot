@@ -191,12 +191,14 @@ def unapproveall_btn(update: Update, context: CallbackContext):
 
 __help__ = """
 A veces, puede confiar en que un usuario no enviará contenido no deseado. Tal vez no sea suficiente para convertirlos en administradores, pero es posible que no se apliquen bloqueos, listas negras y antiflood a ellos. Para eso están las liberaciones: libera a usuarios confiables para permitirles enviar. 
-*Comandos de administrador:*  
+
+*Comandos para administradores:*  
+
  •`/freestatus`: Verifica el estado de aprobación de un usuario en el chat actual.
  •`/free`: Liberar a un usuario. Los bloqueos, las listas negras y el anti-flood ya no se les aplicarán.
  •`/unfree`: Desaprobar a un usuario. Estará sujeto a bloqueos, listas negras y antiinundación nuevamente.
  •`/freelist`: Lista todos los usuarios aprobados.
-  •`/unfreeall`: Quitar la libertad de *TODOS* los usuarios en un chat. Esto no se puede deshacer.
+ •`/unfreeall`: Quitar la libertad de *TODOS* los usuarios en un chat. Esto no se puede deshacer.
 """
 
 APPROVE = DisableAbleCommandHandler("free", approve, filters=Filters.chat_type.groups)

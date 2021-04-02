@@ -23,8 +23,9 @@ from MeguRobot import (
     dispatcher,
     sw,
 )
-from MeguRobot.modules.disable import DisableAbleCommandHandler
 import MeguRobot.modules.sql.userinfo_sql as sql
+from MeguRobot.modules.disable import DisableAbleCommandHandler
+from MeguRobot.modules.helper_funcs.extraction import extract_user
 
 
 def about_me(update: Update, context: CallbackContext):
@@ -135,7 +136,7 @@ def set_about_bio(update: Update, context: CallbackContext):
             and sender_id not in DEV_USERS
         ):
             message.reply_text(
-                "Erm..., solo confío en los usuarios sudo y desarrolladores para configurar mi biografía."
+                "Erm..., solo confío en mis desarrolladores para configurar mi biografía."
             )
             return
 
@@ -167,34 +168,33 @@ def __user_info__(user_id):
     me = html.escape(sql.get_user_me_info(user_id) or "")
     result = ""
     if me:
-        result += f"<b>Informacion:</b> {me}\n"
+        result += f"<b>Información:</b> {me}\n"
     if bio:
-        result += f"<b>Biografia:</b> {bio}\n"
+        result += f"<b>Biografía:</b> {bio}\n"
     result = result.strip("\n")
     return result
 
 
 __help__ = """
-*ID:*
- •`/id`: Obtiene la identificación del grupo actual. Si se usa respondiendo a un mensaje, obtiene la ID de ese usuario.
- •`/gifid`: Responde a un gif para decirte su ID de archivo.
+*Información general sobre tí:*
+ •`/info`: Obtén información sobre un usuario(respondiendo al usuario, escribiendo su ID o alías)
+ •`/whois`: Obtén información sobre un usuario con información detallada.
 
 *Información auto agregada:*
  •`/setme <text>`: Establecerá su información
  •`/me`: Obtendrá su información o la de otro usuario.
-Ejemplos:
+
+*Ejemplos:*
   `/setme Hola soy Megumin.`
   `/me @nombredeusuario (por defecto es el tuyo si no hay un usuario especificado)`
+
 *Información que otros agregan sobre tí:*
  •`/bio`: Obtendrás tu biografía o la de otro usuario. Esto no lo puede configurar tú mismo.
  •`/setbio <text>`: Mientras respondes, guardará la biografía de otro usuario.
-Ejemplos:
+
+*Ejemplos:*
    `/bio @username (por defecto es el tuyo si no hay usuario especificado).`
    `/setbio Este usuario es un lobo`(respondiendo al usuario)
-
-*Información general sobre tí:*
- •`/info`: Obtén información sobre un usuario(respondiendo al usuario, escribiendo su ID o alías)
- •`/whois`: Obtén información sobre un usuario con información detallada.
 """
 
 SET_BIO_HANDLER = DisableAbleCommandHandler("setbio", set_about_bio, run_async=True)

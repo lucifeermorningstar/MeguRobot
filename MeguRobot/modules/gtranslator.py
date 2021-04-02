@@ -90,6 +90,7 @@ def totranslate(update: Update, context: CallbackContext):
 
 __help__ = """
 • `/tr` o `/tl` <código de idioma> Como respuesta a un mensaje largo. (Traducción predeterminada en español)
+
 *Ejemplos:* 
 `/tr en`: Traduce algo al inglés.
 `/tr en-es`: Traduce del inglés al español.

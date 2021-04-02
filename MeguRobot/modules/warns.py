@@ -496,8 +496,10 @@ def __chat_settings__(chat_id, user_id):
 
 __help__ = """
 •`/warns <userhandle>`*:* Obtiene el número de usuario y el motivo de las advertencias.
-•`/warnlist`*:* Lista de todos los filtros de advertencia actuales
+•`/warnlist`*:* Lista de todos los filtros de advertencia actuales.
+
 *Solo administradores:*
+
  •`/warn <ID o alias de usuario>`*:* Advertir a un usuario. Después de 3 advertencias, el usuario será expulsado del grupo. También se puede utilizar respondiendo.
  •`/resetwarn <ID o alias de usuraio>`*:* Restablece las advertencias para un usuario. También se puede utilizar respondiendo.
  •`/addwarn <palabra clave> <mensaje de respuesta>`*:* Establece una palabra de advertencia en una determinada palabra clave. Si desea que su palabra clave sea una oración, incluyela entre comillas, de esta forma: `/addwarn "Estoy muy enojado" "Este es un usuario enojado"`.

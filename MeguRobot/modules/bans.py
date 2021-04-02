@@ -400,6 +400,7 @@ __help__ = """
 •`/exploitme`: Explota(kickea) al usuario que emitió el comando.
 
 *Solo administradores:*
+
  •`/ban <usuario>`: Prohíbe (Banea) a un usuario. (a través del ID o respondiendo)
  •`/tban <usuario> x (m/h/d)`: Prohíbe (Banea) a un usuario durante el tiempo `x`. (a través del ID o respondiendo). `m` = `minutos`, `h` = `horas`, `d` = `días`.
  •`/unban <usuario>`: Desbloquea a un usuario. (a través del ID o respondiendo)

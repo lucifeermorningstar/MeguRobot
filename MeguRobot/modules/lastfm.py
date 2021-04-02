@@ -100,6 +100,7 @@ def last_fm(update: Update, _):
 
 __help__ = """
 *Comandos disponibles:*
+
  •`/setuser <nombre de usuario>`: Establece tu nombre de usuario de Last.FM.
  •`/clearuser`: Elimina tu nombre de usuario de Last.FM del bot.
  •`/lastfm`: Devuelve lo que estás buscando en Last.FM.

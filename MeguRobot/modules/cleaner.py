@@ -227,14 +227,11 @@ def bluetext_ignore_list(update: Update, context: CallbackContext):
 
 __help__ = """
 El limpiador de bluetext elimina los comandos inventados que las personas envían en su chat.
+
  •`/cleanblue <on/off/yes/no>`: Limpiar comandos después de enviar
- • `/ignoreblue <palabra>`: Evita la limpieza automática del comando
- •`/unignoreblue <palabra>`: Eliminar evita la limpieza automática del comando
+ •`/ignoreblue <palabra>`: Evita la limpieza automática del comando
+ •`/unignoreblue <palabra>`: Quita evitar la limpieza automática del comando
  •`/listblue`: Lista los comandos actualmente incluidos en la lista blanca
- 
-*Los siguientes son comandos solo para desastres, los administradores no pueden usarlos: *
- •`/gignoreblue <palabra>`: Ignora globalmente una limpieza de texto azul de la palabra guardada en Megu.
- •`/ungignoreblue <palabra>`: Eliminar dicho comando de la lista de limpieza global
 """
 
 __command_list__ = [

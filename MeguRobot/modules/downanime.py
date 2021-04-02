@@ -143,9 +143,4 @@ async def downanime(client, message):
     await client.send_message(message.chat.id, "Animes", reply_markup=keyboard)
 
 
-__help__ = """
-*Comandos disponibles:*
- •`/downanime <anime>`: Busca el nombre del anime y envía el episodio seleccionado.
-"""
-
 __mod_name__ = "Anime Video"

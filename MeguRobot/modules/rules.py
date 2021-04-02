@@ -121,7 +121,9 @@ def __chat_settings__(chat_id, _user_id):
 
 __help__ = """
 •`/rules`: Obtén las reglas del grupo.
+
 *Solo administradores:*
+
 •`/setrules <reglas aqui>`: Establece las reglas del grupo.
 •`/clearrules`: Quita las reglas del grupo.
 """

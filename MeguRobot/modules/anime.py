@@ -477,7 +477,9 @@ async def translate(text):
 
 __help__ = """
 Obtén información sobre anime, manga o personajes de [AniList](anilist.co).
+
 *Comandos disponibles:*
+
  •`/anime <anime>`*:* Devuelve información sobre el anime.
  •`/character <carácter>`*:* Devuelve información sobre el carácter.
  •`/manga <manga>`*:* Devuelve información sobre el manga.

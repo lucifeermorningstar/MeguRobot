@@ -266,10 +266,11 @@ if is_module_loaded(FILENAME):
 • `/cmds`: Comprobar el estado actual de los comandos desactivados
 
 *Solo administradores:*
- •`/enable <cmd name>`: Habilita ese comando.
- •`/disable <cmd name>`: Deshabilita ese comando.
- •`/enablemodule <nombre del módulo>`: Habilita todos los comandos en ese módulo.
- •`/disablemodule <nombre del módulo>`: Deshabilita todos los comandos en ese módulo.
+
+ •`/enable <nombre de comando>`: Habilita ese comando.
+ •`/disable <nombre de comando>`: Deshabilita ese comando.
+ •`/enablemodule <nombre de módulo>`: Habilita todos los comandos en ese módulo.
+ •`/disablemodule <nombre de módulo>`: Deshabilita todos los comandos en ese módulo.
  •`/listcmds`: Lista de todos los posibles comandos desactivables.
     """
 

@@ -569,25 +569,29 @@ def __chat_settings__(chat_id, user_id):
 __help__ = """
 Te molestan los stickers? O quieres evitar que la gente comparta enlaces? o fotos? \
 Estás en el lugar indicado!
+
 El módulo de bloqueo le permite bloquear algunos elementos comunes en el \
-mundo de telegram; el bot los eliminará automáticamente!
+mundo de telegram, el bot los eliminará automáticamente!
 
  •`/locktypes`: Enumera todos los tipos de bloqueo posibles
  
 *Solo administrador:*
+
  •`/lock <tipo>`: Bloquea elementos de un determinado tipo.
  •`/unlock <tipo>`: Desbloquea elementos de un tipo determinado.
  •`/locks`: La lista actual de bloqueos en este chat.
  
 Los bloqueos se pueden utilizar para restringir los usuarios de un grupo.
-Por ejemplo:
+
+*Por ejemplo.*
 El bloqueo de URL eliminará automáticamente todos los mensajes con URL, el bloqueo de stickers restringirá todos \
 que los usuarios no administradores envíen stickers, etc.
+
 El bloqueo de bots evitará que los no administradores agreguen bots al chat.
 
 Nota:
- • Desbloquear el permiso *info* permitirá a los miembros (no administradores) cambiar la información del grupo, como la descripción o el nombre del grupo
- • Desbloquear el permiso *pin* permitirá a los miembros (no administradores) anclar un mensaje en un grupo
+ • Desbloquear el permiso `info` permitirá a los miembros (no administradores) cambiar la información del grupo, como la descripción o el nombre del grupo
+ • Desbloquear el permiso `pin` permitirá a los miembros (no administradores) anclar un mensaje en un grupo
 """
 
 __mod_name__ = "Bloqueos"

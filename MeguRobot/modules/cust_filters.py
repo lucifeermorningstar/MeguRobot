@@ -587,9 +587,10 @@ __help__ = """
 
 *Solo administradores:*
 •`/settrigger <palabra clave> <mensaje de respuesta>`: Agrega un trigger a este chat. El bot ahora responderá ese mensaje siempre que una palabra clave \
-sea mencionada. Si responde a un sticker/video/gif con una palabra clave, el bot responderá con ese medio.\
+sea mencionada. Si responde a un sticker/video/gif con una palabra clave, el bot responderá con ese medio. \
 Si desea que su palabra clave sea una oración, use comillas.
 *Ejemplo:*`/settrigger "Hola allí"¿Cómo estás?`
+
 •`/delttriger <palabra clave de trigger>`: Detiene ese trigger.
 
 *Solo propietario del grupo:*

@@ -144,6 +144,7 @@ def check_afk(update, context, user_id, fst_name, userc_id):
 __help__ = """
 •`/afk <razón>`: Se marca como AFK (Lejos del Teclado).
 •`brb <razón>`: Igual que el comando afk, pero no un comando.
+
 Cuando se marca como AFK, cualquier mención será respondida con un mensaje para decirle que no está disponible.
 """
 

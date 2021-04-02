@@ -204,16 +204,19 @@ if is_module_loaded(FILENAME):
         return "No se ha configurado ningún canal de registro para este grupo!"
 
     __help__ = """
-* Solo administradores: *
+*Solo administradores:*
+
 •`/logchannel`: Obtener información del canal LOGGER.
 •`/setlog`: Establece el canal LOGGER.
 •`/unsetlog`: Desactiva el canal LOGGER.
 
 La configuración del canal de registro se realiza mediante:
+
 • Agregar el bot al canal deseado (¡como administrador!)
 • Enviar `/setlog` en el canal
 • Reenviar el `/setlog` al grupo
 
+Y listo!
 """
 
     __mod_name__ = "Canal Log"

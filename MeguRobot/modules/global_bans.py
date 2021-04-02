@@ -551,11 +551,11 @@ __help__ = """
 
 Los propietarios de bots utilizan gbans, también conocidos como baneos globales, para prohibir a los spammers en todos los grupos. Esto ayuda a proteger a \
 usted y sus grupos eliminando los flooders de spam lo más rápido posible. Se pueden desactivar para su grupo llamando a \
-`/antispam`
+`/antispam`.
 *Nota:* Los usuarios pueden apelar bans globales o denunciar spammers en *@{}*
 
-Megu también integra la API de *@Spamwatch
-* en gbans para eliminar los spammers tanto como sea posible de su sala de chat.
+Megu también integra la API de *@Spamwatch* en gbans para eliminar los spammers tanto como sea posible de su sala de chat.
+
 *¿Qué es SpamWatch?*
 SpamWatch mantiene una gran lista de baneos constantemente actualizada de spambots, trolls, spammers de bitcoins y personajes desagradables[ㅤ](https://telegra.ph/file/f584b643c6f4be0b1de53.jpg)
 Ayude constantemente a expulsar a los spammers de su grupo automáticamente. Por lo tanto, no tendrá que preocuparse de que los spammers asalten su grupo.

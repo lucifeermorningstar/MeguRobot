@@ -420,15 +420,15 @@ __help__ = """
 El antiflood le permite tomar medidas sobre los usuarios que envían más de x cantidad de mensajes seguidos. Superando el flood establecido \
 resultará en la restricción de ese usuario.
 
- Esto silenciará a los usuarios si envían más de 10 mensajes seguidos, los bots se ignoran.
+Esto silenciará a los usuarios si envían más de 10 mensajes seguidos, los bots se ignoran.
  • `/flood`: Obtiene la configuración actual de control de flood
 
-• *Solo administradores:*
+*Solo administradores:*
  •`/setflood <int/'no'/'off'>`: Habilita o deshabilita el control de flood
- *Ejemplo:* `/setflood 10`
+*Ejemplo:* `/setflood 10`
  •`/setfloodmode <ban/kick/mute/tban/tmute> <valor>`: Acción a realizar cuando el usuario ha superado el límite de flood (ban/kick/mute/tmute/tban).
 
-• *Nota:*
+*Nota:*
  • Se debera completar el valor para tban y tmute!
  Puede ser:
  `5m` = 5 minutos

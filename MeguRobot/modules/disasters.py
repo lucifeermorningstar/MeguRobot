@@ -511,62 +511,69 @@ def devlist(update: Update, context: CallbackContext):
 
 
 __help__ = f"""
- •`/cardemons`: Lista de Demonios Carmesí(desarrolladores).
+*Aventureros:*
+
+ •`/cardemons`: Lista de Demonios Carmesí(Desarrolladores).
  •`/destroyers`: Lista de Destroyers(Superusuarios).
  •`/demons`: Lista de Demonios(Soporte).
  •`/frogs`: Lista de Ranas Gigantes(ListaBlanca V1)
- •`/gianttoads`: Lista de Sapos Gigantes(Listablanca V2).
+ •`/toads`: Lista de Sapos Gigantes(Listablanca V2).
+
 *Ping:*
  •`/ping`: Obtiene el ping del bot al servidor de Telegram.
  •`/pingall`: Obten todos ping listados.
+
 *Transmisión:* (solo propietario del bot) solo markdown básico.
- •`/broadcastall <mensajeaquí>`: Transmite el mensaje a todas partes.
- •`/broadcastusers <mensajeaquí>`: Transmite el mensaje a todos los usuarios del bot.
- •`/broadcastgroups <mensajeaquí>`: Transmite el mensajes a todos los grupos del bot.
+ •`/broadcastall <mensaje aquí>`: Transmite el mensaje a todas partes.
+ •`/broadcastusers <mensaje aquí>`: Transmite el mensaje a todos los usuarios del bot.
+ •`/broadcastgroups <mensaje aquí>`: Transmite el mensajes a todos los grupos del bot.
+
 *Obtener Chats:*
  •`/getchats <ID>`: Obten una lista de nombres de grupos en los que se ha visto al usuario. (Solo propietario del bot)
-*Lista negra:*
- •`/ignore`: Pon un usuario en la lista negra para que no utilice el bot por completo.
- •`/notice`: Incluye al usuario en la lista blanca para permitir el uso del bot.
+
 *Información de grupos:*
  •`/groups`: Lista los grupos con nombre, ID y cantidad de miembros.
  •`/leave <ID>`: Abandona el grupo, la ID debe tener un guión.
  •`/stats`: Muestra las estadísticas generales del bot.
  •`/getchats`: Obtiene una lista de nombres de grupos en los que se ha visto al usuario. (Solo propietario del bot)
- •`/ginfo <alias/link/ID>`: Extrae el panel de información de un grupo.
-*Control de acceso:*
+
+*Lista Negra:*
  •`/ignore`: Pon un usuario en la lista negra para no usar el bot por completo.
  •`/notice`: Elimina al usuario de la lista negra.
  •`/ignoredlist`: Lista de los usuarios ignorados.
+
 *Speedtest:*
  •`/speedtest`: Ejecuta una prueba de velocidad y le ofrece 2 opciones para elegir, salida en texto o imagen.
+
 *Baneos globales:*
  •`/gban`: Banea globalmente a un usuario.
  •`/ungban`: Desbanea al usuario de la lista global de baneados.
-*Carga del módulo:*
+
+*Carga de módulos:*
  •`/listmodules`: Enumera los nombres de todos los módulos.
  •`/load <NombredeModulo>`: Carga dicho módulo en memoria sin reiniciar.
  •`/unload <NombredeModulo>`: Carga dicho módulo desde memoria sin reiniciar memoria y sin reiniciar el bot.
+
 *Comandos remotos:*
  •`/rban`: Baneo remoto.
  •`/runban`: Des-baneo remoto.
  •`/rexploit`: Expulsión remota.
  •`/rmute`: Silenciado remoto.
  •`runmute`: Des-silenciado remoto.
+
 *Solo autohospedado en Windows:*
  •`/reboot`: Reinicia el servicio del bot.
  •`/gitpull`: Extrae el repositorio y luego reinicia el servicio de bots.
-*Chatbot:*
- •`/listaichats`: Lista los chats en los que está habilitado el modo chatbot.
+
 *Depuración y Shell:*
  •`/debug <on/off>`: Registra los comandos en updates.txt
- •`/logs`: Ejecute esto en el grupo de apoyo para obtener los registros en privado.
+ •`/logs`: Obtener el logger en privado.
  •`/eval`: (autoexplicativo)
- •`/sh`: Ejecuta el comando de shell.
- •`/shell`: Ejecuta el comando de shell.
+ •`/shell` o `/sh`: Ejecuta el comando de shell.
  •`/clearlocals`: Como el comando dice.
  •`/dbcleanup`: Elimina cuentas y grupos eliminados de la base de datos.
  •`/py`: Ejecuta código en Python.
+
 *Nota:* Estos comandos son solo para los usuarios con privilegios especiales del bot y solo pueden ser utilizados por ellos.
  Puede visitar @{SUPPORT_CHAT} para consultar más sobre estos.
 """
@@ -575,7 +582,7 @@ SUDO_HANDLER = CommandHandler(("addsudo", "adddestroyer"), addsudo, run_async=Tr
 SUPPORT_HANDLER = CommandHandler(("addsupport", "adddemon"), addsupport, run_async=True)
 FROG_HANDLER = CommandHandler(("addfrog"), addfrog, run_async=True)
 WHITELIST_HANDLER = CommandHandler(
-    ("addwhitelist", "addgianttoad"), addwhitelist, run_async=True
+    ("addwhitelist", "addtoad"), addwhitelist, run_async=True
 )
 UNSUDO_HANDLER = CommandHandler(
     ("removesudo", "removedestroyer"), removesudo, run_async=True
@@ -589,7 +596,7 @@ UNWHITELIST_HANDLER = CommandHandler(
 )
 
 WHITELISTLIST_HANDLER = CommandHandler(
-    ["whitelistlist", "gianttoads"], whitelistlist, run_async=True
+    ["whitelistlist", "toads"], whitelistlist, run_async=True
 )
 FROGLIST_HANDLER = CommandHandler(["frogs"], froglist, run_async=True)
 SUPPORTLIST_HANDLER = CommandHandler(
