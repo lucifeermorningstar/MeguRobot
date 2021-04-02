@@ -341,7 +341,7 @@ def sisinfo(update: Update, context: CallbackContext):
         .replace("days", "días")
         .replace("hours,", "horas y")
         .replace("mins", "minutos")
-        .replace("Packages", "<b>Apps:</b>")
+        .replace("Packages:", "<b>Apps:</b>")
         .replace("Shell:", "<b>Shell:</b>")
         .replace("CPU:", "<b>CPU:</b>")
         .replace("Memory:", "<b>RAM:</b>")
