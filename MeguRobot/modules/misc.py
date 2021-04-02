@@ -315,7 +315,7 @@ def gifid(update: Update, context: CallbackContext):
         update.effective_message.reply_text("Responde a un gif para obtener su ID.")
 
 
-def sisinfo(update: Update, context. CallbackContext):
+def sisinfo(update: Update, context: CallbackContext):
     uptime = datetime.datetime.fromtimestamp(boot_time()).strftime("%Y-%m-%d %H:%M:%S")
     status = "*>-------< Sistema >-------<*\n"
     status += "*T.A del sistema:* " + str(uptime) + "\n"
