@@ -244,7 +244,7 @@ def info(update: Update, context: CallbackContext):
     rep = message.reply_text("Buscando...")
 
     text = (
-        f"<b>Información:</b>\n\n"
+        f"<b>Información:</b>\n"
         f"<b>ID:</b> <code>{user.id}</code>\n"
         f"<b>Nombre:</b> {mention_html(user.id, user.first_name)} "
     )
@@ -274,8 +274,8 @@ def info(update: Update, context: CallbackContext):
                     text += _stext.format("Propietario")
     if user_id != bot.id:
         userhp = hpmanager(user)
-        text += f"\n\n<b>Vida:</b> <code>{userhp['earnedhp']}/{userhp['totalhp']}</code>\n »{make_bar(int(userhp['percentage']))}«"
-        text += f"\n[{userhp['percentage']}%] "
+        text += f"\n<b>Vida:</b> <code>{userhp['earnedhp']}/{userhp['totalhp']}</code>\n »{make_bar(int(userhp['percentage']))}« "
+        text += f"[{userhp['percentage']}%] "
         text += '» [<a href="https://t.me/MeguRobotChannel/7">Info</a>]'
 
     try:
@@ -324,7 +324,7 @@ def info(update: Update, context: CallbackContext):
             result = result.json()["result"]
             if "custom_title" in result.keys():
                 custom_title = result["custom_title"]
-                text += f"\n\n<b>Título:</b> \n<b>{custom_title}</b>"
+                text += f"\n<b>Título:</b> <code>{custom_title}</code>"
     except BadRequest:
         pass
 
