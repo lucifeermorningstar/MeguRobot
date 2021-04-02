@@ -64,11 +64,9 @@ def say(update: Update, context: CallbackContext):
     message = update.effective_message
 
     if message.reply_to_message:
-        message.reply_to_message.reply_text(
-            args[1], parse_mode=ParseMode.MARKDOWN)
+        message.reply_to_message.reply_text(args[1], parse_mode=ParseMode.MARKDOWN)
     else:
-        message.reply_text(
-            args[1], quote=False, parse_mode=ParseMode.MARKDOWN)
+        message.reply_text(args[1], quote=False, parse_mode=ParseMode.MARKDOWN)
     message.delete()
 
 
@@ -369,7 +367,7 @@ dispatcher.add_handler(TIME_HANDLER)
 
 
 __mod_name__ = "Extras"
-__command_list__ = ["say", "markdownhelp", "wiki", "ud","cash", "time"]
+__command_list__ = ["say", "markdownhelp", "wiki", "ud", "cash", "time"]
 __handlers__ = [
     SAY_HANDLER,
     MD_HELP_HANDLER,

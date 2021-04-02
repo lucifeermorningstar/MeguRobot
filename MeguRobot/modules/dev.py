@@ -33,7 +33,9 @@ def gitpull(update: Update, context: CallbackContext):
     )
     subprocess.Popen("git pull", stdout=subprocess.PIPE, shell=True)
 
-    sent_msg_text = sent_msg.text + "\n\nCambios Realizados... Eso creo.. Reiniciando en "
+    sent_msg_text = (
+        sent_msg.text + "\n\nCambios Realizados... Eso creo.. Reiniciando en "
+    )
 
     for i in reversed(range(5)):
         sent_msg.edit_text(sent_msg_text + str(i + 1))
@@ -47,9 +49,7 @@ def gitpull(update: Update, context: CallbackContext):
 
 @dev_plus
 def restart(update: Update, context: CallbackContext):
-    update.effective_message.reply_text(
-        "Iniciando una nueva instancia y cerrando esta"
-    )
+    update.effective_message.reply_text("Iniciando una nueva instancia y cerrando esta")
 
     os.system("restart.bat")
     os.execv("start.bat", sys.argv)

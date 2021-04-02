@@ -61,7 +61,9 @@ def command(
 async def admin_filter(_, __, m: Message):
     user = await m.chat.get_member(m.from_user.id)
     user_id = m.from_user.id
-    is_admin = user.status == "administrator" or user.status == "creator" or user.is_anonymous
+    is_admin = (
+        user.status == "administrator" or user.status == "creator" or user.is_anonymous
+    )
     is_sudo = user_id in SUDO_USERS
     if is_admin or is_sudo:
         return True
