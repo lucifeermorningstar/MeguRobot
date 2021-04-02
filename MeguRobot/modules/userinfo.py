@@ -24,6 +24,7 @@ from MeguRobot import (
     sw,
 )
 from MeguRobot.modules.disable import DisableAbleCommandHandler
+import MeguRobot.modules.sql.userinfo_sql as sql
 
 
 def about_me(update: Update, context: CallbackContext):
