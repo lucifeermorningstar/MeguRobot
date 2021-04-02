@@ -32,7 +32,9 @@ def afk(update: Update, context: CallbackContext):
     time_start = datetime.now().timestamp()
     sql.set_afk(update.effective_user.id, reason, time_start)
     fname = update.effective_user.first_name
-    update.effective_message.reply_text("*{}* ahora está AFK!{}".format(fname, notice), parse_mode=ParseMode.MARKDOWN)
+    update.effective_message.reply_text(
+        "*{}* ahora está AFK!{}".format(fname, notice), parse_mode=ParseMode.MARKDOWN
+    )
 
 
 def no_longer_afk(update: Update, context: CallbackContext):
@@ -112,10 +114,7 @@ def reply_afk(update: Update, context: CallbackContext):
                     return
                 fst_name = chat.first_name
 
-            else:
-                return
-
-            check_afk(update, context, user_id, fst_name, userc_id)
+                check_afk(update, context, user_id, fst_name, userc_id)
 
     elif message.reply_to_message:
         user_id = message.reply_to_message.from_user.id
@@ -128,7 +127,7 @@ def check_afk(update, context, user_id, fst_name, userc_id):
         user = sql.check_afk_status(user_id)
         afk_time = sql.get_time(user)
         if int(userc_id) == int(user_id):
-                return
+            return
         if not user.reason:
             res = "*{}* está AFK desde hace {}.".format(fst_name, afk_time)
             update.effective_message.reply_text(res)
