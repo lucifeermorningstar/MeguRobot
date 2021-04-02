@@ -147,11 +147,11 @@ def info(update: Update, context: CallbackContext):
     text = (
         f"<b>Información:</b>\n\n"
         f"<b>ID:</b> <code>{user.id}</code>\n"
-        f"<b>Nombre:</b> {html.escape(user.first_name)} "
+        f"<b>Nombre:</b> {mention_html(user.id, user.first_name)} "
     )
 
     if user.last_name:
-        text += f"{html.escape(user.last_name)}"
+        text += f"{mention_html(user.id, user.last_name)}"
 
     if user.username:
         text += f"\n<b>Alías:</b> <code>{html.escape(user.username)}</code>"
@@ -333,8 +333,22 @@ def sisinfo(update: Update, context: CallbackContext):
         "neofetch --stdout", shell=True, text=True, stdout=subprocess.PIPE
     )
     output = process.communicate()[0]
-    status = "<b>Información del sistema:</b>\n" + "\n" + output
-    update.effective_message.reply_text(status)
+    output = (
+        output.replace("OS:", "<b>OS:</b>")
+        .replace("Host:", "<b>Host:</b>")
+        .replace("Kernel:", "<b>Kernel:</b>")
+        .replace("Uptime:", "<b>En servicio:</b>")
+        .replace("days", "días")
+        .replace("hours,", "horas y")
+        .replace("mins", "minutos")
+        .replace("Packages", "<b>Apps:</b>")
+        .replace("Shell:", "<b>Shell:</b>")
+        .replace("CPU:", "<b>CPU:</b>")
+        .replace("Memory:", "<b>RAM:</b>")
+    )
+
+    status = "<b>Información del sistema:</b>\n" + "\n" + f"{output}"
+    update.effective_message.reply_text(status, parse_mode=ParseMode.HTML)
 
 
 INFO_HANDLER = DisableAbleCommandHandler("info", info, pass_args=True, run_async=True)
