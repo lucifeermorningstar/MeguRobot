@@ -11,6 +11,7 @@ from telegram.ext import CallbackContext, CommandHandler
 from telegram.error import BadRequest
 from telegram.utils.helpers import escape_markdown, mention_html
 
+from MeguRobot import dispatcher, OWNER_ID, DEV_USERS, SUDO_USERS, SUPPORT_USERS, FROG_USERS, WHITELIST_USERS, INFOPIC
 from MeguRobot.__main__ import STATS, TOKEN, USER_INFO
 from MeguRobot.modules.disable import DisableAbleCommandHandler
 import MeguRobot.modules.sql.userinfo_sql as sql
@@ -134,7 +135,7 @@ def info(update: Update, context: CallbackContext):
     rep = message.reply_text("Buscando...")
 
     text = (
-        f"<b>Información:</b>\n"
+        f"<b>Información:</b>\n\n"
         f"<b>ID:</b> <code>{user.id}</code>\n"
         f"<b>Nombre:</b> {html.escape(user.first_name)} "
     )
@@ -164,7 +165,7 @@ def info(update: Update, context: CallbackContext):
                     text += _stext.format("Propietario")
     if user_id != bot.id:
         userhp = hpmanager(user)
-        text += f"\n<b>Vida:</b> <code>{userhp['earnedhp']}/{userhp['totalhp']}</code>\n »{make_bar(int(userhp['percentage']))}« "
+        text += f"\n\n<b>Vida:</b> <code>{userhp['earnedhp']}/{userhp['totalhp']}</code>\n »{make_bar(int(userhp['percentage']))}« "
         text += f"[{userhp['percentage']}%] "
         text += '» [<a href="https://t.me/MeguRobotChannel/7">Info</a>]'
 
@@ -347,7 +348,11 @@ ID_HANDLER = DisableAbleCommandHandler("id", get_id, run_async=True)
 GIFID_HANDLER = DisableAbleCommandHandler("gifid", gifid, run_async=True)
 
 
-dispatcher.add_handler(INFO_HANDLER, STATS_HANDLER, ID_HANDLER, GIFID_HANDLER)
+dispatcher.add_handler(INFO_HANDLER)
+dispatcher.add_handler(STATS_HANDLER)
+dispatcher.add_handler(ID_HANDLER)
+dispatcher.add_handler(GIFID_HANDLER)
+
 
 __mod_name__ = "Misceláneo"
 __command_list__ = ["info", "id", "stats", "gifid"]
