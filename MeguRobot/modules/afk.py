@@ -8,7 +8,7 @@ from MeguRobot.modules.disable import (
 )
 from MeguRobot.modules.sql import afk_sql as sql
 from MeguRobot.modules.users import get_user_id
-from telegram import MessageEntity, Update
+from telegram import MessageEntity, Update, ParseMode
 from telegram.error import BadRequest
 from telegram.ext import CallbackContext, Filters, MessageHandler
 
@@ -32,7 +32,7 @@ def afk(update: Update, context: CallbackContext):
     time_start = datetime.now().timestamp()
     sql.set_afk(update.effective_user.id, reason, time_start)
     fname = update.effective_user.first_name
-    update.effective_message.reply_text("{} ahora está AFK!{}".format(fname, notice))
+    update.effective_message.reply_text("*{}* ahora está AFK!{}".format(fname, notice), parse_mode=ParseMode.MARKDOWN)
 
 
 def no_longer_afk(update: Update, context: CallbackContext):
@@ -49,20 +49,20 @@ def no_longer_afk(update: Update, context: CallbackContext):
         firstname = update.effective_user.first_name
         try:
             options = [
-                "¡{} esta aquí!",
-                "¡{} ha vuelto!",
-                "¡{} está de nuevo en el chat!",
-                "¡{} esta despierto!",
-                "¡{} ha vuelto a estar en linea!",
-                "¡{} finalmente está aquí!",
-                "Por fin volviste {}, ¡te estábamos esperando!",
-                "Bienvenido de vuelta, {}",
-                "{} está en línea nuevamente ¿Quieres ver unas explosiones?💥",
-                "¿Dónde está {}?\n¡En el chat!",
+                "¡*{}* esta aquí!",
+                "¡*{}* ha vuelto!",
+                "¡*{}* está de nuevo en el chat!",
+                "¡*{}* esta despierto!",
+                "¡*{}* ha vuelto a estar en linea!",
+                "¡*{}* finalmente está aquí!",
+                "Por fin volviste *{}*, ¡te estábamos esperando!",
+                "Bienvenido de vuelta, *{}*",
+                "*{}* está en línea nuevamente ¿Quieres ver unas explosiones?💥",
+                "¿Dónde está *{}*?\n¡En el chat!",
             ]
             chosen_option = random.choice(options).format(firstname)
-            output = "{}\nTiempo AFK: {}.".format(chosen_option, res)
-            update.effective_message.reply_text(output)
+            output = "{}\n*Tiempo AFK:* {}.".format(chosen_option, res)
+            update.effective_message.reply_text(output, parse_mode=ParseMode.MARKDOWN)
         except:
             return
 
@@ -105,7 +105,7 @@ def reply_afk(update: Update, context: CallbackContext):
                     chat = bot.get_chat(user_id)
                 except BadRequest:
                     print(
-                        "Error: No se pudo obtener el userid {} para el módulo AFK".format(
+                        "Error: No se pudo obtener el user_id {} para el módulo AFK".format(
                             user_id
                         )
                     )
@@ -130,15 +130,15 @@ def check_afk(update, context, user_id, fst_name, userc_id):
         if not user.reason:
             if int(userc_id) == int(user_id):
                 return
-            res = "{} está AFK desde hace {}.".format(fst_name, afk_time)
+            res = "*{}* está AFK desde hace {}.".format(fst_name, afk_time)
             update.effective_message.reply_text(res)
         else:
             if int(userc_id) == int(user_id):
                 return
-            res = "{} está AFK desde hace {}.\nRazón: {}".format(
+            res = "*{}* está AFK desde hace {}.\n*Razón:* {}".format(
                 fst_name, afk_time, user.reason
             )
-            update.effective_message.reply_text(res)
+            update.effective_message.reply_text(res, parse_mode=ParseMode.MARKDOWN)
 
 
 __help__ = """
