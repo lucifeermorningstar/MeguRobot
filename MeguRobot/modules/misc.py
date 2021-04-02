@@ -19,6 +19,7 @@ from MeguRobot.modules.sql.afk_sql import is_afk, check_afk_status
 from MeguRobot.modules.sql.users_sql import get_user_num_chats
 from MeguRobot.modules.sql.feds_sql import get_user_fbanlist
 from MeguRobot.modules.helper_funcs.extraction import extract_user
+from MeguRobot.modules.helper_funcs.chat_status import dev_plus, sudo_plus
 from psutil import cpu_percent, virtual_memory, disk_usage, boot_time
 
 
