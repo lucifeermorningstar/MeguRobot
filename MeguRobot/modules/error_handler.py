@@ -9,7 +9,7 @@ import pretty_errors
 import io
 from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import CallbackContext, CommandHandler
-from MeguRobot import dispatcher, DEV_USERS, OWNER_ID
+from MeguRobot import dispatcher, DEV_USERS, DEV_GROUP, OWNER_ID
 
 pretty_errors.mono()
 
@@ -83,21 +83,43 @@ def error_callback(update: Update, context: CallbackContext):
     if not key.get("result", {}).get("key"):
         with open("error.txt", "w+") as f:
             f.write(pretty_message)
-        context.bot.send_document(
-            OWNER_ID,
-            open("error.txt", "rb"),
-            caption=f"#{context.error.identifier}\n<b>Un error desconocido ocurrió:</b>\n<code>{e}</code>",
-            parse_mode="html",
-        )
+        if DEV_GROUP:
+            try:
+                context.bot.send_document(
+                    DEV_GROUP,
+                    open("error.txt", "rb"),
+                    caption=f"#{context.error.identifier}\n<b>Un error desconocido ocurrió:</b>\n<code>{e}</code>",
+                    parse_mode="html",
+                )
+            except:
+                context.bot.send_document(
+                    OWNER_ID,
+                    open("error.txt", "rb"),
+                    caption=f"#{context.error.identifier}\n<b>Un error desconocido ocurrió:</b>\n<code>{e}</code>",
+                    parse_mode="html",
+                )
         return
     key = key.get("result").get("key")
     url = f"https://nekobin.com/{key}.py"
-    context.bot.send_message(
-        OWNER_ID,
-        text=f"#{context.error.identifier}\n<b>Un error desconocido ocurrió:</b>\n<code>{e}</code>",
-        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Nekobin", url=url)]]),
-        parse_mode="html",
-    )
+    if DEV_GROUP:
+        try:
+            context.bot.send_message(
+                DEV_GROUP,
+                text=f"#{context.error.identifier}\n<b>Un error desconocido ocurrió:</b>\n<code>{e}</code>",
+                reply_markup=InlineKeyboardMarkup(
+                    [[InlineKeyboardButton("Nekobin", url=url)]]
+                ),
+                parse_mode="html",
+            )
+        except:
+            context.bot.send_message(
+                OWNER_ID,
+                text=f"#{context.error.identifier}\n<b>Un error desconocido ocurrió:</b>\n<code>{e}</code>",
+                reply_markup=InlineKeyboardMarkup(
+                    [[InlineKeyboardButton("Nekobin", url=url)]]
+                ),
+                parse_mode="html",
+            )
 
 
 def list_errors(update: Update, context: CallbackContext):
@@ -109,7 +131,7 @@ def list_errors(update: Update, context: CallbackContext):
     msg = "<b>Lista de errores:</b>\n"
     for x in e:
         msg += f"• <code>{x}:</code> <b>{e[x]}</b> #{x.identifier}\n"
-    msg += f"{len(errors)} han ocurrido desde el inicio del servicio."
+    msg += f"{len(errors)} errores han ocurrido desde el inicio del servicio."
     if len(msg) > 4096:
         with open("errors_msg.txt", "w+") as f:
             f.write(msg)

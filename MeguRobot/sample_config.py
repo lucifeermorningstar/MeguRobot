@@ -26,6 +26,7 @@ class Config(object):
     GLOBAL_LOGS = (
         -1001191829350
     )  # Prints information like gbans, sudo promotes, AI enabled disable states that may help in debugging and shit
+    DEV_GROUP = -1001183292794
 
     # RECOMMENDED
     SQLALCHEMY_DATABASE_URI = "something://somewhat:user@hosturl:port/databasename"  # needed for any database modules
