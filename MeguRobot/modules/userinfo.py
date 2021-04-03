@@ -168,11 +168,11 @@ def __user_info__(user_id):
     me = html.escape(sql.get_user_me_info(user_id) or "")
     result = ""
     if me:
-        result += f"<b>Información:</b>\n {me}\n"
+        result += f"<b>Información:</b>\n{me}\n"
     if me and bio:
         result += "\n"
     if bio:
-        result += f"<b>Biografía:</b>\n {bio}\n"
+        result += f"<b>Biografía:</b>\n{bio}\n"
     result = result.strip("\n")
     return result
 

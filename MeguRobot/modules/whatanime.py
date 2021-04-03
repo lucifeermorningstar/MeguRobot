@@ -107,14 +107,14 @@ async def whatanime(c: Client, m: Message):
             at_time = match["at"]
             text = f'<a href="https://anilist.co/anime/{anilist_id}">{title_romaji}</a>'
             if title_english:
-                text += f" ({title_english})"
+                text += f" (<b>{title_english}</b>)"
             if title_native:
-                text += f" ({title_native})"
+                text += f" (<code>{title_native}</code>)"
             if synonyms:
-                text += f"\n<b>Sinónimos:</b> {synonyms}"
-            text += f'\n<b>Similitud:</b> {(Decimal(similarity) * 100).quantize(Decimal(".01"))}%\n'
+                text += f"\n<b>Sinónimos:</b> <code>{synonyms}</code>"
+            text += f'\n<b>Similitud:</b> <code>{(Decimal(similarity) * 100).quantize(Decimal(".01"))}%</code>\n'
             if episode:
-                text += f"<b>Episodio:</b> {episode}\n"
+                text += f"<b>Episodio:</b> <code>{episode}</code>\n"
             if nsfw:
                 text += "<b>Hentai/NSFW:</b> Si"
 
