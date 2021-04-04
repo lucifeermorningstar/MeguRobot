@@ -508,7 +508,7 @@ Los stickers de lista negra se utiliza para bloquear ciertos stickers. Siempre q
 
 *NOTA:* Los stickers de la lista negra no afectan a los administradores del grupo.
 
- •`/blstickers: Ver los stickers actuales en la lista negra.
+ •`/blstickers`: Ver los stickers actuales en la lista negra.
 
 *Solo administrador:*
  •`/addblsticker <enlace de sticker o pack>`: Agrega el disparador de sticker a la lista negra. Se puede agregar repondiendo al sticker.

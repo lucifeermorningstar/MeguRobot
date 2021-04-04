@@ -28,9 +28,9 @@ async def paste(client, message):
         await message.reply_text("Ocurrió un error al copiar...")
         return
     else:
-        text = "**Nekopiado:**\n"
-        text += f" • [Link]({response.url})\n"
-        text += f" • [Raw]({response.raw})"
+        text = "Copiado a **Nekobin**:\n"
+        text += f" • [Link]({response.url})"
+        text += f" | [Raw]({response.raw})"
         delete = bool(
             len(message.command) > 1
             and message.command[1] in ["d", "del"]
@@ -57,7 +57,7 @@ async def get_paste_(client, message):
     if not link:
         await client.send_message(message.chat.id, text="Dame un link!")
         return
-    await client.send_message(message.chat.id, text="Obteniendo el contenido copiado...")
+    rep = await client.send_message(message.chat.id, text="Obteniendo el contenido copiado...")
     format_view = "https://del.dog/v/"
     if link.startswith(format_view):
         link = link[len(format_view) :]
@@ -75,7 +75,7 @@ async def get_paste_(client, message):
         link = link[len("nekobin.com/") :]
         raw_link = f"https://nekobin.com/raw/{link}"
     else:
-        await client.send_message(message.chat.id, text="Dame una URL")
+        await rep.edit_text(text="Dame un link!")
         return
     resp = await AioHttp().get_text(raw_link)
     await client.send_message(message.chat.id, text=f"**Contenido:**\n`{resp}`")
