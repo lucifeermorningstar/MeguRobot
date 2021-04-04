@@ -128,7 +128,7 @@ __help__ = """
 •`/clearrules`: Quita las reglas del grupo.
 """
 
-__mod_name__ = "Rules"
+__mod_name__ = "Reglas"
 
 __command_list__ = ["rules", "setrules", "clearrules"]
 

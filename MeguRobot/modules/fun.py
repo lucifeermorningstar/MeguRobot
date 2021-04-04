@@ -15,7 +15,7 @@ RUNS_TEMPLATES = (
     "ε=ε=ε=ε=┌(;￣ ▽￣)┘",
     "¡Regresa aquí!",
     "¡Cuidado con la pared!",
-    "¡¡No me dejes solo con ellos!!",
+    "¡¡No me dejes sola con ellos!!",
     "¡Tienes compañía!",
     "¡Chotto mate!",
     "Yare yare daze",
@@ -31,6 +31,7 @@ RUNS_TEMPLATES = (
 
 SLAP_MEGU_TEMPLATES = (
     "Dame una bofetada más y te mutearé",
+    "Deja de abofetearme 😠",
     [
         "Te estoy silenciando por un minuto :3",  # respuesta normal
         "Deja de abofetearme solo porque no puedo silenciarte.",  # Responder al administrador
@@ -67,8 +68,8 @@ SLAP_TEMPLATES = (
     "¡{user1} {hits} a {user2} con un bate!",
     "¡{user1} {hits} a {user2} con una patada de Taijutsu!.",
     "{user1} {hits} a {user2} con X-Gloves!.",
-    "{user1} {hits} a {user2} with a Jet Punch!.",
-    "¡{user1} {hits} a {user2} con una pistola Jet!.",
+    "{user1} {hits} a {user2} con un Jet Punch!.",
+    "¡{user1} {hits} a {user2} con un Jet Pistol!.",
     "{user1} {hits} a {user2} con un United States of Smash!.",
     "¡{user1} {hits} a {user2} con un Detroit Smash!.",
     "{user1} {hits} a {user2} con un Texas Smash!.",
@@ -76,11 +77,11 @@ SLAP_TEMPLATES = (
     "{user1} {hits} a {user2} con un New Hampshire Smash!.",
     "{user1} {hits} a {user2} con un Missouri Smash!.",
     "{user1} {hits} a {user2} con un Carolina Smash!.",
-    "¡{user1} {hits} a {user2} con una pistola King Kong!.",
+    "¡{user1} {hits} a {user2} con un King Kong Gun!.",
     "{user1} {hits} a {user2} con un bate de béisbol, ¡uno de metal!",
-    "*Serios golpes a {user2}*.",
-    "*Punzones normales a {user2}*.",
-    "*Punzones normales consecutivos a {user2}*.",
+    "*Golpes Serios a {user2}*.",
+    "*Golpes normales a {user2}*.",
+    "*Golpes normales consecutivos a {user2}*.",
     "*Golpes normales consecutivos a dos manos a {user2}*.",
     "*Ignora a {user2} para dejar que muera de vergüenza*.",
     "*Señala a {user2} * ¿Qué pasa con este descarado... niño perdido?",
@@ -103,18 +104,18 @@ SLAP_TEMPLATES = (
     "{user1} {hits} {user2} con un {item}.",
     "{user1} {hits} {user2} en la cara con un {item}.",
     "{user1} {hits} {user2} alrededor un poco con un {item}.",
-    "{user1} lanza un {item} a {user2}.",
-    "{user1} agarra un {item} y lo arroja a la cara de {user2}.",
+    "{user1} {throws} un {item} a {user2}.",
+    "{user1} agarra un {item} y lo {throws} a la cara de {user2}.",
     "{user1} lanza un {item} en la dirección general de {user2}.",
     "{user1} comienza a abofetear a {user2} tontamente con un {item}.",
     "{user1} fija a {user2} y repetidamente lo golpea con un {item}.",
     "{user1} agarra un {item} y {hits} {user2} con él.",
-    "{user1} ata a {user2} a una silla y lanza un {item} hacia ellos.",
+    "{user1} ata a {user2} a una silla y {throws} un {item} hacia ellos.",
     "{user1} dio un empujón amistoso para ayudar a {user2} a aprender a nadar en lava",
     "{user1} acosó a {user2}.",
     "Nyaan se comió la pierna de {user2}. *Nomnomnom*",
-    "{user1} lanza una bola maestra a {user2}, la resistencia es inútil.",
-    "{user1} golpea a {user2} con un rayo de acción... bbbbbb (ง ・ ω ・)ง ====*",
+    "{user1} {throws} una master ball a {user2}, la resistencia es inútil.",
+    "{user1} golpea a {user2} con un action beam... bbbbbb (ง ・ ω ・)ง ====*",
     "{user1} ara ara's a {user2}.",
     "{user1} ora ora's a {user2}.",
     "{user1} muda muda's a {user2}.",
@@ -152,30 +153,34 @@ ITEMS = (
     "libro",
     "ordenador portátil",
     "pollo de goma",
-    "murciélago con púas",
+    "bate con pinchos",
     "trozo de tierra",
     "tonelada de ladrillos",
     "rasengan",
-    "bomba espiritual",
-    "Bodhisattva Guanyin de tipo 100",
-    "rasenshuriken",
+    "genkidama",
+    "100-Tipo de Guanyin Bodhisattva",
+    "Rasen Shuriken",
     "Murasame",
-    "banea",
+    "Ban",
     "chunchunmaru",
     "Kubikiribōchō",
     "rasengan",
 )
 
 THROWS = (
-    "aventuras",
-    "mandriles",
     "lanza",
+    "arroja",
+    "tira",
+    "dispara",
 )
 
 HITS = [
-    "bofeteó",
+    "abofeteó",
     "golpeó",
     "palmeó",
+    "atacó",
+    "azotó",
+    "zurró"
 ]
 
 EYES = [
@@ -566,7 +571,6 @@ __help__ = """
  •`/toss`: Lanza una moneda.
  •`/dice`: Tira un dado.
  •`/rlg`: Une oídos, nariz, boca y crea un emo ;-;
- •`/shout <palabra clave>`: Escribe cualquier cosa que quieras dar un grito fuerte.
  •`/weebify <text>`: Devuelve un texto weebify.
 """
 

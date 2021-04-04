@@ -64,7 +64,8 @@ def no_longer_afk(update: Update, context: CallbackContext):
             ]
             chosen_option = random.choice(options).format(firstname)
             output = "{}\n*Tiempo AFK:* {}.".format(chosen_option, res)
-            update.effective_message.reply_text(output, parse_mode=ParseMode.MARKDOWN)
+            update.effective_message.reply_text(
+                output, parse_mode=ParseMode.MARKDOWN)
         except:
             return
 
@@ -81,7 +82,7 @@ def reply_afk(update: Update, context: CallbackContext):
             [MessageEntity.TEXT_MENTION, MessageEntity.MENTION]
         )
 
-        chk_users = []
+        chk_users = []  # PARA QUE ESTA ESTO?
         for ent in entities:
             if ent.type == MessageEntity.TEXT_MENTION:
                 user_id = ent.user.id
@@ -91,9 +92,11 @@ def reply_afk(update: Update, context: CallbackContext):
                     return
                 chk_users.append(user_id)
 
+                check_afk(update, context, user_id, fst_name, userc_id)
+
             if ent.type == MessageEntity.MENTION:
                 user_id = get_user_id(
-                    message.text[ent.offset : ent.offset + ent.length]
+                    message.text[ent.offset: ent.offset + ent.length]
                 )
                 if not user_id:
                     # Should never happen, since for a user to become AFK they must have spoken. Maybe changed username?
@@ -135,7 +138,8 @@ def check_afk(update, context, user_id, fst_name, userc_id):
             res = "*{}* está AFK desde hace {}.\n*Razón:* {}".format(
                 fst_name, afk_time, user.reason
             )
-            update.effective_message.reply_text(res, parse_mode=ParseMode.MARKDOWN)
+            update.effective_message.reply_text(
+                res, parse_mode=ParseMode.MARKDOWN)
 
 
 __help__ = """
@@ -156,7 +160,9 @@ NO_AFK_HANDLER = DisableAbleMessageHandler(
     friendly="afk",
 )
 AFK_REPLY_HANDLER = DisableAbleMessageHandler(
-    (Filters.entity(MessageEntity.MENTION) | Filters.entity(MessageEntity.TEXT_MENTION))
+    (Filters.entity(MessageEntity.MENTION) |
+     Filters.entity(MessageEntity.TEXT_MENTION) |
+     Filters.reply)
     & Filters.chat_type.groups,
     reply_afk,
     friendly="afk",
