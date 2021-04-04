@@ -349,6 +349,8 @@ def steal(update: Update, context: CallbackContext):
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup(keyb),
             )
+        except ValueError:
+            return
         except OSError as e:
             msg.reply_text("Solo puedo robar imágenes.")
             print(e)

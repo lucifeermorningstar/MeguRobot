@@ -9,7 +9,7 @@ from os.path import basename
 import asyncio
 
 from pyrogram import filters
-
+from pyrogram.errors.exceptions.forbidden_403 import MessageDeleteForbidden
 from MeguRobot import pyrogrm, logging
 
 
@@ -82,7 +82,10 @@ async def google_rs(client, message):
             except:
                 os.remove(dis_loc)
         else:
-            await message.delete()
+            try:
+                await message.delete()
+            except MessageDeleteForbidden:
+                return
             return
         headers = {
             "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:58.0) Gecko/20100101 Firefox/58.0"
