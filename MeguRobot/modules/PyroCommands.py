@@ -7,6 +7,7 @@ from MeguRobot.modules.reverse import google_rs
 from MeguRobot.modules.telegraph import telegraph
 from MeguRobot.modules.spbinfo import lookup
 from MeguRobot.modules.usage import usage
+from MeguRobot.modules.nekobin import paste, get_paste_
 from MeguRobot.modules.whatanime import whatanime
 from MeguRobot.modules.purge import purge_messages, delete_message
 from MeguRobot.modules.downanime import downanime, search_episodes, download_episode
@@ -34,6 +35,8 @@ handlers = [
     MessageHandler(anime_search, filters.command("anime")),
     MessageHandler(character_search, filters.command("character")),
     MessageHandler(manga_search, filters.command("manga")),
+    MessageHandler(paste, filters.command("paste")),
+    MessageHandler(get_paste_, filters.command("gpaste")),
 ]
 
 for handler in handlers:

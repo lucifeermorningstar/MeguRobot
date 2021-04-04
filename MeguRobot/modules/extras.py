@@ -6,7 +6,7 @@ from typing import List
 from MeguRobot.modules.helper_funcs.chat_status import user_admin
 from MeguRobot.modules.disable import DisableAbleCommandHandler
 from MeguRobot import dispatcher, SUPPORT_CHAT, CASH_API_KEY, TIME_API_KEY
-
+from nekobin import NekoBin
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram import MessageEntity, ParseMode, Update
 from telegram.ext import CallbackContext, Filters, CommandHandler
@@ -99,36 +99,6 @@ def markdown_help(update: Update, context: CallbackContext):
         )
         return
     markdown_help_sender(update)
-
-
-def paste(update: Update, context: CallbackContext):
-    args = context.args
-    message = update.effective_message
-
-    if message.reply_to_message:
-        data = message.reply_to_message.text
-
-    elif len(args) >= 1:
-        data = message.text.split(None, 1)[1]
-
-    else:
-        message.reply_text("Qué se supone que debo hacer con esto?")
-        return
-
-    key = (
-        requests.post("https://nekobin.com/api/documents", json={"content": data})
-        .json()
-        .get("result")
-        .get("key")
-    )
-
-    url = f"https://nekobin.com/{key}"
-
-    reply_text = f"Copiado a *Nekobin* : {url}"
-
-    message.reply_text(
-        reply_text, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True
-    )
 
 
 def ud(update: Update, context: CallbackContext):
@@ -360,7 +330,6 @@ SAY_HANDLER = DisableAbleCommandHandler(
 MD_HELP_HANDLER = CommandHandler("markdownhelp", markdown_help, run_async=True)
 WIKI_HANDLER = DisableAbleCommandHandler("wiki", wiki, run_async=True)
 UD_HANDLER = DisableAbleCommandHandler("ud", ud, run_async=True)
-PASTE_HANDLER = DisableAbleCommandHandler("paste", paste, run_async=True)
 CONVERTER_HANDLER = CommandHandler("cash", convert, run_async=True)
 TIME_HANDLER = DisableAbleCommandHandler("time", gettime, run_async=True)
 
@@ -368,7 +337,6 @@ dispatcher.add_handler(SAY_HANDLER)
 dispatcher.add_handler(WIKI_HANDLER)
 dispatcher.add_handler(UD_HANDLER)
 dispatcher.add_handler(MD_HELP_HANDLER)
-dispatcher.add_handler(PASTE_HANDLER)
 dispatcher.add_handler(CONVERTER_HANDLER)
 dispatcher.add_handler(TIME_HANDLER)
 
