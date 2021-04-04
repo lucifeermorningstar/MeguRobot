@@ -11,7 +11,7 @@ from MeguRobot.__main__ import DATA_IMPORT
 from MeguRobot.modules.helper_funcs.chat_status import user_admin
 from MeguRobot.modules.helper_funcs.alternate import typing_action
 
-from MeguRobot.modules.rules import get_rules
+from MeguRobot.modules.reglas import get_rules
 import MeguRobot.modules.sql.rules_sql as rulessql
 
 from MeguRobot.modules.sql import warns_sql as warnssql

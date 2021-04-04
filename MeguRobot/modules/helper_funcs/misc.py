@@ -117,7 +117,7 @@ def revert_buttons(buttons):
 def build_keyboard_parser(bot, chat_id, buttons):
     keyb = []
     for btn in buttons:
-        if btn.url == "{rules}":
+        if btn.url == "{reglas}":
             btn.url = "http://t.me/{}?start={}".format(bot.username, chat_id)
         if btn.same_line and keyb:
             keyb[-1].append(InlineKeyboardButton(btn.name, url=btn.url))

@@ -116,7 +116,7 @@ def __migrate__(old_chat_id, new_chat_id):
 
 
 def __chat_settings__(chat_id, _user_id):
-    return f"This chat has had it's rules set: `{bool(sql.get_rules(chat_id))}`"
+    return f"Este chat tiene sus reglas establecidas: `{bool(sql.get_rules(chat_id))}`"
 
 
 __help__ = """
