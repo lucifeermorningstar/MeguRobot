@@ -12,7 +12,7 @@ async def paste(client, message):
     nekobin = NekoBin()
     if message.reply_to_message:
         text = message.reply_to_message.text
-    if (
+    elif (
         message.reply_to_message.document
         and message.reply_to_message.document.file_size < 2 ** 20 * 10
     ):
@@ -27,6 +27,8 @@ async def paste(client, message):
     except Exception:
         await message.reply_text("Ocurrió un error al copiar...")
         return
+    if not text:
+        await message.reply_text("Dame algo para copiar!")
     else:
         text = "Copiado a **Nekobin**:\n"
         text += f" • [Link]({response.url})"
@@ -57,7 +59,9 @@ async def get_paste_(client, message):
     if not link:
         await client.send_message(message.chat.id, text="Dame un link!")
         return
-    rep = await client.send_message(message.chat.id, text="Obteniendo el contenido copiado...")
+    rep = await client.send_message(
+        message.chat.id, text="Obteniendo el contenido copiado..."
+    )
     format_view = "https://del.dog/v/"
     if link.startswith(format_view):
         link = link[len(format_view) :]
