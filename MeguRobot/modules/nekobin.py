@@ -10,7 +10,9 @@ from MeguRobot.utils.aiohttp import AioHttp
 
 async def paste(client, message):
     nekobin = NekoBin()
-    if message.reply_to_message:
+    if not message.reply_to_message or not message.reply_to_message.document:
+        await message.reply_text("Dame algo para copiar!")
+    elif message.reply_to_message:
         text = message.reply_to_message.text
     elif (
         message.reply_to_message.document
@@ -22,13 +24,12 @@ async def paste(client, message):
         with open(path) as doc:
             text = doc.read()
         os.remove(path)
-    try:
-        response = await nekobin.nekofy(text)
-    except Exception:
-        await message.reply_text("Ocurrió un error al copiar...")
-        return
-    if not text:
-        await message.reply_text("Dame algo para copiar!")
+    if text:
+        try:
+            response = await nekobin.nekofy(text)
+        except:
+            await message.reply_text("Ocurrió un error al copiar...")
+            return
     else:
         text = "Copiado a **Nekobin**:\n"
         text += f" • [Link]({response.url})"

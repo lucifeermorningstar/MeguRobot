@@ -26,7 +26,7 @@
       "BAN_STICKER": {
          "description": "ID del sticker que desea usar al banear personas.",
          "required": false,
-         "value": "CAACAgQAAx0CU_rCTAABAczQXyBOv1TsVK4EfwnkCUT1H0GCpyrogrmQAAtwAAwEgTQaYsMtAltpEwhoE"
+         "value": "CAACAgQAAx0CU_rCTAABAczQXyBOv1TsVK4EfwnkCUT1H0GCQAAtwAAwEgTQaYsMtAltpEwhoE"
       },
       "SPAMWATCH_API": {
          "description": "Spamwatch API Token - Obten uno en @SpamwatchSupport.",

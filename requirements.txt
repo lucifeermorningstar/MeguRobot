@@ -13,6 +13,7 @@ fontTools
 markdown2
 Pillow
 nekos.py
+nekobin
 PyYAML
 requests
 spamwatch

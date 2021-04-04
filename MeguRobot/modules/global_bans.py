@@ -417,7 +417,6 @@ def gbanlist(update: Update, context: CallbackContext):
 
 
 def check_and_ban(update, user_id, should_message=True):
-
     chat = update.effective_chat  # type: Optional[Chat]
     try:
         sw_ban = sw.get_ban(int(user_id))
@@ -428,7 +427,7 @@ def check_and_ban(update, user_id, should_message=True):
         update.effective_chat.kick_member(user_id)
         if should_message:
             send_message(
-                update.effective_message,
+                chat.id,
                 f"<b>Alerta</b>:\n"
                 f"Este usuario está baneado a nivel global.\n"
                 f"<b>Chat de apelación</b>: @SpamWatchSupport\n"
@@ -452,7 +451,7 @@ def check_and_ban(update, user_id, should_message=True):
             user = sql.get_gbanned_user(user_id)
             if user.reason:
                 text += f"\n<b>Razón:</b> <code>{html.escape(user.reason)}</code>"
-            send_message(update.effective_message, text, parse_mode=ParseMode.HTML)
+        send_message(chat.id, text, parse_mode=ParseMode.HTML)
 
 
 def enforce_gban(update: Update, context: CallbackContext):

@@ -191,7 +191,7 @@ __help__ = """
   `/me @nombredeusuario (por defecto es el tuyo si no hay un usuario especificado)`
 
 *Información que otros agregan sobre tí:*
- •`/bio`: Obtendrás tu biografía o la de otro usuario. Esto no lo puede configurar tú mismo.
+ •`/bio`: Obtendrás tu biografía o la de otro usuario. Esto no lo puedes configurar tú.
  •`/setbio <text>`: Mientras respondes, guardará la biografía de otro usuario.
 
 *Ejemplos:*

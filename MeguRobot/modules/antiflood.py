@@ -353,7 +353,7 @@ Ejemplos de valor de tiempo: 4m = 4 minutos, 3h = 3 horas, 6d = 6 días, 5w = 5 
             sql.set_flood_strength(chat_id, 5, str(args[1]))
         else:
             send_message(
-                update.effective_message, "Solo entiendo ban/kick/mute/tban/tmute!"
+                update.effective_message, "Solo entiendo <ban/kick/mute/tban/tmute>!"
             )
             return
         if conn:
@@ -382,13 +382,13 @@ Ejemplos de valor de tiempo: 4m = 4 minutos, 3h = 3 horas, 6d = 6 días, 5w = 5 
         if getmode == 1:
             settypeflood = "ban"
         elif getmode == 2:
-            settypeflood = "kick"
+            settypeflood = "una expulsión"
         elif getmode == 3:
             settypeflood = "mute"
         elif getmode == 4:
-            settypeflood = "tban for {}".format(getvalue)
+            settypeflood = "baneo temporal por {}".format(getvalue)
         elif getmode == 5:
-            settypeflood = "tmute for {}".format(getvalue)
+            settypeflood = "muteo temporal por {}".format(getvalue)
         if conn:
             text = msg.reply_text(
                 "Enviar más mensajes que el límite de flood resultará en {} en {}.".format(

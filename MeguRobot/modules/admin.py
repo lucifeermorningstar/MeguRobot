@@ -137,7 +137,7 @@ def demote(update: Update, context: CallbackContext) -> str:
         return
 
     if user_member.status == "creator":
-        message.reply_text("Esta persona CREÓ el chat ¿Cómo la rebajaría?")
+        message.reply_text("Esta persona CREÓ el grupo ¿Cómo la rebajaría?")
         return
 
     if not user_member.status == "administrator":
@@ -181,8 +181,8 @@ def demote(update: Update, context: CallbackContext) -> str:
         return log_message
     except BadRequest:
         message.reply_text(
-            "No lo puedo rebajar. Puede que no sea administrador o que el estado de administrador fue designado por otro "
-            "administrador, por lo que no puedo actuar sobre ellos!"
+            "No puedo rebajar. Puede que no tenga administrador o que el estado de administrador fue designado por otro "
+            "administrador, por lo que no puedo actuar!"
         )
         return
 
@@ -266,20 +266,26 @@ def set_title(update: Update, context: CallbackContext):
 @bot_admin
 @user_admin
 def chat_title(update: Update, context: CallbackContext):
+    message = update.effective_message
     chat = update.effective_chat
     args = context.args
     bot = context.bot
-    title = extract_user_and_text(message, args)
-    try:
-        bot.set_chat_title(chat.id, title=title)
-        bot.send_message(
-            chat.id,
-            f"Se estableció correctamente el titulo del grupo a:\n <code>{html.escape(title[:255])}</code>!",
-        )
-    except len(title) > 255:
+    title = " ".join(args)
+    if not title:
+        message.reply_text("Establecer un título en blanco no cambiará nada!")
+        return
+    if len(title) > 255:
         message.reply_text(
             "La longitud del título es superior a 255 caracteres.\nRebajalo a 255 caracteres."
         )
+        return
+
+    bot.set_chat_title(chat.id, title=title)
+    bot.send_message(
+        chat.id,
+        f"Se estableció correctamente el titulo del grupo a:\n <code>{html.escape(title[:255])}</code>!",
+        parse_mode=ParseMode.HTML,
+    )
 
 
 @bot_admin
