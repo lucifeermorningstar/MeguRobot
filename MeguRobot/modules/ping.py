@@ -73,8 +73,7 @@ def ping(update: Update, context: CallbackContext):
     reply_msg = (
         "Pong!!\n"
         "<b>Tiempo tomado:</b> <code>{}</code>\n"
-        "<b>Tiempo en servicio:</b> <code>{}</code>".format(
-            telegram_ping, uptime)
+        "<b>Tiempo en servicio:</b> <code>{}</code>".format(telegram_ping, uptime)
     )
 
     update.effective_message.reply_text(reply_msg, parse_mode=ParseMode.HTML)

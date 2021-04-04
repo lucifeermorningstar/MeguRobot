@@ -174,14 +174,7 @@ THROWS = (
     "dispara",
 )
 
-HITS = [
-    "abofeteó",
-    "golpeó",
-    "palmeó",
-    "atacó",
-    "azotó",
-    "zurró"
-]
+HITS = ["abofeteó", "golpeó", "palmeó", "atacó", "azotó", "zurró"]
 
 EYES = [
     ["⌐■", "■"],
