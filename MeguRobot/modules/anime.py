@@ -7,14 +7,14 @@ def shorten(description, info="anilist.co"):
     ms_g = ""
     if len(description) > 700:
         description = description[0:600] + "..."
-        ms_g += f"\n**Descripción**:\n__{description}__\n[Leer Más]({info})"
+        ms_g += f"\n**Descripción**:\n{description}\n[Leer Más]({info})"
     else:
-        ms_g += f"\n**Descripción**:\n__{description}__"
+        ms_g += f"\n**Descripción**:\n{description}"
     return (
         ms_g.replace("<br>", "")
-            .replace("</br>", "")
-            .replace("<i>", "")
-            .replace("</i>", "")
+        .replace("</br>", "")
+        .replace("<i>", "")
+        .replace("</i>", "")
     )
 
 
@@ -27,11 +27,11 @@ def t(milliseconds: int) -> str:
     hours, minutes = divmod(minutes, 60)
     days, hours = divmod(hours, 24)
     tmp = (
-            ((str(days) + " Días, ") if days else "")
-            + ((str(hours) + " Horas, ") if hours else "")
-            + ((str(minutes) + " Minutos y ") if minutes else "")
-            + ((str(seconds) + " Segundos, ") if seconds else "")
-            + ((str(milliseconds) + " ms, ") if milliseconds else "")
+        ((str(days) + " Días, ") if days else "")
+        + ((str(hours) + " Horas, ") if hours else "")
+        + ((str(minutes) + " Minutos y ") if minutes else "")
+        + ((str(seconds) + " Segundos, ") if seconds else "")
+        + ((str(milliseconds) + " ms, ") if milliseconds else "")
     )
     return tmp[:-2]
 
@@ -186,8 +186,8 @@ async def anime_search(client, message):
     variables = {"search": search}
     json = (
         requests.post(url, json={"query": anime_query, "variables": variables})
-            .json()["data"]
-            .get("Media", None)
+        .json()["data"]
+        .get("Media", None)
     )
     if json:
         msg = f"**{json['title']['romaji']}**(`{json['title']['native']}`)\n**Tipo**: "
@@ -214,7 +214,7 @@ async def anime_search(client, message):
             msg += "No emitido"
         elif json["status"] == "CANCELLED":
             msg += "Cancelado"
-        msg += f"\n**Episodios**: {json.get('episodes', 'N/A')}\n**Duración**: {json.get('duration', 'N/A')} mins aprox. por ep.\n**Calificación**: {json['averageScore']:1.0f}\n**Géneros**: `"
+        msg += f"\n**Episodios**: `{json.get('episodes', 'N/A')}`\n**Duración**: `{json.get('duration', 'N/A')} mins aprox. por ep.`\n**Calificación**: `{json['averageScore']:1.0f}`\n**Géneros**: `"
         for x in json["genres"]:
             x = await translate(x)
             msg += f"{x}, "
@@ -232,9 +232,9 @@ async def anime_search(client, message):
                 trailer = "https://youtu.be/" + trailer_id
         description = (
             json.get("description", "N/A")
-                .replace("<i>", "")
-                .replace("</i>", "")
-                .replace("<br>", "")
+            .replace("<i>", "")
+            .replace("</i>", "")
+            .replace("<br>", "")
         )
         description = await translate(description)
         msg += shorten(description, info)
@@ -295,15 +295,14 @@ async def character_search(client, message):
         description = json.get("description")
         description = await translate(description)
         description = (
-            description
-                .replace("<i>", "")
-                .replace("</i>", "")
-                .replace("<br>", "")
-                .replace("__", "**")
-                .replace("~", "~~")
-                .replace(" ~", "~")
-                .replace("! ", "!")
-                .replace("\n ", " \n")
+            description.replace("<i>", "")
+            .replace("</i>", "")
+            .replace("<br>", "")
+            .replace("__", "**")
+            .replace("~", "~~")
+            .replace(" ~", "~")
+            .replace("! ", "!")
+            .replace("\n ", " \n")
         )
         # print(repr(description))
         if len(description) > 700:
@@ -332,8 +331,8 @@ async def manga_search(client, message):
     variables = {"search": search}
     json = (
         requests.post(url, json={"query": manga_query, "variables": variables})
-            .json()["data"]
-            .get("Media", None)
+        .json()["data"]
+        .get("Media", None)
     )
     ms_g = ""
     if json:
@@ -352,7 +351,18 @@ async def manga_search(client, message):
         if start_date:
             ms_g += f"\n**Inicio**: `{start_date}`"
         if status:
-            ms_g += f"\n**Estado**: `{status}`"
+            ms_g += f"\n**Estado**: `"
+        if json["status"] == "RELEASING":
+            msg += "En emisíon"
+        elif json["status"] == "FINISHED":
+            msg += "Finalizado"
+        elif json["status"] == "HIATUS":
+            msg += "Interrumpido"
+        elif json["status"] == "NOT_YET_RELEASED":
+            msg += "No emitido"
+        elif json["status"] == "CANCELLED":
+            msg += "Cancelado"
+        msg += "`"
         if score:
             ms_g += f"\n**Calificación**: `{score}`"
         ms_g += "\n**Géneros**: `"
@@ -364,9 +374,9 @@ async def manga_search(client, message):
         image = json.get("bannerImage", False)
         description = (
             json.get("description", "N/A")
-                .replace("<i>", "")
-                .replace("</i>", "")
-                .replace("<br>", "")
+            .replace("<i>", "")
+            .replace("</i>", "")
+            .replace("<br>", "")
         )
         description = await translate(description)
         site_url = json.get("siteUrl")
