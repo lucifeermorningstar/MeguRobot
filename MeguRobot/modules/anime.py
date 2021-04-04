@@ -353,16 +353,16 @@ async def manga_search(client, message):
         if status:
             ms_g += f"\n**Estado**: `"
         if json["status"] == "RELEASING":
-            msg += "En emisíon"
+            ms_g += "En emisíon"
         elif json["status"] == "FINISHED":
-            msg += "Finalizado"
+            ms_g += "Finalizado"
         elif json["status"] == "HIATUS":
-            msg += "Interrumpido"
+            ms_g += "Interrumpido"
         elif json["status"] == "NOT_YET_RELEASED":
-            msg += "No emitido"
+            ms_g += "No emitido"
         elif json["status"] == "CANCELLED":
-            msg += "Cancelado"
-        msg += "`"
+            ms_g += "Cancelado"
+        ms_g += "`"
         if score:
             ms_g += f"\n**Calificación**: `{score}`"
         ms_g += "\n**Géneros**: `"
