@@ -511,11 +511,12 @@ def devlist(update: Update, context: CallbackContext):
 
 
 __help__ = f"""
-*Aventureros:*
-
+*Staff:*
  •`/cardemons`: Lista de Demonios Carmesí(Desarrolladores).
  •`/destroyers`: Lista de Destroyers(Superusuarios).
  •`/demons`: Lista de Demonios(Soporte).
+
+*Lista Blanca:*
  •`/frogs`: Lista de Ranas Gigantes(ListaBlanca V1)
  •`/toads`: Lista de Sapos Gigantes(Listablanca V2).
 
