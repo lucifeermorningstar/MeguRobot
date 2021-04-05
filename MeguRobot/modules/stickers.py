@@ -4,13 +4,16 @@ import requests
 import urllib.request as urllib
 from PIL import Image
 from html import escape
+from telethon import events
 from bs4 import BeautifulSoup as bs
-
+from MeguRobot import telethn
 from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram import TelegramError, Update
 from telegram.ext import CallbackContext
 from telegram.utils.helpers import mention_html
-
+from telethon.tl.types.messages import StickerSet
+from telethon.tl.functions.stickers import RemoveStickerFromSetRequest
+from telethon.errors import StickerInvalidError, StickersetInvalidError, BadRequestError
 from MeguRobot import dispatcher
 from MeguRobot.modules.disable import DisableAbleCommandHandler
 
@@ -508,14 +511,44 @@ def makepack_internal(
             "No se pudo crear el paquete de Stickers. Posiblemente debido a la magia negra."
         )
 
+@telethn.on(events.NewMessage(incoming=True, pattern="^[/!]delsticker$", forwards=False))
+async def del_sticker(event):
+    if not event.reply_to_msg_id:
+        return
+    try:
+        reply = await event.get_reply_message()
+        if reply.media and reply.media.document:
+            sticker = reply.media
+            result = await telethn(RemoveStickerFromSetRequest(sticker=sticker))
+            if isinstance(result, StickerSet):
+                await event.reply("Sticker eliminado exitosamente!!\nLos cambios se aplicarán lo más pronto posible.")
+            else:
+                await event.reply("**Ocurrió un error desconocido al procesar tu solicitud**")
+        else:
+            await event.reply("Debes responder a un sticker tuyo que este dentro de un pack de stickers creado por Megu")
+            return
+    except StickerInvalidError:
+        await event.reply("El sticker no es válido.")
+        return
+    except StickersetInvalidError:
+        await event.reply("El pack de stickers no es válido.\n(Debe ser un pack de stickers creado por Megu)")
+        return
+    except BadRequestError:
+        await event.reply("Ocurrió un error al realizar la operación.\nProbablemente el sticker ya se haya eliminado, empere un tiempo y vuelva a intentarlo.")
+        return
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return
 
 __help__ = """
 •`/stickerid`: Responde a un sticker para decirte su ID de archivo.
 •`/getsticker`: Responde a un sticker para subir su archivo PNG sin formato.
 •`/steal`: Responde a un sticker para agregarlo a tu Stickerpack.
+•`/delsticker`: Responde a un sticker tuyo para eliminarlo de tu pack
 """
 
-__command_list__ = ["stickerid", "getsticker", "steal", "kang", "stickers"]
+__command_list__ = ["stickerid", "getsticker", "steal", "kang", "stickers", "delsticker"]
 
 __mod_name__ = "Stickers"
 STICKERID_HANDLER = DisableAbleCommandHandler("stickerid", stickerid, run_async=True)
