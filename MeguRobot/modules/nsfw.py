@@ -621,59 +621,59 @@ __help__ = """
 •`/rmnsfw`: Deshabilita el modo NSFW.
  
 *Comandos:*
-    __SFW__:
-        •`/waifu`: Envía stickers de Waifu al azar.
-        •`/kiss`: Envía GIF de besos aleatorios.
-        •`/baka`: Envía GIF aleatorios de Baka Shout.
-        •`/neko`: Envía imágenes de SFW Neko aleatorias.
-        •`/erokemo`: Envía imágenes de Ero-Kemo al azar.
-        •`/ngif`: Envía GIF Neko aleatorios.
-        •`/tickle`: Envía GIF de cosquillas al azar.
-        •`/feed`: Envía GIF de alimentación aleatoria.
-        •`/eroyuri`: Envía imágenes de Ero-Yuri al azar.
-        •`/eron`: Envía imágenes de Ero-Neko aleatorias.
-        •`/kemonomimi`: envía imágenes de KemonoMimi aleatorias.
-        •`/gasm`: Envía stickers ahegao al azar.
-        •`/poke`: Envía GIF de dar un toque aleatorio.
-        •`/erofeet`: Envía imágenes de de Ero-Feet aleatorias.
-        •`/holo`: Envía imágenes de Holo aleatorias.
-        •`/holoero`: Envía imágenes de Ero-Holo aleatorias.
-        •`/hug`: Envía GIF de abrazos aleatorios.
-        •`/foxgirl`: Envía imágenes de aleatorias de FoxGirls.
-        •`/smug`: Envía GIFs petulantes aleatorios.
-        •`/dva`: Envía imágenes de D.Va aleatorias.
+*SFW*:
+ •`/waifu`: Envía stickers de Waifu al azar.
+ •`/kiss`: Envía GIF de besos aleatorios.
+ •`/baka`: Envía GIF aleatorios de Baka Shout.
+ •`/neko`: Envía imágenes de SFW Neko aleatorias.
+ •`/erokemo`: Envía imágenes de Ero-Kemo al azar.
+ •`/ngif`: Envía GIF Neko aleatorios.
+ •`/tickle`: Envía GIF de cosquillas al azar.
+ •`/feed`: Envía GIF de alimentación aleatoria.
+ •`/eroyuri`: Envía imágenes de Ero-Yuri al azar.
+ •`/eron`: Envía imágenes de Ero-Neko aleatorias.
+ •`/kemonomimi`: envía imágenes de KemonoMimi aleatorias.
+ •`/gasm`: Envía stickers ahegao al azar.
+ •`/poke`: Envía GIF de dar un toque aleatorio.
+ •`/erofeet`: Envía imágenes de de Ero-Feet aleatorias.
+ •`/holo`: Envía imágenes de Holo aleatorias.
+ •`/holoero`: Envía imágenes de Ero-Holo aleatorias.
+ •`/hug`: Envía GIF de abrazos aleatorios.
+ •`/foxgirl`: Envía imágenes de aleatorias de FoxGirls.
+ •`/smug`: Envía GIFs petulantes aleatorios.
+ •`/dva`: Envía imágenes de D.Va aleatorias.
 
-    __NSFW__:
-        •`/avatar`: Envía stickers de avatar al azar.
-        •`/feet`: Envía imágenes de pies anime al azar.
-        •`/yuri`: Envía imágenes de Yuri al azar.
-        •`/trap`: Envía imágenes de Traps aleatorios.
-        •`/futanari`: Envía imágenes de Futanari al azar.
-        •`/hololewd`: Envía Holo Lewds al azar.
-        •`/lewdkemo`: Envía Kemo Lewds al azar.
-        •`/sologif`: Envía GIF individuales aleatorios.
-        •`/cumgif`: Envía GIF de corrida aleatoria.
-        •`/lesbian`: Envía imágenes Lesb aleatorio.
-        •`/lewdk`: Envía Kitsune Lewds aleatorios.
-        •`/lewd`: Envía lewd al azar.
-        •`/cum`: Envía imágenes de semen al azar.
-        •`/bjgif`: Envía GIF de mamada aleatoria.
-        •`/bj`: Envía imágenes de de Blow Job al azar.
-        •`/nekonsfw`: Envía imágenes de NSFW Neko aleatorias.
-        •`/solo`: Envía imágenes NSFW solo aleatorios.
-        •`/avatarlewd`: Envía calcomanías lascivas de avatar al azar.
-        •`/anal`: Envía GIF anales aleatorios.
-        •`/hentai`: Envía imágenes de hentai aleatorias.
-        •`/tits`: Envía imágenes de de tetas al azar.
-        •`/pussygif`: Envía GIF de gatitos aleatorios.
-        •`/pussy`: Envía imágenes de de gatito aleatorio.
-        •`/hentaigif`: Envía GIF Hentai aleatorios.
-        •`/classic`: Envía GIF de Hentai clásicos aleatorios.
-        •`/kuni`: Envía GIF de lamido de coño aleatorio.
-        •`/femdom`: Envía imágenes de Femdom al azar.
-        •`/erok`: Envía imágenes de Ero-Kitsune aleatorias.
-        •`/titsgif`: Envía GIF de tetas al azar.
-        •`/ero`: Envía imágenes Ero aleatorias.
+🔞 *NSFW*:
+ •`/avatar`: Envía stickers de avatar al azar.
+ •`/feet`: Envía imágenes de pies anime al azar.
+ •`/yuri`: Envía imágenes de Yuri al azar.
+ •`/trap`: Envía imágenes de Traps aleatorios.
+ •`/futanari`: Envía imágenes de Futanari al azar.
+ •`/hololewd`: Envía Holo Lewds al azar.
+ •`/lewdkemo`: Envía Kemo Lewds al azar.
+ •`/sologif`: Envía GIF individuales aleatorios.
+ •`/cumgif`: Envía GIF de corrida aleatoria.
+ •`/lesbian`: Envía imágenes Lesb aleatorio.
+ •`/lewdk`: Envía Kitsune Lewds aleatorios.
+ •`/lewd`: Envía lewd al azar.
+ •`/cum`: Envía imágenes de semen al azar.
+ •`/bjgif`: Envía GIF de mamada aleatoria.
+ •`/bj`: Envía imágenes de de Blow Job al azar.
+ •`/nekonsfw`: Envía imágenes de NSFW Neko aleatorias.
+ •`/solo`: Envía imágenes NSFW solo aleatorios.
+ •`/avatarlewd`: Envía calcomanías lascivas de avatar al azar.
+ •`/anal`: Envía GIF anales aleatorios.
+ •`/hentai`: Envía imágenes de hentai aleatorias.
+ •`/tits`: Envía imágenes de de tetas al azar.
+ •`/pussygif`: Envía GIF de gatitos aleatorios.
+ •`/pussy`: Envía imágenes de de gatito aleatorio.
+ •`/hentaigif`: Envía GIF Hentai aleatorios.
+ •`/classic`: Envía GIF de Hentai clásicos aleatorios.
+ •`/kuni`: Envía GIF de lamido de coño aleatorio.
+ •`/femdom`: Envía imágenes de Femdom al azar.
+ •`/erok`: Envía imágenes de Ero-Kitsune aleatorias.
+ •`/titsgif`: Envía GIF de tetas al azar.
+ •`/ero`: Envía imágenes Ero aleatorias.
 """
 
 __mod_name__ = "NSFW"
