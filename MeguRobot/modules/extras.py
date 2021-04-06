@@ -306,7 +306,7 @@ __help__ = """
 *Pegar:*
  •`/paste`: Guarda el contenido respondido en `nekobin.com` y responde con una URL.
  •`/dogbin`: Guarda el contenido respondido en `del.dog` y responde con una URL.
- 
+
 *Urban Dictonary(ENG):*
  •`/ud <palabra>`: Escriba la palabra o expresión que desea utilizar para la búsqueda
 
@@ -314,7 +314,7 @@ __help__ = """
  •`/wiki <query>`: Busca en Wikipedia
 
 *Tiempo:*
-•`/time <lugar>: Da información sobre una zona horaria, 🕐 [Lista de Zonas Horarias](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
+•`/time <lugar>`: Da información sobre una zona horaria, 🕐 [Lista de Zonas Horarias](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
 
 *Convertidor de moneda:*
  •`/cash`: Convertidor de moneda
