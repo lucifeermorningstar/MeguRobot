@@ -214,6 +214,10 @@ def start(update: Update, context: CallbackContext):
                 IMPORTED["extras"].markdown_help_sender(update)
             elif args[0].lower() == "adventurers":
                 IMPORTED["extras"].send_adventurers(update)
+            elif args[0].lower() == "welcomehelp":
+                IMPORTED["saludos"].welcome_help_sender(update)
+            elif args[0].lower() == "welcomemutehelp":
+                IMPORTED["saludos"].welcome_mute_help_sender(update)
             elif args[0].lower().startswith("stngs_"):
                 match = re.match("stngs_(.*)", args[0].lower())
                 chat = dispatcher.bot.getChat(match.group(1))
@@ -650,9 +654,7 @@ def main():
     )
 
     donate_handler = CommandHandler("donate", donate)
-    migrate_handler = MessageHandler(
-        Filters.status_update.migrate, migrate_chats
-    )
+    migrate_handler = MessageHandler(Filters.status_update.migrate, migrate_chats)
 
     # dispatcher.add_handler(test_handler)
     dispatcher.add_handler(start_handler)

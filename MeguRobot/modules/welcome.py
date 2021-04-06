@@ -990,7 +990,7 @@ WELC_HELP_TXT = (
     "`{count}`*:* Esto representa el número de miembro del usuario, "
     "`{chatname}`*:* Esto representa el nombre del grupo.\n"
     "\nCada variable DEBE estar rodeada por `{}` para ser reemplazada.\n"
-    "Los mensajes de bienvenida también admiten markdown, por lo que puede poner cualquier elemento en negrita, cursiva ,código y enlaces.\n"
+    "Los mensajes de bienvenida también admiten markdown, por lo que puede poner cualquier elemento en negrita, cursiva, código y enlaces.\n"
     "Los botones también son compatibles, por lo que puede hacer que su bienvenida se vea increíble con botones\n"
     f"Para crear un botón que se vincule a sus reglas, use esto:`[Reglas](buttonurl://t.me/{dispatcher.bot.username}?start=group_id)`."
     "Simplemente reemplace `group_id` con la ID de su grupo, que se puede obtener a través de `/id`."
@@ -1007,16 +1007,54 @@ WELC_MUTE_HELP_TXT = (
 )
 
 
+def welcome_help_sender(update: Update):
+    update.effective_message.reply_text(WELC_HELP_TXT, parse_mode=ParseMode.MARKDOWN)
+
+
+def welcome_mute_help_sender(update: Update):
+    update.effective_message.reply_text(
+        WELC_MUTE_HELP_TXT, parse_mode=ParseMode.MARKDOWN
+    )
+
+
 @user_admin
 def welcome_help(update: Update, context: CallbackContext):
-    update.effective_message.reply_text(WELC_HELP_TXT, parse_mode=ParseMode.MARKDOWN)
+    if update.effective_chat.type != "private":
+        update.effective_message.reply_text(
+            "Contactame en privado.",
+            reply_markup=InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(
+                            "Ayuda de bienvenida",
+                            url=f"t.me/{context.bot.username}?start=welcomehelp",
+                        )
+                    ]
+                ]
+            ),
+        )
+        return
+    welcome_help_sender(update)
 
 
 @user_admin
 def welcome_mute_help(update: Update, context: CallbackContext):
-    update.effective_message.reply_text(
-        WELC_MUTE_HELP_TXT, parse_mode=ParseMode.MARKDOWN
-    )
+    if update.effective_chat.type != "private":
+        update.effective_message.reply_text(
+            "Contactame en privado.",
+            reply_markup=InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(
+                            "Ayuda de bienvenida",
+                            url=f"t.me/{context.bot.username}?start=welcomemutehelp",
+                        )
+                    ]
+                ]
+            ),
+        )
+        return
+    welcome_mute_help_sender(update)
 
 
 # TODO: get welcome data from group butler snap

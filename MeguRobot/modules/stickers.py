@@ -511,7 +511,10 @@ def makepack_internal(
             "No se pudo crear el paquete de Stickers. Posiblemente debido a la magia negra."
         )
 
-@telethn.on(events.NewMessage(incoming=True, pattern="^[/!]delsticker$", forwards=False))
+
+@telethn.on(
+    events.NewMessage(incoming=True, pattern="^[/!]delsticker$", forwards=False)
+)
 async def del_sticker(event):
     if not event.reply_to_msg_id:
         return
@@ -521,25 +524,37 @@ async def del_sticker(event):
             sticker = reply.media
             result = await telethn(RemoveStickerFromSetRequest(sticker=sticker))
             if isinstance(result, StickerSet):
-                await event.reply("Sticker eliminado exitosamente!!\nLos cambios se aplicarán lo más pronto posible.")
+                await event.reply(
+                    "Sticker eliminado exitosamente!!\nLos cambios se aplicarán lo más pronto posible."
+                )
             else:
-                await event.reply("Ocurrió un error desconocido al procesar tu solicitud!")
+                await event.reply(
+                    "Ocurrió un error desconocido al procesar tu solicitud!"
+                )
         else:
-            await event.reply("Responde a un sticker que este dentro de un Steal pack creado por Mí")
+            await event.reply(
+                "Responde a un sticker que este dentro de un Steal pack creado por Mí"
+            )
             return
     except StickerInvalidError:
         await event.reply("El sticker no es válido.")
         return
     except StickersetInvalidError:
-        await event.reply("El pack de stickers no es válido.\n(Debe ser un pack de stickers creado por Mí)")
+        await event.reply(
+            "El pack de stickers no es válido.\n(Debe ser un pack de stickers creado por Mí)"
+        )
         return
     except BadRequestError:
-        await event.reply("Ocurrió un error al realizar la operación.\nProbablemente el sticker ya se haya eliminado, espere un tiempo y vuelva a intentarlo.")
+        await event.reply(
+            "Ocurrió un error al realizar la operación.\nProbablemente el sticker ya se haya eliminado, espere un tiempo y vuelva a intentarlo."
+        )
         return
     except Exception as e:
         import traceback
+
         traceback.print_exc()
         return
+
 
 __help__ = """
 •`/stickerid`: Responde a un sticker para decirte su ID de archivo.
@@ -548,7 +563,14 @@ __help__ = """
 •`/delsticker`: Responde a un sticker tuyo para eliminarlo de tu Steal Pack.
 """
 
-__command_list__ = ["stickerid", "getsticker", "steal", "kang", "stickers", "delsticker"]
+__command_list__ = [
+    "stickerid",
+    "getsticker",
+    "steal",
+    "kang",
+    "stickers",
+    "delsticker",
+]
 
 __mod_name__ = "Stickers"
 STICKERID_HANDLER = DisableAbleCommandHandler("stickerid", stickerid, run_async=True)

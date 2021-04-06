@@ -601,7 +601,9 @@ def dva(update, context):
         if not is_nsfw:
             return
     msg = update.effective_message
-    headers = {'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:71.0) Gecko/20100101 Firefox/71.0',}
+    headers = {
+        "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:71.0) Gecko/20100101 Firefox/71.0",
+    }
     nsfw = requests.post("https://api.computerfreaker.cf/v1/dva", headers=headers)
     nsfw.raise_for_status()
     nsfw = nsfw.json()
