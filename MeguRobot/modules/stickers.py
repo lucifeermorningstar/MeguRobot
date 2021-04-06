@@ -523,18 +523,18 @@ async def del_sticker(event):
             if isinstance(result, StickerSet):
                 await event.reply("Sticker eliminado exitosamente!!\nLos cambios se aplicarán lo más pronto posible.")
             else:
-                await event.reply("**Ocurrió un error desconocido al procesar tu solicitud**")
+                await event.reply("Ocurrió un error desconocido al procesar tu solicitud!")
         else:
-            await event.reply("Debes responder a un sticker tuyo que este dentro de un pack de stickers creado por Megu")
+            await event.reply("Responde a un sticker que este dentro de un Steal pack creado por Mí")
             return
     except StickerInvalidError:
         await event.reply("El sticker no es válido.")
         return
     except StickersetInvalidError:
-        await event.reply("El pack de stickers no es válido.\n(Debe ser un pack de stickers creado por Megu)")
+        await event.reply("El pack de stickers no es válido.\n(Debe ser un pack de stickers creado por Mí)")
         return
     except BadRequestError:
-        await event.reply("Ocurrió un error al realizar la operación.\nProbablemente el sticker ya se haya eliminado, empere un tiempo y vuelva a intentarlo.")
+        await event.reply("Ocurrió un error al realizar la operación.\nProbablemente el sticker ya se haya eliminado, espere un tiempo y vuelva a intentarlo.")
         return
     except Exception as e:
         import traceback
@@ -545,7 +545,7 @@ __help__ = """
 •`/stickerid`: Responde a un sticker para decirte su ID de archivo.
 •`/getsticker`: Responde a un sticker para subir su archivo PNG sin formato.
 •`/steal`: Responde a un sticker para agregarlo a tu Stickerpack.
-•`/delsticker`: Responde a un sticker tuyo para eliminarlo de tu pack
+•`/delsticker`: Responde a un sticker tuyo para eliminarlo de tu Steal Pack.
 """
 
 __command_list__ = ["stickerid", "getsticker", "steal", "kang", "stickers", "delsticker"]
