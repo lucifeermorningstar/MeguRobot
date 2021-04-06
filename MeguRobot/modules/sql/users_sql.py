@@ -192,9 +192,12 @@ def num_users():
 def migrate_chat(old_chat_id, new_chat_id):
     with INSERTION_LOCK:
         chat = SESSION.query(Chats).get(str(old_chat_id))
+        new_chat = SESSION.query(Chats).get(str(new_chat_id))
         if chat:
-            chat.chat_id = str(new_chat_id)
-        SESSION.commit()
+            if not new_chat:
+                chat.chat_id = str(new_chat_id)
+                SESSION.delete(chat)
+                SESSION.commit()
 
         chat_members = (
             SESSION.query(ChatMembers)

@@ -399,7 +399,7 @@ Esto le permite conectarse a la base de datos de un chat y agregar cosas sin que
  •`/helpconnect`: Enumera los comandos disponibles que se pueden usar de forma remota
 
 *Solo administrador:*
- •`/allowconnect <yes/no>`: Permite que un usuario se conecte a un grupo
+ •`/allowconnect <si/no>`: Permite que un usuario se conecte a un grupo
 """
 
 __command_list__ = [
