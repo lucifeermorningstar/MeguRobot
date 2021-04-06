@@ -3,7 +3,7 @@ import datetime
 import wikipedia
 from typing import List
 
-from MeguRobot.modules.helper_funcs.chat_status import user_admin
+from MeguRobot.modules.helper_funcs.chat_status import user_admin, bot_can_delete
 from MeguRobot.modules.disable import DisableAbleCommandHandler
 from MeguRobot import dispatcher, SUPPORT_CHAT, CASH_API_KEY, TIME_API_KEY
 from nekobin import NekoBin
@@ -58,6 +58,7 @@ def send_adventurers(update):
     update.effective_message.reply_text(adventurers, parse_mode=ParseMode.MARKDOWN)
 
 
+@bot_can_delete
 @user_admin
 def say(update: Update, context: CallbackContext):
     args = update.effective_message.text.split(None, 1)

@@ -35,10 +35,15 @@ command_list = [
     "leaderboard",
 ]
 VALID_PATTERN = "^[a-zA-Z0-9]+$"
-command_list += ALL_THE_COMMANDS
+ya_se_unieron = False
 
 
 def clean_blue_text_must_click(update: Update, context: CallbackContext):
+    global command_list
+    global ya_se_unieron
+    if not ya_se_unieron:
+        command_list += ALL_THE_COMMANDS
+        ya_se_unieron = True
 
     bot = context.bot
     chat = update.effective_chat
