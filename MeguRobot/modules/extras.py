@@ -86,7 +86,7 @@ def markdown_help_sender(update: Update):
 def markdown_help(update: Update, context: CallbackContext):
     if update.effective_chat.type != "private":
         update.effective_message.reply_text(
-            "Contactame en privado",
+            "Contactame en privado.",
             reply_markup=InlineKeyboardMarkup(
                 [
                     [

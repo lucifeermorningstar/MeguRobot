@@ -1007,16 +1007,54 @@ WELC_MUTE_HELP_TXT = (
 )
 
 
+def welcome_help_sender(update: Update):
+    update.effective_message.reply_text(WELC_HELP_TXT, parse_mode=ParseMode.MARKDOWN)
+
+
+def welcome_mute_help_sender(update: Update):
+    update.effective_message.reply_text(
+        WELC_MUTE_HELP_TXT, parse_mode=ParseMode.MARKDOWN
+    )
+
+
 @user_admin
 def welcome_help(update: Update, context: CallbackContext):
-    update.effective_message.reply_text(WELC_HELP_TXT, parse_mode=ParseMode.MARKDOWN)
+    if update.effective_chat.type != "private":
+        update.effective_message.reply_text(
+            "Contactame en privado.",
+            reply_markup=InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(
+                            "Ayuda de bienvenida",
+                            url=f"t.me/{context.bot.username}?start=welcomehelp",
+                        )
+                    ]
+                ]
+            ),
+        )
+        return
+    welcome_help_sender(update)
 
 
 @user_admin
 def welcome_mute_help(update: Update, context: CallbackContext):
-    update.effective_message.reply_text(
-        WELC_MUTE_HELP_TXT, parse_mode=ParseMode.MARKDOWN
-    )
+    if update.effective_chat.type != "private":
+        update.effective_message.reply_text(
+            "Contactame en privado.",
+            reply_markup=InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(
+                            "Ayuda de bienvenida",
+                            url=f"t.me/{context.bot.username}?start=welcomemutehelp",
+                        )
+                    ]
+                ]
+            ),
+        )
+        return
+    welcome_mute_help_sender(update)
 
 
 # TODO: get welcome data from group butler snap

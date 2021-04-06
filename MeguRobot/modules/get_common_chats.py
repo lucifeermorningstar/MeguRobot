@@ -21,13 +21,20 @@ def get_user_common_chats(update: Update, context: CallbackContext):
         msg.reply_text("No tengo chats en comun con este usuario!")
         return
     name = bot.get_chat(user).first_name
-    text = f"<b>Chats en común con *{name}*:</b>\n"
+    text = f"<b>Chats en común con {name}:</b>\n"
     for chat in common_list:
         try:
-            chat_id =bot.get_chat(chat).id
+            chat_id = bot.get_chat(chat).id
             chat_name = bot.get_chat(chat).title
+            user_member = bot.get_chat_member(chat_id, user)
             sleep(0.3)
-            text += f"• <b>{chat_name}</b> - <code>{chat_id}</code>\n"
+            text += f"• <b>{chat_name}</b> - (<code>{chat_id}</code>)"
+            if user_member.status == "creator":
+                text += " - <b>Creador</b>\n"
+            if user_member.status == "administrator":
+                text += " - <b>Admin</b>\n"
+            else:
+                text += "\n"
         except BadRequest:
             pass
         except Unauthorized:
