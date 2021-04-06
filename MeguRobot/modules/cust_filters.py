@@ -1,7 +1,7 @@
 import re
 import random
 from html import escape
-
+from MeguRobot.modules.helper_funcs.extraction import extract_user
 import telegram
 from telegram import ParseMode, InlineKeyboardMarkup, Message, InlineKeyboardButton
 from telegram.error import BadRequest
@@ -272,12 +272,18 @@ def stop_filter(update, context):
 def reply_filter(update, context):
     chat = update.effective_chat  # type: Optional[Chat]
     message = update.effective_message  # type: Optional[Message]
+    args = context.args
+    bot = context.bot
 
     if not update.effective_user or update.effective_user.id == 777000:
         return
     to_match = extract_text(message)
     if not to_match:
         return
+    if message.reply_to_message:
+        reply_user_id = extract_user(message, args)
+        reply_user = bot.get_chat(reply_user_id)
+        reply_user_name = escape(reply_user.first_name)
 
     chat_filters = sql.get_chat_triggers(chat.id)
     for keyword in chat_filters:
@@ -297,6 +303,8 @@ def reply_filter(update, context):
                     "id",
                     "chatname",
                     "mention",
+                    "user1",
+                    "user2",
                 ]
                 if filt.reply_text:
                     valid_format = escape_invalid_curly_brackets(
@@ -329,9 +337,8 @@ def reply_filter(update, context):
                             if message.chat.type != "private"
                             else escape(message.from_user.first_name),
                             id=message.from_user.id,
-                            user1=mention_html(
-                                message.from_user.id, message.from_user.first_name
-                            ),
+                            user1=escape(message.from_user.first_name),
+                            user2=reply_user_name if message.reply_to_message else "fulano",
                         )
                     else:
                         filtext = ""
@@ -340,24 +347,14 @@ def reply_filter(update, context):
 
                 if filt.file_type in (sql.Types.BUTTON_TEXT, sql.Types.TEXT):
                     try:
-                        if message.reply_to_message:
-                            context.bot.send_message(
-                                chat.id,
-                                markdown_to_html(filtext),
-                                reply_to_message_id=message.reply_to_message.message_id,
-                                parse_mode=ParseMode.HTML,
-                                disable_web_page_preview=True,
-                                reply_markup=keyboard,
-                            )
-                        else:
-                            context.bot.send_message(
-                                chat.id,
-                                markdown_to_html(filtext),
-                                reply_to_message_id=message.message_id,
-                                parse_mode=ParseMode.HTML,
-                                disable_web_page_preview=True,
-                                reply_markup=keyboard,
-                            )
+                        context.bot.send_message(
+                            chat.id,
+                            markdown_to_html(filtext),
+                            reply_to_message_id=message.message_id,
+                            parse_mode=ParseMode.HTML,
+                            disable_web_page_preview=True,
+                            reply_markup=keyboard,
+                        )
                     except BadRequest as excp:
                         error_catch = get_exception(excp, filt, chat)
                         if error_catch == "noreply":
@@ -371,13 +368,13 @@ def reply_filter(update, context):
                                 )
                             except BadRequest as excp:
                                 LOGGER.exception("Error in filters: " + excp.message)
-                                context.bot.send_message(
+                                send_message(
                                     update.effective_message,
                                     get_exception(excp, filt, chat),
                                 )
                         else:
                             try:
-                                context.bot.send_message(
+                                send_message(
                                     update.effective_message,
                                     get_exception(excp, filt, chat),
                                 )
@@ -399,7 +396,7 @@ def reply_filter(update, context):
                             chat.id,
                             filt.file_id,
                             caption=markdown_to_html(filtext),
-                            reply_to_message_id=message.reply_to_message.message_id,
+                            reply_to_message_id=message.message_id,
                             parse_mode=ParseMode.HTML,
                             reply_markup=keyboard,
                         )
@@ -431,7 +428,7 @@ def reply_filter(update, context):
                             reply_markup=keyboard,
                         )
                     except BadRequest as excp:
-                        if excp.message == "Unsupported url protocol":
+                        if excp.message == "Protocolo de URL no admitido":
                             try:
                                 send_message(
                                     update.effective_message,
