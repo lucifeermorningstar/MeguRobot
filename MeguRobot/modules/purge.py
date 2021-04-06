@@ -45,6 +45,8 @@ async def purge_messages(client, message):
                     f"Se eliminaron {count_del_etion_s} mensajes en {time_taken_ms:0.2f} segundos",
                 )
                 await message.delete()
+                await asyncio.sleep(7)
+                await ms_g.delete()
         except errors.exceptions.forbidden_403.MessageDeleteForbidden:
             await client.send_message(
                 message.chat.id, "No tengo derechos para borrar mensajes."

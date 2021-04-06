@@ -651,7 +651,7 @@ def main():
 
     donate_handler = CommandHandler("donate", donate)
     migrate_handler = MessageHandler(
-        Filters.status_update.migrate, migrate_chats, run_async=True
+        Filters.status_update.migrate, migrate_chats
     )
 
     # dispatcher.add_handler(test_handler)

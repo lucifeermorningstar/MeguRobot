@@ -6,7 +6,7 @@ from telegram.error import BadRequest, Unauthorized
 from telegram.ext import CommandHandler, CallbackQueryHandler, CallbackContext
 
 import MeguRobot.modules.sql.connection_sql as sql
-from MeguRobot import dispatcher, SUDO_USERS
+from MeguRobot import dispatcher, DEV_USERS, SUDO_USERS
 from MeguRobot.modules.helper_funcs import chat_status
 from MeguRobot.modules.helper_funcs.alternate import send_message, typing_action
 
@@ -399,7 +399,7 @@ Esto le permite conectarse a la base de datos de un chat y agregar cosas sin que
  •`/helpconnect`: Enumera los comandos disponibles que se pueden usar de forma remota
 
 *Solo administrador:*
- •`/allowconnect <yes/no>`: Permite que un usuario se conecte a un grupo
+ •`/allowconnect <si/no>`: Permite que un usuario se conecte a un grupo
 """
 
 __command_list__ = [
