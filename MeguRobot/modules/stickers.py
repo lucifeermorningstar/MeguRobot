@@ -517,7 +517,8 @@ def delsticker(update: Update, context: CallbackContext):
             if rquest:
                 msg.reply_text("Sticker eliminado exitosamente!!\nLos cambios se aplicarán lo más pronto posible.")
         except TelegramError as e:
-            msg.reply_text("Ocurrió un error al procesar tu solicitud: " + e.message)
+            if e.message == "Stickerset_invalid":
+                msg.reply_text("El pack de stickers no es válido.\n(Debe ser un sticker de un Steal Pack creado por mí)")
     else:
         return
 
