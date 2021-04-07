@@ -522,7 +522,8 @@ def delsticker(update: Update, context: CallbackContext):
             else:
                 msg.reply_text("No puedes borrar stickers de otras personas >:(")
         except TelegramError as e:
-            msg.reply_text("Ocurrió un error al procesar tu solicitud: " + e.message)
+            if e.message == "Stickerset_invalid":
+                msg.reply_text("El pack de stickers no es válido.\n(Debe ser un sticker de un Steal Pack creado por mí)")
     else:
         return
 
