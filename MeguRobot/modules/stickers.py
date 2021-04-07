@@ -510,12 +510,17 @@ def makepack_internal(
 def delsticker(update: Update, context: CallbackContext):
     bot = context.bot
     msg = update.effective_message
+    user_id = msg.from_user.id
     if msg.reply_to_message and msg.reply_to_message.sticker:
         try:
             stk_id = msg.reply_to_message.sticker.file_id
-            rquest = bot.delete_sticker_from_set(stk_id)
-            if rquest:
-                msg.reply_text("Sticker eliminado exitosamente!!\nLos cambios se aplicarán lo más pronto posible.")
+            set_name = msg.reply_to_message.sticker.set_name
+            if str(user_id) in set_name:
+                rquest = bot.delete_sticker_from_set(stk_id)
+                if rquest:
+                    msg.reply_text("Sticker eliminado exitosamente!!\nLos cambios se aplicarán lo más pronto posible.")
+            else:
+                msg.reply_text("No puedes borrar stickers de otras personas >:(")
         except TelegramError as e:
             msg.reply_text("Ocurrió un error al procesar tu solicitud: " + e.message)
     else:

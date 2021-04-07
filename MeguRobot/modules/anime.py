@@ -372,13 +372,15 @@ async def manga_search(client, message):
         ms_g = ms_g[:-2] + "`\n"
 
         image = json.get("bannerImage", False)
-        description = (
-            json.get("description", "N/A")
-            .replace("<i>", "")
-            .replace("</i>", "")
-            .replace("<br>", "")
-        )
-        description = await translate(description)
+        description = "N/A"
+        if json.get("description"):
+            description = (
+                json.get("description", "N/A")
+                .replace("<i>", "")
+                .replace("</i>", "")
+                .replace("<br>", "")
+            )
+            description = await translate(description)
         site_url = json.get("siteUrl")
         ms_g += shorten(description, site_url)
         buttons = [[InlineKeyboardButton("Más Información", url=site_url)]]
@@ -399,7 +401,7 @@ async def manga_search(client, message):
                 )
         else:
             await client.send_message(
-                message.chat.id, text=ms_g, reply_markup=InlineKeyboardMarkup(buttons)
+                message.chat.id, text=ms_g, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=True
             )
 
 
