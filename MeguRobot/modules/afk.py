@@ -32,7 +32,7 @@ def afk(update: Update, context: CallbackContext):
     time_start = datetime.now().timestamp()
     sql.set_afk(update.effective_user.id, reason, time_start)
     fname = update.effective_user.first_name
-    fusername = "@" + update.effective_user.username
+    username = update.effective_user.username
     try:
         update.effective_message.reply_text(
             "*{}* ahora está AFK!{}".format(fname, notice),
@@ -40,7 +40,7 @@ def afk(update: Update, context: CallbackContext):
         )
     except:
         update.effective_message.reply_text(
-            "*{}* ahora está AFK!{}".format(fusername, notice),
+            "*@{}* ahora está AFK!{}".format(username, notice),
             parse_mode=ParseMode.MARKDOWN,
         )
 
@@ -98,7 +98,7 @@ def reply_afk(update: Update, context: CallbackContext):
             if ent.type == MessageEntity.TEXT_MENTION:
                 user_id = ent.user.id
                 fst_name = ent.user.first_name
-                user_name = "@" + ent.user.username
+                user_name = ent.user.username
 
                 if user_id in chk_users:
                     return
@@ -140,15 +140,14 @@ def reply_afk(update: Update, context: CallbackContext):
                     )
                     return
                 fst_name = chat.first_name
-                user_name = "@" + chat.username
+                user_name = chat.username
 
                 check_afk(update, context, user_id, fst_name, user_name, userc_id)
 
     elif message.reply_to_message:
-        user_usn = message.reply_to_message.from_user.username
         user_id = message.reply_to_message.from_user.id
         fst_name = message.reply_to_message.from_user.first_name
-        user_name = "@" + user_usn
+        user_name = message.reply_to_message.from_user.username
         check_afk(update, context, user_id, fst_name, user_name, userc_id)
 
 
@@ -163,7 +162,7 @@ def check_afk(update, context, user_id, fst_name, user_name, userc_id):
                 res = "*{}* está AFK desde hace {}.".format(fst_name, afk_time)
                 update.effective_message.reply_text(res, parse_mode=ParseMode.MARKDOWN)
             except:
-                res = "*{}* está AFK desde hace {}.".format(user_name, afk_time)
+                res = "*@{}* está AFK desde hace {}.".format(user_name, afk_time)
                 update.effective_message.reply_text(res, parse_mode=ParseMode.MARKDOWN)
         else:
             try:
@@ -172,7 +171,7 @@ def check_afk(update, context, user_id, fst_name, user_name, userc_id):
                 )
                 update.effective_message.reply_text(res, parse_mode=ParseMode.MARKDOWN)
             except:
-                res = "*{}* está AFK desde hace {}.\n*Razón:* {}".format(
+                res = "*@{}* está AFK desde hace {}.\n*Razón:* {}".format(
                     user_name, afk_time, user.reason
                 )
                 update.effective_message.reply_text(res, parse_mode=ParseMode.MARKDOWN)
