@@ -204,7 +204,7 @@ def steal(update: Update, context: CallbackContext):
                         parse_mode=ParseMode.MARKDOWN,
                         reply_markup=InlineKeyboardMarkup(keyb),
                     )
-                elif e.message == "Emoji de sticker no válido":
+                elif e.message == "Invalid sticker emojis":
                     msg.reply_text("Emoji de válido.")
                 elif e.message == "Stickers_too_much":
                     msg.reply_text("Se alcanzó el tamaño máximo del stickerpack.\nF...")
@@ -279,7 +279,7 @@ def steal(update: Update, context: CallbackContext):
                         packnum,
                         tgs_sticker=open("stealsticker.tgs", "rb"),
                     )
-                elif e.message == "Emoji de sticker no válido":
+                elif e.message == "Invalid sticker emojis":
                     msg.reply_text("Emoji no válido.")
                 elif e.message == "Internal Server Error: sticker set not found (500)":
                     keyb = [
@@ -389,7 +389,7 @@ def steal(update: Update, context: CallbackContext):
                     parse_mode=ParseMode.MARKDOWN,
                     reply_markup=InlineKeyboardMarkup(keyb),
                 )
-            elif e.message == "Emoji de sticker no válido":
+            elif e.message == "Invalid sticker emojis":
                 msg.reply_text("Emoji no válido.")
             elif e.message == "Stickers_too_much":
                 msg.reply_text("Se alcanzó el tamaño máximo del stickerpack.\nF...")
@@ -465,7 +465,7 @@ def makepack_internal(
 
     except TelegramError as e:
         print(e)
-        if e.message == "El nombre del stickerpack ya está ocupado":
+        if e.message == "Sticker set name is already occupied":
             msg.reply_text(
                 "Nuevo Sticker Pack creado exitosamente.Puedes encontrarlo [aquí](https://t.me/addstickers/%s"
                 % packname,
@@ -473,7 +473,7 @@ def makepack_internal(
             )
         elif e.message in (
             "Peer_id_invalid",
-            "El bot ha sido bloqueado por el usuario",
+            "bot was blocked by the user",
         ):
             msg.reply_text(
                 "Contáctame en privado primero.",
