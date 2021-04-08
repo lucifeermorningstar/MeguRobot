@@ -2,6 +2,8 @@ import requests
 from gpytranslate import Translator
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
+from MeguRobot import BOT_USERNAME 
+
 
 def shorten(description, info="anilist.co"):
     ms_g = ""
@@ -303,6 +305,7 @@ async def character_search(client, message):
             .replace(" ~", "~")
             .replace("! ", "!")
             .replace("\n ", " \n")
+            .replace("] (", "](")
         )
         # print(repr(description))
         if len(description) > 700:
@@ -414,17 +417,27 @@ async def translate(text):
     return teks.text
 
 
-__help__ = """
+__help__ = f"""
 Obtén información sobre anime, manga o personajes de [AniList](anilist.co).
 
 *Comandos disponibles:*
 
  •`/anime <anime>`*:* Devuelve información sobre el anime.
- •`/character <carácter>`*:* Devuelve información sobre el carácter.
+ •`/character <carácter>`*:* Devuelve información sobre el personaje.
  •`/manga <manga>`*:* Devuelve información sobre el manga.
  •`/upcoming`*: * Devuelve una lista de nuevos animes en las próximas temporadas.
- •`/airing <anime>`*:* Devuelve información de emisión de anime.
+ •`/airing <anime>`*:* Devuelve información de emisión del anime.
  •`/whatanime`*:* Busca un anime respondiendo a un GIF, vídeo o imagen de una captura de un capítulo del Anime.
+
+*Modo Inline:*
+
+Usa @{BOT_USERNAME} en cualquier parte cuando escribas, esto mostrará el modo inline el cual puedes usar cuando el bot no está en el chat.
+
+ • `@{BOT_USERNAME} anime`: Devuelve información sobre el anime.
+ • `@{BOT_USERNAME} airing`: Devuelve información de emisión del anime.
+ • `@{BOT_USERNAME} manga`: Devuelve información sobre el manga.
+ • `@{BOT_USERNAME} character`: Devuelve información sobre el personaje.
+ 
  """
 
 __mod_name__ = "Anime"
