@@ -512,19 +512,26 @@ def delsticker(update: Update, context: CallbackContext):
     msg = update.effective_message
     user_id = msg.from_user.id
     if msg.reply_to_message and msg.reply_to_message.sticker:
-        try:
-            stk_id = msg.reply_to_message.sticker.file_id
-            set_name = msg.reply_to_message.sticker.set_name
-            if str(user_id) in set_name:
-                rquest = bot.delete_sticker_from_set(stk_id)
-                if rquest:
-                    msg.reply_text("Sticker eliminado exitosamente!!\nLos cambios se aplicarán lo más pronto posible.")
-            else:
-                msg.reply_text("No puedes borrar stickers de otras personas >:(")
-        except TelegramError as e:
-            if e.message == "Stickerset_invalid":
-                msg.reply_text("El pack de stickers no es válido.\n(Debe ser un sticker de un Steal Pack creado por mí)")
+        stk_id = msg.reply_to_message.sticker.file_id
+        set_name = msg.reply_to_message.sticker.set_name
+        if "a" + str(user_id) + "_by_" + bot.username in set_name:
+            rquest = bot.delete_sticker_from_set(stk_id)
+            if rquest:
+                msg.reply_text(
+                    "Sticker eliminado exitosamente!!\nLos cambios se aplicarán lo más pronto posible."
+                )
+        elif (
+            "a" in set_name
+            and not str(user_id) in set_name
+            and "_by_" + bot.username in set_name
+        ):
+            msg.reply_text("No puedes borrar stickers de otras personas >:(")
+        elif not bot.username in set_name:
+            msg.reply_text(
+                "El pack de stickers no es válido.\n(Debe ser un sticker de un Steal Pack creado por mí)"
+            )
     else:
+        msg.reply_text("Responde a un sticker de un Steal Pack para borrarlo.")
         return
 
 

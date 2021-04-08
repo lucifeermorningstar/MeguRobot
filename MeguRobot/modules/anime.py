@@ -401,7 +401,10 @@ async def manga_search(client, message):
                 )
         else:
             await client.send_message(
-                message.chat.id, text=ms_g, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=True
+                message.chat.id,
+                text=ms_g,
+                reply_markup=InlineKeyboardMarkup(buttons),
+                disable_web_page_preview=True,
             )
 
 
