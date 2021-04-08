@@ -32,9 +32,17 @@ def afk(update: Update, context: CallbackContext):
     time_start = datetime.now().timestamp()
     sql.set_afk(update.effective_user.id, reason, time_start)
     fname = update.effective_user.first_name
-    update.effective_message.reply_text(
-        "*{}* ahora está AFK!{}".format(fname, notice), parse_mode=ParseMode.MARKDOWN
-    )
+    fusername = "@" + update.effective_user.username
+    try:
+        update.effective_message.reply_text(
+            "*{}* ahora está AFK!{}".format(fname, notice),
+            parse_mode=ParseMode.MARKDOWN,
+        )
+    except:
+        update.effective_message.reply_text(
+            "*{}* ahora está AFK!{}".format(fusername, notice),
+            parse_mode=ParseMode.MARKDOWN,
+        )
 
 
 def no_longer_afk(update: Update, context: CallbackContext):
@@ -48,24 +56,28 @@ def no_longer_afk(update: Update, context: CallbackContext):
     if res:
         if message.new_chat_members:  # dont say msg
             return
-        firstname = update.effective_user.first_name
+        firstname = user.first_name
+        user_name = "@" + user.username
+        options = [
+            "¡*{}* esta aquí!",
+            "¡*{}* ha vuelto!",
+            "¡*{}* está de nuevo en el chat!",
+            "¡*{}* esta despierto!",
+            "¡*{}* ha vuelto a estar en linea!",
+            "¡*{}* finalmente está aquí!",
+            "Por fin volviste *{}*, ¡te estábamos esperando!",
+            "Bienvenido de vuelta, *{}*",
+            "*{}* está en línea nuevamente ¿Quieres ver unas explosiones?💥",
+            "¿Dónde está *{}*?\n¡En el chat!",
+        ]
         try:
-            options = [
-                "¡*{}* esta aquí!",
-                "¡*{}* ha vuelto!",
-                "¡*{}* está de nuevo en el chat!",
-                "¡*{}* esta despierto!",
-                "¡*{}* ha vuelto a estar en linea!",
-                "¡*{}* finalmente está aquí!",
-                "Por fin volviste *{}*, ¡te estábamos esperando!",
-                "Bienvenido de vuelta, *{}*",
-                "*{}* está en línea nuevamente ¿Quieres ver unas explosiones?💥",
-                "¿Dónde está *{}*?\n¡En el chat!",
-            ]
             chosen_option = random.choice(options).format(firstname)
             output = "{}\n*Tiempo AFK:* {}.".format(chosen_option, res)
             update.effective_message.reply_text(output, parse_mode=ParseMode.MARKDOWN)
         except:
+            chosen_option = random.choice(options).format(user_name)
+            output = "{}\n*Tiempo AFK:* {}.".format(chosen_option, res)
+            update.effective_message.reply_text(output, parse_mode=ParseMode.MARKDOWN)
             return
 
 
@@ -86,12 +98,13 @@ def reply_afk(update: Update, context: CallbackContext):
             if ent.type == MessageEntity.TEXT_MENTION:
                 user_id = ent.user.id
                 fst_name = ent.user.first_name
+                user_name = "@" + ent.user.username
 
                 if user_id in chk_users:
                     return
                 chk_users.append(user_id)
 
-                check_afk(update, context, user_id, fst_name, userc_id)
+                check_afk(update, context, user_id, fst_name, user_name, userc_id)
 
             if ent.type == MessageEntity.MENTION:
                 user_id = get_user_id(
@@ -113,31 +126,55 @@ def reply_afk(update: Update, context: CallbackContext):
                             user_id
                         )
                     )
+                    message.reply_text(
+                        "Contáctame en privado primero.", # Posible solución?
+                        reply_markup=InlineKeyboardMarkup(
+                            [
+                                [
+                                    InlineKeyboardButton(
+                                        text="Iniciar", url=f"t.me/{context.bot.username}"
+                                    )
+                                ]
+                            ]
+                        ),
+                    )
                     return
                 fst_name = chat.first_name
+                user_name = "@" + chat.username
 
-                check_afk(update, context, user_id, fst_name, userc_id)
+                check_afk(update, context, user_id, fst_name, user_name, userc_id)
 
     elif message.reply_to_message:
         user_id = message.reply_to_message.from_user.id
         fst_name = message.reply_to_message.from_user.first_name
-        check_afk(update, context, user_id, fst_name, userc_id)
+        user_name = "@" + message.reply_to_message.from_user.username
+        check_afk(update, context, user_id, fst_name, user_name, userc_id)
 
 
-def check_afk(update, context, user_id, fst_name, userc_id):
+def check_afk(update, context, user_id, fst_name, user_name, userc_id):
     if sql.is_afk(user_id):
         user = sql.check_afk_status(user_id)
         afk_time = sql.get_time(user)
         if int(userc_id) == int(user_id):
             return
         if not user.reason:
-            res = "*{}* está AFK desde hace {}.".format(fst_name, afk_time)
-            update.effective_message.reply_text(res, parse_mode=ParseMode.MARKDOWN)
+            try:
+                res = "*{}* está AFK desde hace {}.".format(fst_name, afk_time)
+                update.effective_message.reply_text(res, parse_mode=ParseMode.MARKDOWN)
+            except:
+                res = "*{}* está AFK desde hace {}.".format(user_name, afk_time)
+                update.effective_message.reply_text(res, parse_mode=ParseMode.MARKDOWN)
         else:
-            res = "*{}* está AFK desde hace {}.\n*Razón:* {}".format(
-                fst_name, afk_time, user.reason
-            )
-            update.effective_message.reply_text(res, parse_mode=ParseMode.MARKDOWN)
+            try:
+                res = "*{}* está AFK desde hace {}.\n*Razón:* {}".format(
+                    fst_name, afk_time, user.reason
+                )
+                update.effective_message.reply_text(res, parse_mode=ParseMode.MARKDOWN)
+            except:
+                res = "*{}* está AFK desde hace {}.\n*Razón:* {}".format(
+                    user_name, afk_time, user.reason
+                )
+                update.effective_message.reply_text(res, parse_mode=ParseMode.MARKDOWN)
 
 
 __help__ = """
