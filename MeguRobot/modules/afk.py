@@ -126,18 +126,6 @@ def reply_afk(update: Update, context: CallbackContext):
                             user_id
                         )
                     )
-                    message.reply_text(
-                        "Contáctame en privado primero.", # Posible solución?
-                        reply_markup=InlineKeyboardMarkup(
-                            [
-                                [
-                                    InlineKeyboardButton(
-                                        text="Iniciar", url=f"t.me/{context.bot.username}"
-                                    )
-                                ]
-                            ]
-                        ),
-                    )
                     return
                 fst_name = chat.first_name
                 user_name = chat.username
