@@ -281,7 +281,7 @@ def reply_filter(update, context):
     if not to_match:
         return
     if message.reply_to_message:
-        reply_user_id = extract_user(message, args)
+        reply_user_id = message.reply_to_message.from_user.id
         reply_user = bot.get_chat(reply_user_id)
         reply_user_name = escape(reply_user.first_name)
 
