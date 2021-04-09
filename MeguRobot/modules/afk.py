@@ -64,24 +64,36 @@ def no_longer_afk(update: Update, context: CallbackContext):
         if message.new_chat_members:  # dont say msg
             return
         firstname = user.first_name
-        user_name = "@" + user.username
-        options = [
-            "¡*{}* esta aquí!",
-            "¡*{}* ha vuelto!",
-            "¡*{}* está de nuevo en el chat!",
-            "¡*{}* esta despierto!",
-            "¡*{}* ha vuelto a estar en linea!",
-            "¡*{}* finalmente está aquí!",
-            "Por fin volviste *{}*, ¡te estábamos esperando!",
-            "Bienvenido de vuelta, *{}*",
-            "*{}* está en línea nuevamente ¿Quieres ver unas explosiones?💥",
-            "¿Dónde está *{}*?\n¡En el chat!",
-        ]
+        user_name = user.username
         try:
+            options = [
+                "¡*{}* esta aquí!",
+                "¡*{}* ha vuelto!",
+                "¡*{}* está de nuevo en el chat!",
+                "¡*{}* esta despierto!",
+                "¡*{}* ha vuelto a estar en linea!",
+                "¡*{}* finalmente está aquí!",
+                "Por fin volviste *{}*, ¡te estábamos esperando!",
+                "Bienvenido de vuelta, *{}*",
+                "*{}* está en línea nuevamente ¿Quieres ver unas explosiones?💥",
+                "¿Dónde está *{}*?\n¡En el chat!",
+            ]
             chosen_option = random.choice(options).format(firstname)
             output = "{}\n*Tiempo AFK:* {}.".format(chosen_option, res)
             update.effective_message.reply_text(output, parse_mode=ParseMode.MARKDOWN)
         except:
+            options = [
+                "¡*@{}* esta aquí!",
+                "¡*@{}* ha vuelto!",
+                "¡*@{}* está de nuevo en el chat!",
+                "¡*@{}* esta despierto!",
+                "¡*@{}* ha vuelto a estar en linea!",
+                "¡*@{}* finalmente está aquí!",
+                "Por fin volviste *@{}*, ¡te estábamos esperando!",
+                "Bienvenido de vuelta, *@{}*",
+                "*@{}* está en línea nuevamente ¿Quieres ver unas explosiones?💥",
+                "¿Dónde está *@{}*?\n¡En el chat!",
+            ]
             chosen_option = random.choice(options).format(user_name)
             output = "{}\n*Tiempo AFK:* {}.".format(chosen_option, res)
             update.effective_message.reply_text(output, parse_mode=ParseMode.MARKDOWN)
