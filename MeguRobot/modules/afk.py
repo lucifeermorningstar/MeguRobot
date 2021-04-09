@@ -1,14 +1,21 @@
+import asyncio
 import random
 from datetime import datetime
 
-from MeguRobot import dispatcher
+from MeguRobot import dispatcher, pyrogrm
 from MeguRobot.modules.disable import (
     DisableAbleCommandHandler,
     DisableAbleMessageHandler,
 )
 from MeguRobot.modules.sql import afk_sql as sql
 from MeguRobot.modules.users import get_user_id
-from telegram import MessageEntity, Update, ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
+from telegram import (
+    MessageEntity,
+    Update,
+    ParseMode,
+    InlineKeyboardMarkup,
+    InlineKeyboardButton,
+)
 from telegram.error import BadRequest
 from telegram.ext import CallbackContext, Filters, MessageHandler
 
@@ -121,12 +128,15 @@ def reply_afk(update: Update, context: CallbackContext):
                 try:
                     chat = bot.get_chat(user_id)
                 except BadRequest:
-                    print(
-                        "Error: No se pudo obtener el user_id {} para el módulo AFK".format(
-                            user_id
+                    try:
+                        chat = asyncio.run(pyrogrm.get_chat(user_id))
+                    except:
+                        print(
+                            "Error: No se pudo obtener el user_id {} para el módulo AFK".format(
+                                user_id
+                            )
                         )
-                    )
-                    return
+                        return
                 fst_name = chat.first_name
                 user_name = chat.username
 
