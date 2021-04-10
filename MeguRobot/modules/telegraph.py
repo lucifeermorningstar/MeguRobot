@@ -31,7 +31,7 @@ async def telegraph(client, message):
         await message.reply_text("No soportado!")
         return
     download_location = await client.download_media(
-        message=message.reply_to_message, file_name="root/temp/"
+        message=message.reply_to_message, file_name="temp/"
     )
     try:
         response = upload_file(download_location)

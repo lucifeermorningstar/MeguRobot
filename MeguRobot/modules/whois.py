@@ -81,7 +81,7 @@ async def whois(client, message):
     try:
         user = await client.get_users(get_user)
     except PeerIdInvalid:
-        await message.reply("No conozco a este usuario.")
+        await buscando.edit("No conozco a este usuario.")
         return
     desc = await client.get_chat(get_user)
     desc = desc.description

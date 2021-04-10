@@ -40,3 +40,4 @@ spongemock
 geopy
 ffmpeg
 gpytranslate
+zippyshare-downloader

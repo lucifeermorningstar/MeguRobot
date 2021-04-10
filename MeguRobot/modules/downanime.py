@@ -2,11 +2,15 @@ import requests
 import re
 import os
 from urllib.parse import unquote
+from zippyshare_downloader import Zippyshare
 from bs4 import BeautifulSoup
 
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from MeguRobot import pyrogrm as app
+
+
+z = Zippyshare(verbose=True, progress_bar=True, replace=True)
 
 
 async def get_episodes(anime):
@@ -84,9 +88,12 @@ async def download_anime(link):
         return
 
     nombre = suma
-    filename = f"temp/{link}.mp4"
+    filename = f"{link}.mp4"
+    folder = "temp"
     url = "https://" + cooki + nombre
-    dw = os.system(f"wget -q -O {filename} {url}")
+    dw = z.extract_info(f"{url}", download=True, folder=folder, custom_filename=filename)
+    print(url)
+    print(dw)
     return dw
 
 
