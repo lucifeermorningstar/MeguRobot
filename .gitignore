@@ -25,3 +25,5 @@ updates.txt
 *.png
 resources/
 .venv
+Pipfile.lock
+temp/*.png

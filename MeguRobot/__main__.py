@@ -122,7 +122,8 @@ DATA_EXPORT = []
 CHAT_SETTINGS = {}
 USER_SETTINGS = {}
 
-ALL_THE_COMMANDS = []
+
+comandos = open("temp/comandos.txt", "a")
 
 for module_name in ALL_MODULES:
     imported_module = importlib.import_module("MeguRobot.modules." + module_name)
@@ -163,7 +164,10 @@ for module_name in ALL_MODULES:
 
     if hasattr(imported_module, "__command_list__"):
         for x in imported_module.__command_list__:
-            ALL_THE_COMMANDS.append(x)
+            comandos.write(x + " ")
+        
+
+comandos.close()
 
 
 # do not async

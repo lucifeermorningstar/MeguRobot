@@ -241,15 +241,25 @@ def info(update: Update, context: CallbackContext):
         try:
             profile = bot.get_user_profile_photos(user.id).photos[0][-1]
             _file = bot.get_file(profile["file_id"])
-            _file.download(f"{user.id}.png")
+            _file.download(f"temp/{user.id}.png")
 
             message.reply_document(
-                document=open(f"{user.id}.png", "rb"),
+                document=open(f"temp/{user.id}.png", "rb"),
                 caption=(text),
                 parse_mode=ParseMode.HTML,
             )
 
-            os.remove(f"{user.id}.png")
+            os.remove(f"temp/{user.id}.png")
+        
+        except BadRequest as e:
+            if str(e) == "Reply message not found":
+                message.reply_document(
+                    document=open(f"temp/{user.id}.png", "rb"),
+                    caption=text,
+                    parse_mode=ParseMode.HTML,
+                    quote=False
+                    )
+            os.remove(f"temp/{user.id}.png")
         # Incase user don't have profile pic, send normal text
         except IndexError:
             message.reply_text(

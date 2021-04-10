@@ -1,8 +1,9 @@
 import html
 import re
+import os
 
-from MeguRobot.__main__ import ALL_THE_COMMANDS
-from MeguRobot import ALLOW_EXCL, dispatcher
+from MeguRobot import ALLOW_EXCL, CustomCommandHandler, dispatcher
+from MeguRobot.modules.disable import DisableAbleCommandHandler
 from MeguRobot.modules.helper_funcs.chat_status import (
     bot_can_delete,
     connection_status,
@@ -19,7 +20,7 @@ else:
     CMD_STARTERS = "/"
 
 BLUE_TEXT_CLEAN_GROUP = 15
-
+CommandHandlerList = (CommandHandler, CustomCommandHandler, DisableAbleCommandHandler)
 command_list = [
     "cleanblue",
     "ignoreblue",
@@ -36,12 +37,26 @@ command_list = [
 ]
 VALID_PATTERN = "^[a-zA-Z0-9]+$"
 ya_se_unieron = False
-if not ya_se_unieron:
-    command_list += ALL_THE_COMMANDS
-    ya_se_unieron = True
-
+for handler_list in dispatcher.handlers:
+    for handler in dispatcher.handlers[handler_list]:
+        if any(isinstance(handler, cmd_handler) for cmd_handler in CommandHandlerList):
+            command_list += handler.command
 
 def clean_blue_text_must_click(update: Update, context: CallbackContext):
+    global command_list
+    global ya_se_unieron
+    if not ya_se_unieron:
+        try:
+            comandos = open("temp/comandos.txt", "r")
+            comandos_string = comandos.read()
+            comandos_list = comandos_string.split()
+            comandos.close()
+            command_list.extend(comandos_list)
+            ya_se_unieron = True
+            os.remove("temp/comandos.txt")
+        except Exception:
+            pass
+    
     bot = context.bot
     chat = update.effective_chat
     message = update.effective_message
@@ -264,7 +279,7 @@ LIST_CLEAN_BLUE_TEXT_HANDLER = CommandHandler(
     "listblue", bluetext_ignore_list, run_async=True
 )
 CLEAN_BLUE_TEXT_HANDLER = MessageHandler(
-    Filters.regex(r"^[/.!]\w") & Filters.chat_type.groups,
+    Filters.command & Filters.chat_type.groups,  # regex(r"^[/.!]\w")
     clean_blue_text_must_click,
     run_async=True,
 )
