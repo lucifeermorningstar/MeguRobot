@@ -67,41 +67,19 @@ async def download_anime(link):
     nombre = [x for x in nombre if "zippy" in x.get("href")]
     if len(nombre) == 0:
         return
-    nombre = nombre[0].get("href")
-    no2 = requests.get(unquote(nombre))
-    bp = BeautifulSoup(no2.text, "html.parser")
-    sec = bp.findAll("script")[9]
-    nombre = sec.next
-    cooki = no2.cookies
-    cooki = cooki.list_domains()[1]
-    nombre = re.sub("document.getElementById(.*)\.href = ", "", nombre)
-    nombre = nombre.replace("\n", "")
-    nombre = re.sub("if(.*)", "", nombre)
-    suma = nombre.replace(" ", "").replace(";", "")
-    otro = re.split("\((.*)\)", suma)
-    try:
-        a = otro[0]
-        suv = "str(" + otro[1] + ")"
-        b = otro[2]
-        suma = eval(a + suv + b)
-    except Exception as e:
-        return
-
-    nombre = suma
     filename = f"{link}.mp4"
     folder = "temp"
-    url = "https://" + cooki + nombre
-    dw = z.extract_info(f"{url}", download=True, folder=folder, custom_filename=filename)
-    print(url)
-    print(dw)
-    return dw
+    url = nombre[0].get("href")
+    url = url[:3] + "ps" + url[4:]
+    z.extract_info(f"{url}", download=True, folder=folder, custom_filename=filename)
 
 
 async def download_episode(client, query):
     await query.message.edit("Descargando episodio.")
     link = query.data.replace("episode_", "")
-    status = await download_anime(link)
-    if status != 0:
+    try:
+        await download_anime(link)
+    except:
         await query.message.edit("Error al descargar el episodio.")
         return
     await query.message.edit("Subiendo archivo.")
