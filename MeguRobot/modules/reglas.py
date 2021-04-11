@@ -1,21 +1,20 @@
 from typing import Optional
 
-from telegram import (
-    Message,
-    Update,
-    User,
-    ParseMode,
-    InlineKeyboardMarkup,
-    InlineKeyboardButton,
-)
-from telegram.error import BadRequest
-from telegram.ext import CommandHandler, Filters, CallbackContext
-from telegram.utils.helpers import escape_markdown
-
 import MeguRobot.modules.sql.rules_sql as sql
 from MeguRobot import dispatcher
 from MeguRobot.modules.helper_funcs.chat_status import user_admin
 from MeguRobot.modules.helper_funcs.string_handling import markdown_parser
+from telegram import (
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    Message,
+    ParseMode,
+    Update,
+    User,
+)
+from telegram.error import BadRequest
+from telegram.ext import CallbackContext, CommandHandler, Filters
+from telegram.utils.helpers import escape_markdown
 
 
 def get_rules(update: Update, context: CallbackContext):

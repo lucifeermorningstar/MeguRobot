@@ -1,16 +1,14 @@
 from typing import Union
 
 from future.utils import string_types
-from telegram import ParseMode, Update, Chat
-from telegram.ext import CommandHandler, MessageHandler
-from telegram.utils.helpers import escape_markdown
-
 from MeguRobot import dispatcher
+from MeguRobot.modules.connection import connected
+from MeguRobot.modules.helper_funcs.alternate import send_message, typing_action
 from MeguRobot.modules.helper_funcs.handlers import CMD_STARTERS
 from MeguRobot.modules.helper_funcs.misc import is_module_loaded
-from MeguRobot.modules.helper_funcs.alternate import send_message, typing_action
-from MeguRobot.modules.connection import connected
-
+from telegram import Chat, ParseMode, Update
+from telegram.ext import CommandHandler, MessageHandler
+from telegram.utils.helpers import escape_markdown
 
 CMD_STARTERS = tuple(CMD_STARTERS)
 
@@ -19,11 +17,7 @@ FILENAME = __name__.rsplit(".", 1)[-1]
 
 # If module is due to be loaded, then setup all the magical handlers
 if is_module_loaded(FILENAME):
-    from MeguRobot.modules.helper_funcs.chat_status import (
-        user_admin,
-        is_user_admin,
-    )
-
+    from MeguRobot.modules.helper_funcs.chat_status import is_user_admin, user_admin
     from MeguRobot.modules.sql import disable_sql as sql
 
     DISABLE_CMDS = []

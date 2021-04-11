@@ -10,11 +10,11 @@ from MeguRobot.modules.disable import (
 from MeguRobot.modules.sql import afk_sql as sql
 from MeguRobot.modules.users import get_user_id
 from telegram import (
-    MessageEntity,
-    Update,
-    ParseMode,
-    InlineKeyboardMarkup,
     InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    MessageEntity,
+    ParseMode,
+    Update,
 )
 from telegram.error import BadRequest
 from telegram.ext import CallbackContext, Filters, MessageHandler

@@ -1,14 +1,11 @@
 # Last.fm module by @TheRealPhoenix - https://github.com/rsktg
 
-import requests
-
-from telegram import Update, ParseMode
-from telegram.ext import CommandHandler, CallbackContext
-
-from MeguRobot import dispatcher, LASTFM_API_KEY
-from MeguRobot.modules.disable import DisableAbleCommandHandler
-
 import MeguRobot.modules.sql.last_fm_sql as sql
+import requests
+from MeguRobot import LASTFM_API_KEY, dispatcher
+from MeguRobot.modules.disable import DisableAbleCommandHandler
+from telegram import ParseMode, Update
+from telegram.ext import CallbackContext, CommandHandler
 
 
 def set_user(update: Update, context: CallbackContext):

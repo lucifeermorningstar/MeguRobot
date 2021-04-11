@@ -1,14 +1,13 @@
-import requests
-import re
 import os
+import re
 from urllib.parse import unquote
-from zippyshare_downloader import Zippyshare
+
+import requests
 from bs4 import BeautifulSoup
-
-from pyrogram import filters
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from MeguRobot import pyrogrm as app
-
+from pyrogram import filters
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from zippyshare_downloader import Zippyshare
 
 z = Zippyshare(verbose=True, progress_bar=True, replace=True)
 

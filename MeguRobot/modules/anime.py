@@ -1,8 +1,7 @@
 import requests
 from gpytranslate import Translator
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-
 from MeguRobot import BOT_USERNAME
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
 def shorten(description, info="anilist.co"):

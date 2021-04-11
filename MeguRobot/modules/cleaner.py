@@ -1,6 +1,6 @@
 import html
-import re
 import os
+import re
 
 from MeguRobot import ALLOW_EXCL, CustomCommandHandler, dispatcher
 from MeguRobot.modules.disable import DisableAbleCommandHandler
@@ -42,6 +42,7 @@ for handler_list in dispatcher.handlers:
         if any(isinstance(handler, cmd_handler) for cmd_handler in CommandHandlerList):
             command_list += handler.command
 
+
 def clean_blue_text_must_click(update: Update, context: CallbackContext):
     global command_list
     global ya_se_unieron
@@ -56,7 +57,7 @@ def clean_blue_text_must_click(update: Update, context: CallbackContext):
             os.remove("temp/comandos.txt")
         except Exception:
             pass
-    
+
     bot = context.bot
     chat = update.effective_chat
     message = update.effective_message

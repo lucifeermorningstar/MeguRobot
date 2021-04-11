@@ -1,23 +1,21 @@
-from pyrogram.handlers import MessageHandler, CallbackQueryHandler
-from MeguRobot.utils import filters
 from MeguRobot import pyrogrm
-
-from MeguRobot.modules.whois import whois
-from MeguRobot.modules.reverse import google_rs
-from MeguRobot.modules.telegraph import telegraph
-from MeguRobot.modules.spbinfo import lookup
-from MeguRobot.modules.usage import usage
-from MeguRobot.modules.nekobin import paste, get_paste_
-from MeguRobot.modules.whatanime import whatanime
-from MeguRobot.modules.purge import purge_messages, delete_message
-from MeguRobot.modules.downanime import downanime, search_episodes, download_episode
 from MeguRobot.modules.anime import (
     anime_airing,
     anime_search,
     character_search,
     manga_search,
 )
-
+from MeguRobot.modules.downanime import downanime, download_episode, search_episodes
+from MeguRobot.modules.nekobin import get_paste_, paste
+from MeguRobot.modules.purge import delete_message, purge_messages
+from MeguRobot.modules.reverse import google_rs
+from MeguRobot.modules.spbinfo import lookup
+from MeguRobot.modules.telegraph import telegraph
+from MeguRobot.modules.usage import usage
+from MeguRobot.modules.whatanime import whatanime
+from MeguRobot.modules.whois import whois
+from MeguRobot.utils import filters
+from pyrogram.handlers import CallbackQueryHandler, MessageHandler
 
 handlers = [
     MessageHandler(whois, filters.command("whois")),

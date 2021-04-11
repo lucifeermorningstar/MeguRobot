@@ -7,21 +7,18 @@ from functools import partial
 import MeguRobot.modules.sql.welcome_sql as sql
 from MeguRobot import (
     DEV_USERS,
+    FROG_USERS,
+    JOIN_LOGGER,
     LOGGER,
     OWNER_ID,
     SUDO_USERS,
     SUPPORT_USERS,
-    FROG_USERS,
     WHITELIST_USERS,
-    sw,
     dispatcher,
-    JOIN_LOGGER,
+    sw,
 )
 from MeguRobot.modules.helper_funcs.alternate import send_message
-from MeguRobot.modules.helper_funcs.chat_status import (
-    is_user_ban_protected,
-    user_admin,
-)
+from MeguRobot.modules.helper_funcs.chat_status import is_user_ban_protected, user_admin
 from MeguRobot.modules.helper_funcs.misc import build_keyboard, revert_buttons
 from MeguRobot.modules.helper_funcs.msg_types import get_welcome_type
 from MeguRobot.modules.helper_funcs.string_handling import (

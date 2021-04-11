@@ -1,16 +1,22 @@
-import os
 import math
-import requests
+import os
 import urllib.request as urllib
-from PIL import Image
 from html import escape
+
+import requests
 from bs4 import BeautifulSoup as bs
-from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
-from telegram import TelegramError, Update
-from telegram.ext import CallbackContext
-from telegram.utils.helpers import mention_html
 from MeguRobot import dispatcher
 from MeguRobot.modules.disable import DisableAbleCommandHandler
+from PIL import Image
+from telegram import (
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    ParseMode,
+    TelegramError,
+    Update,
+)
+from telegram.ext import CallbackContext
+from telegram.utils.helpers import mention_html
 
 combot_stickers_url = "https://combot.org/telegram/stickers?q="
 

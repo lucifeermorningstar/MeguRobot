@@ -5,11 +5,11 @@ from typing import Optional
 
 from MeguRobot import (
     DEV_USERS,
+    FROG_USERS,
     OWNER_ID,
     SUDO_USERS,
     SUPPORT_CHAT,
     SUPPORT_USERS,
-    FROG_USERS,
     WHITELIST_USERS,
     dispatcher,
 )

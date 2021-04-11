@@ -1,6 +1,6 @@
 import html
 
-from MeguRobot import LOGGER, SUDO_USERS, FROG_USERS, WHITELIST_USERS, dispatcher
+from MeguRobot import FROG_USERS, LOGGER, SUDO_USERS, WHITELIST_USERS, dispatcher
 from MeguRobot.modules.helper_funcs.chat_status import user_admin, user_not_admin
 from MeguRobot.modules.log_channel import loggable
 from MeguRobot.modules.sql import reporting_sql as sql

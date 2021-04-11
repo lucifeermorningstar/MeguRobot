@@ -3,10 +3,10 @@
 import MeguRobot.modules.sql.blacklistusers_sql as sql
 from MeguRobot import (
     DEV_USERS,
+    FROG_USERS,
     OWNER_ID,
     SUDO_USERS,
     SUPPORT_USERS,
-    FROG_USERS,
     WHITELIST_USERS,
     dispatcher,
 )

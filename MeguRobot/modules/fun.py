@@ -6,9 +6,8 @@ from MeguRobot import dispatcher
 from MeguRobot.modules.disable import DisableAbleCommandHandler
 from MeguRobot.modules.helper_funcs.chat_status import is_user_admin
 from MeguRobot.modules.helper_funcs.extraction import extract_user
-from telegram import ParseMode, Update, ChatPermissions
+from telegram import ChatPermissions, ParseMode, Update
 from telegram.ext import CallbackContext
-
 
 RUNS_TEMPLATES = (
     "Ahora me ves, ahora no",

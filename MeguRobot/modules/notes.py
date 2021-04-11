@@ -1,12 +1,13 @@
-import re, ast
+import ast
+import re
 from io import BytesIO
 from typing import Optional
 
 import MeguRobot.modules.sql.notes_sql as sql
-from MeguRobot import LOGGER, JOIN_LOGGER, SUPPORT_CHAT, dispatcher
+from MeguRobot import JOIN_LOGGER, LOGGER, SUPPORT_CHAT, dispatcher
 from MeguRobot.modules.disable import DisableAbleCommandHandler
-from MeguRobot.modules.helper_funcs.handlers import MessageHandlerChecker
 from MeguRobot.modules.helper_funcs.chat_status import user_admin
+from MeguRobot.modules.helper_funcs.handlers import MessageHandlerChecker
 from MeguRobot.modules.helper_funcs.misc import build_keyboard, revert_buttons
 from MeguRobot.modules.helper_funcs.msg_types import get_note_type
 from MeguRobot.modules.helper_funcs.string_handling import escape_invalid_curly_brackets
@@ -18,14 +19,14 @@ from telegram import (
     Update,
 )
 from telegram.error import BadRequest
-from telegram.utils.helpers import escape_markdown, mention_markdown
 from telegram.ext import (
     CallbackContext,
+    CallbackQueryHandler,
     CommandHandler,
     Filters,
     MessageHandler,
-    CallbackQueryHandler,
 )
+from telegram.utils.helpers import escape_markdown, mention_markdown
 
 FILE_MATCHER = re.compile(r"^###file_id(!photo)?###:(.*?)(?:\s|$)")
 STICKER_MATCHER = re.compile(r"^###sticker(!photo)?###:")

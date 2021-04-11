@@ -165,7 +165,7 @@ for module_name in ALL_MODULES:
     if hasattr(imported_module, "__command_list__"):
         for x in imported_module.__command_list__:
             comandos.write(x + " ")
-        
+
 
 comandos.close()
 

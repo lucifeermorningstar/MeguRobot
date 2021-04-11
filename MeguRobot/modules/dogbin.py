@@ -1,10 +1,8 @@
 import requests
-
-from telethon import events
-from telethon.tl import types, functions
-from telethon.events.newmessage import NewMessage
-
 from MeguRobot import telethn
+from telethon import events
+from telethon.events.newmessage import NewMessage
+from telethon.tl import functions, types
 
 dogheaders = {
     "Content-type": "text/plain",

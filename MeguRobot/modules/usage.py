@@ -1,11 +1,10 @@
-import math
 import asyncio
+import math
 
 import heroku3
 import requests
+from MeguRobot import DEV_USERS, HEROKU_API, SUDO_USERS, pyrogrm
 from pyrogram import filters
-from MeguRobot import pyrogrm, HEROKU_API
-from MeguRobot import DEV_USERS, SUDO_USERS
 
 # ================= CONSTANT =================
 Heroku = heroku3.from_key(HEROKU_API)

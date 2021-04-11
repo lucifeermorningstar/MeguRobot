@@ -2,8 +2,8 @@ import os
 from time import sleep
 
 from MeguRobot import OWNER_ID, dispatcher
-from MeguRobot.modules.helper_funcs.extraction import extract_user
 from MeguRobot.modules.helper_funcs.chat_status import dev_plus
+from MeguRobot.modules.helper_funcs.extraction import extract_user
 from MeguRobot.modules.sql.users_sql import get_user_com_chats
 from telegram import Update
 from telegram.error import BadRequest, RetryAfter, Unauthorized
@@ -56,9 +56,7 @@ def get_user_common_chats(update: Update, context: CallbackContext):
         os.remove("common_chats.txt")
 
 
-COMMON_CHATS_HANDLER = CommandHandler(
-    "getchats", get_user_common_chats, run_async=True
-)
+COMMON_CHATS_HANDLER = CommandHandler("getchats", get_user_common_chats, run_async=True)
 
 dispatcher.add_handler(COMMON_CHATS_HANDLER)
 

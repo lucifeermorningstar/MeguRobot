@@ -1,11 +1,11 @@
 import asyncio
 import os
 
-from nekobin import NekoBin
-from pyrogram import filters
-
 from MeguRobot import pyrogrm
 from MeguRobot.utils.aiohttp import AioHttp
+from pyrogram import filters
+
+from nekobin import NekoBin
 
 
 async def paste(client, message):

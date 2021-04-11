@@ -1,37 +1,37 @@
-import html
-import re
-import os
-import requests
 import datetime
+import html
+import os
 import platform
+import re
 import subprocess
-
 from platform import python_version
-from telegram import MAX_MESSAGE_LENGTH, ParseMode, Update, __version__
-from telegram.ext import CallbackContext, CommandHandler
-from telegram.error import BadRequest
-from telegram.utils.helpers import escape_markdown, mention_html
 
+import MeguRobot.modules.sql.userinfo_sql as sql
+import requests
 from MeguRobot import (
-    dispatcher,
-    OWNER_ID,
     DEV_USERS,
+    FROG_USERS,
+    INFOPIC,
+    OWNER_ID,
     SUDO_USERS,
     SUPPORT_USERS,
-    FROG_USERS,
     WHITELIST_USERS,
-    INFOPIC,
+    dispatcher,
+    sw,
 )
 from MeguRobot.__main__ import STATS, TOKEN, USER_INFO
 from MeguRobot.modules.disable import DisableAbleCommandHandler
-import MeguRobot.modules.sql.userinfo_sql as sql
-from MeguRobot.modules.sql.global_bans_sql import is_user_gbanned
-from MeguRobot.modules.sql.afk_sql import is_afk, check_afk_status
-from MeguRobot.modules.sql.users_sql import get_user_num_chats
-from MeguRobot.modules.sql.feds_sql import get_user_fbanlist
-from MeguRobot.modules.helper_funcs.extraction import extract_user
 from MeguRobot.modules.helper_funcs.chat_status import dev_plus, sudo_plus
-from psutil import cpu_percent, virtual_memory, disk_usage, boot_time
+from MeguRobot.modules.helper_funcs.extraction import extract_user
+from MeguRobot.modules.sql.afk_sql import check_afk_status, is_afk
+from MeguRobot.modules.sql.feds_sql import get_user_fbanlist
+from MeguRobot.modules.sql.global_bans_sql import is_user_gbanned
+from MeguRobot.modules.sql.users_sql import get_user_num_chats
+from psutil import boot_time, cpu_percent, disk_usage, virtual_memory
+from telegram import MAX_MESSAGE_LENGTH, MessageEntity, ParseMode, Update, __version__
+from telegram.error import BadRequest
+from telegram.ext import CallbackContext, CommandHandler
+from telegram.utils.helpers import escape_markdown, mention_html
 
 
 def no_by_per(totalhp, percentage):
@@ -250,15 +250,15 @@ def info(update: Update, context: CallbackContext):
             )
 
             os.remove(f"temp/{user.id}.png")
-        
+
         except BadRequest as e:
             if str(e) == "Reply message not found":
                 message.reply_document(
                     document=open(f"temp/{user.id}.png", "rb"),
                     caption=text,
                     parse_mode=ParseMode.HTML,
-                    quote=False
-                    )
+                    quote=False,
+                )
             os.remove(f"temp/{user.id}.png")
         # Incase user don't have profile pic, send normal text
         except IndexError:

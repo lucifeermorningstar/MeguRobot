@@ -1,38 +1,35 @@
-import re
 import random
+import re
 from html import escape
 
 import telegram
-from telegram import ParseMode, InlineKeyboardMarkup, Message, InlineKeyboardButton
-from telegram.error import BadRequest
-from telegram.ext import (
-    CommandHandler,
-    MessageHandler,
-    CallbackQueryHandler,
-    DispatcherHandlerStop,
-    Filters,
-)
-from telegram.utils.helpers import mention_html, escape_markdown
-
-from MeguRobot import dispatcher, LOGGER, SUDO_USERS
+from MeguRobot import LOGGER, SUDO_USERS, dispatcher
+from MeguRobot.modules.connection import connected
 from MeguRobot.modules.disable import DisableAbleCommandHandler
-from MeguRobot.modules.helper_funcs.handlers import MessageHandlerChecker
+from MeguRobot.modules.helper_funcs.alternate import send_message, typing_action
 from MeguRobot.modules.helper_funcs.chat_status import user_admin
 from MeguRobot.modules.helper_funcs.extraction import extract_text
 from MeguRobot.modules.helper_funcs.filters import CustomFilters
+from MeguRobot.modules.helper_funcs.handlers import MessageHandlerChecker
 from MeguRobot.modules.helper_funcs.misc import build_keyboard_parser
 from MeguRobot.modules.helper_funcs.msg_types import get_filter_type
 from MeguRobot.modules.helper_funcs.string_handling import (
-    split_quotes,
     button_markdown_parser,
     escape_invalid_curly_brackets,
     markdown_to_html,
+    split_quotes,
 )
 from MeguRobot.modules.sql import cust_filters_sql as sql
-
-from MeguRobot.modules.connection import connected
-
-from MeguRobot.modules.helper_funcs.alternate import send_message, typing_action
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Message, ParseMode
+from telegram.error import BadRequest
+from telegram.ext import (
+    CallbackQueryHandler,
+    CommandHandler,
+    DispatcherHandlerStop,
+    Filters,
+    MessageHandler,
+)
+from telegram.utils.helpers import escape_markdown, mention_html
 
 HANDLER_GROUP = 10
 

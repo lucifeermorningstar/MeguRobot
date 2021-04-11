@@ -1,27 +1,30 @@
 import html
 
-from telegram import Message, Chat, ParseMode, MessageEntity
-from telegram import TelegramError, ChatPermissions
-from telegram.error import BadRequest
-from telegram.ext import CommandHandler, MessageHandler, Filters
-from telegram.utils.helpers import mention_html
-
-from alphabet_detector import AlphabetDetector
-
 import MeguRobot.modules.sql.locks_sql as sql
-from MeguRobot import dispatcher, SUDO_USERS, LOGGER
+from alphabet_detector import AlphabetDetector
+from MeguRobot import LOGGER, SUDO_USERS, dispatcher
+from MeguRobot.modules.connection import connected
 from MeguRobot.modules.disable import DisableAbleCommandHandler
+from MeguRobot.modules.helper_funcs.alternate import send_message, typing_action
 from MeguRobot.modules.helper_funcs.chat_status import (
     can_delete,
-    is_user_admin,
-    user_not_admin,
     is_bot_admin,
+    is_user_admin,
     user_admin,
+    user_not_admin,
 )
 from MeguRobot.modules.log_channel import loggable
-from MeguRobot.modules.connection import connected
-
-from MeguRobot.modules.helper_funcs.alternate import send_message, typing_action
+from telegram import (
+    Chat,
+    ChatPermissions,
+    Message,
+    MessageEntity,
+    ParseMode,
+    TelegramError,
+)
+from telegram.error import BadRequest
+from telegram.ext import CommandHandler, Filters, MessageHandler
+from telegram.utils.helpers import mention_html
 
 ad = AlphabetDetector()
 

@@ -7,7 +7,7 @@ from MeguRobot.modules.helper_funcs.chat_status import (
 )
 from MeguRobot.modules.helper_funcs.extraction import extract_user_and_text
 from MeguRobot.modules.helper_funcs.filters import CustomFilters
-from telegram import Update, ChatPermissions
+from telegram import ChatPermissions, Update
 from telegram.error import BadRequest
 from telegram.ext import CallbackContext, CommandHandler
 

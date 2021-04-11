@@ -8,11 +8,11 @@ from io import BytesIO
 
 import MeguRobot.modules.sql.feds_sql as sql
 from MeguRobot import (
+    FROG_USERS,
     GLOBAL_LOGS,
     LOGGER,
     OWNER_ID,
     SUDO_USERS,
-    FROG_USERS,
     WHITELIST_USERS,
     dispatcher,
 )

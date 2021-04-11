@@ -1,14 +1,13 @@
-import time
 import re
-
-from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton, Update, Bot
-from telegram.error import BadRequest, Unauthorized
-from telegram.ext import CommandHandler, CallbackQueryHandler, CallbackContext
+import time
 
 import MeguRobot.modules.sql.connection_sql as sql
-from MeguRobot import dispatcher, DEV_USERS, SUDO_USERS
+from MeguRobot import DEV_USERS, SUDO_USERS, dispatcher
 from MeguRobot.modules.helper_funcs import chat_status
 from MeguRobot.modules.helper_funcs.alternate import send_message, typing_action
+from telegram import Bot, InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
+from telegram.error import BadRequest, Unauthorized
+from telegram.ext import CallbackContext, CallbackQueryHandler, CommandHandler
 
 user_admin = chat_status.user_admin
 

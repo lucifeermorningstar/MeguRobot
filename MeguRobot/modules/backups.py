@@ -1,27 +1,25 @@
-import json, time, os
+import json
+import os
+import time
 from io import BytesIO
 
-from telegram import ParseMode, Message
+import MeguRobot.modules.sql.blacklist_sql as blacklistsql
+import MeguRobot.modules.sql.locks_sql as locksql
+import MeguRobot.modules.sql.notes_sql as sql
+import MeguRobot.modules.sql.rules_sql as rulessql
+import MeguRobot.modules.sql.welcome_sql as welcsql
+from MeguRobot import JOIN_LOGGER, LOGGER, OWNER_ID, dispatcher
+from MeguRobot.__main__ import DATA_IMPORT
+from MeguRobot.modules.connection import connected
+from MeguRobot.modules.helper_funcs.alternate import typing_action
+from MeguRobot.modules.helper_funcs.chat_status import user_admin
+from MeguRobot.modules.reglas import get_rules
+from MeguRobot.modules.sql import cust_filters_sql as filtersql
+from MeguRobot.modules.sql import disable_sql as disabledsql
+from MeguRobot.modules.sql import warns_sql as warnssql
+from telegram import Message, ParseMode
 from telegram.error import BadRequest
 from telegram.ext import CommandHandler
-
-import MeguRobot.modules.sql.notes_sql as sql
-from MeguRobot import dispatcher, LOGGER, OWNER_ID, JOIN_LOGGER
-from MeguRobot.__main__ import DATA_IMPORT
-from MeguRobot.modules.helper_funcs.chat_status import user_admin
-from MeguRobot.modules.helper_funcs.alternate import typing_action
-
-from MeguRobot.modules.reglas import get_rules
-import MeguRobot.modules.sql.rules_sql as rulessql
-
-from MeguRobot.modules.sql import warns_sql as warnssql
-import MeguRobot.modules.sql.blacklist_sql as blacklistsql
-from MeguRobot.modules.sql import disable_sql as disabledsql
-
-from MeguRobot.modules.sql import cust_filters_sql as filtersql
-import MeguRobot.modules.sql.welcome_sql as welcsql
-import MeguRobot.modules.sql.locks_sql as locksql
-from MeguRobot.modules.connection import connected
 
 
 @user_admin

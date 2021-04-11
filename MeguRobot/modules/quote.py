@@ -1,21 +1,20 @@
 # Original Source from Nicegrill: https://github.com/erenmetesar/NiceGrill/
 # Ported to Lynda by: @pokurt
-from telethon import events
-from telethon.tl import types, functions
-from MeguRobot import telethn, LOGGER
-
-from PIL import Image, ImageDraw, ImageFont, ImageOps
-from fontTools.ttLib import TTFont
-from fontTools.unicode import Unicode
-import emoji
+import json
+import logging
+import os
+import random
+import re
 import textwrap
 import urllib
-import logging
-import random
-import json
-import os
-import re
 
+import emoji
+from fontTools.ttLib import TTFont
+from fontTools.unicode import Unicode
+from MeguRobot import LOGGER, telethn
+from PIL import Image, ImageDraw, ImageFont, ImageOps
+from telethon import events
+from telethon.tl import functions, types
 
 COLORS = [
     "#F07975",

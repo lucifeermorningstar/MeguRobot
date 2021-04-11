@@ -1,10 +1,9 @@
 from emoji import UNICODE_EMOJI
 from google_trans_new import LANGUAGES, google_translator
-from telegram import ParseMode, Update
-from telegram.ext import CallbackContext
-
 from MeguRobot import dispatcher
 from MeguRobot.modules.disable import DisableAbleCommandHandler
+from telegram import ParseMode, Update
+from telegram.ext import CallbackContext
 
 
 def totranslate(update: Update, context: CallbackContext):

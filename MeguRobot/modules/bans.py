@@ -2,11 +2,11 @@ import html
 
 from MeguRobot import (
     DEV_USERS,
+    FROG_USERS,
     LOGGER,
     OWNER_ID,
     SUDO_USERS,
     SUPPORT_USERS,
-    FROG_USERS,
     WHITELIST_USERS,
     dispatcher,
 )

@@ -1,7 +1,7 @@
 import html
 from typing import Optional
 
-from MeguRobot import LOGGER, FROG_USERS, dispatcher
+from MeguRobot import FROG_USERS, LOGGER, dispatcher
 from MeguRobot.modules.helper_funcs.chat_status import (
     bot_admin,
     can_restrict,

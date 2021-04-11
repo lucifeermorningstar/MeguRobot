@@ -9,10 +9,9 @@ from MeguRobot.modules.helper_funcs.alternate import send_message
 from MeguRobot.modules.helper_funcs.chat_status import user_admin, user_not_admin
 from MeguRobot.modules.helper_funcs.misc import split_message
 from MeguRobot.modules.helper_funcs.string_handling import extract_time
-
 from MeguRobot.modules.log_channel import loggable
 from MeguRobot.modules.warns import warn
-from telegram import Chat, Message, ParseMode, Update, User, ChatPermissions
+from telegram import Chat, ChatPermissions, Message, ParseMode, Update, User
 from telegram.error import BadRequest
 from telegram.ext import CallbackContext, CommandHandler, Filters, MessageHandler
 from telegram.utils.helpers import mention_html, mention_markdown

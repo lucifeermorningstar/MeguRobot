@@ -1,16 +1,22 @@
-import requests
 import datetime
-import wikipedia
 from typing import List
 
-from MeguRobot.modules.helper_funcs.chat_status import user_admin, bot_can_delete
+import requests
+import wikipedia
+from MeguRobot import CASH_API_KEY, SUPPORT_CHAT, TIME_API_KEY, dispatcher
 from MeguRobot.modules.disable import DisableAbleCommandHandler
-from MeguRobot import dispatcher, SUPPORT_CHAT, CASH_API_KEY, TIME_API_KEY
-from nekobin import NekoBin
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup
-from telegram import MessageEntity, ParseMode, Update
-from telegram.ext import CallbackContext, Filters, CommandHandler
+from MeguRobot.modules.helper_funcs.chat_status import bot_can_delete, user_admin
+from telegram import (
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    MessageEntity,
+    ParseMode,
+    Update,
+)
+from telegram.ext import CallbackContext, CommandHandler, Filters
 from wikipedia.exceptions import DisambiguationError, PageError
+
+from nekobin import NekoBin
 
 MARKDOWN_HELP = f"""
 Markdown es una herramienta de formato muy poderosa compatible con Telegram. {dispatcher.bot.first_name} tiene algunas mejoras, para asegurarse de que

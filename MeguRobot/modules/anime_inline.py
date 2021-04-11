@@ -1,8 +1,6 @@
 import aiohttp
 import requests
-
 from MeguRobot import BOT_USERNAME, pyrogrm
-from MeguRobot.utils.aiohttp import AioHttp
 from MeguRobot.modules.anime import (
     airing_query,
     anime_query,
@@ -10,9 +8,10 @@ from MeguRobot.modules.anime import (
     manga_query,
     shorten,
     t,
-    url,
     translate,
+    url,
 )
+from MeguRobot.utils.aiohttp import AioHttp
 from pyrogram.types import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,

@@ -1,12 +1,11 @@
-import os
 import datetime
+import os
 
-from telethon import events
+from MeguRobot import dispatcher, telethn
+from MeguRobot.modules.helper_funcs.chat_status import dev_plus
 from telegram import ParseMode, Update
 from telegram.ext import CallbackContext, CommandHandler
-
-from MeguRobot import telethn, dispatcher
-from MeguRobot.modules.helper_funcs.chat_status import dev_plus
+from telethon import events
 
 DEBUG_MODE = False
 

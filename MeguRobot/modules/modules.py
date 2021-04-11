@@ -1,5 +1,5 @@
-import importlib
 import collections
+import importlib
 
 from MeguRobot import dispatcher, telethn
 from MeguRobot.__main__ import (
