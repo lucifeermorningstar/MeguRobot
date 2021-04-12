@@ -33,11 +33,11 @@ def get_user_common_chats(update: Update, context: CallbackContext):
             text += f"• <b>{chat_name}</b> - (<code>{chat_id}</code>)"
             if user_member.status == "creator":
                 text += " - <b>Creador</b>\n"
-            else:
+            elif not user_member.status != "creator":
                 text += "\n"
             if user_member.status == "administrator":
-                text += " - <b>Admin</b>"
-            else:
+                text += " - <b>Admin</b>\n"
+            elif not user.member.status != "administrator":
                 text += "\n"
         except BadRequest:
             pass

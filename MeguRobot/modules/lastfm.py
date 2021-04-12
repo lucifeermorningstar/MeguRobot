@@ -67,11 +67,11 @@ def last_fm(update: Update, _):
         artist = first_track.get("artist").get("name")
         song = first_track.get("name")
         loved = int(first_track.get("loved"))
-        rep = f"{user} está escuchando:\n\n"
+        rep = f"*{user}* está escuchando:\n\n"
         if not loved:
-            rep += f"🎧  <code>{artist} - {song}</code>"
+            rep += f"🎧  <b>{artist} - {song}</b>"
         else:
-            rep += f"🎧  <code>{artist} - {song}</code> (♥️, loved)"
+            rep += f"🎧  <b>{artist} - {song}</b> (❤ Favorita)"
         if image:
             rep += f"<a href='{image}'>\u200c</a>"
     else:
@@ -81,7 +81,7 @@ def last_fm(update: Update, _):
         }
         rep = f"{user} estaba escuchando:\n\n"
         for artist, song in track_dict.items():
-            rep += f"🎧  <code>{artist} - {song}</code>\n"
+            rep += f"🎧  <b{artist} - {song}</b>\n"
         last_user = (
             requests.get(
                 f"{base_url}?method=user.getinfo&user={username}&api_key={LASTFM_API_KEY}&format=json"
@@ -90,7 +90,7 @@ def last_fm(update: Update, _):
             .get("user")
         )
         scrobbles = last_user.get("playcount")
-        rep += f"\n(<code>{scrobbles}</code> scrobbles hasta ahora)"
+        rep += f"\n(<b>{scrobbles}</b> scrobbles hasta ahora)"
 
     msg.reply_text(rep, parse_mode=ParseMode.HTML)
 
