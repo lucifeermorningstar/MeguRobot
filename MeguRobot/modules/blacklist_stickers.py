@@ -284,22 +284,22 @@ def blacklist_mode(update: Update, context: CallbackContext):
             or args[0].lower() == "nothing"
             or args[0].lower() == "no"
         ):
-            settypeblacklist = "turn off"
+            settypeblacklist = "apagado"
             sql.set_blacklist_strength(chat_id, 0, "0")
         elif args[0].lower() == "del" or args[0].lower() == "delete":
-            settypeblacklist = "left, the message will be deleted"
+            settypeblacklist = "el sticker será borrado"
             sql.set_blacklist_strength(chat_id, 1, "0")
         elif args[0].lower() == "warn":
-            settypeblacklist = "warned"
+            settypeblacklist = "warneados"
             sql.set_blacklist_strength(chat_id, 2, "0")
         elif args[0].lower() == "mute":
-            settypeblacklist = "muted"
+            settypeblacklist = "muteados"
             sql.set_blacklist_strength(chat_id, 3, "0")
         elif args[0].lower() == "kick":
-            settypeblacklist = "kicked"
+            settypeblacklist = "kickeados"
             sql.set_blacklist_strength(chat_id, 4, "0")
         elif args[0].lower() == "ban":
-            settypeblacklist = "banned"
+            settypeblacklist = "baneados"
             sql.set_blacklist_strength(chat_id, 5, "0")
         elif args[0].lower() == "tban":
             if len(args) == 1:
@@ -307,7 +307,7 @@ def blacklist_mode(update: Update, context: CallbackContext):
                                           Ejemplos de valores de tiempo: 4m = 4 minutos, 3h = 3 horas, 6d = 6 días, 5w = 5 semanas."""
                 send_message(update.effective_message, teks, parse_mode="markdown")
                 return
-            settypeblacklist = "Prohibido temporalmente para {}".format(args[1])
+            settypeblacklist = "prohibidos temporalmente para {}".format(args[1])
             sql.set_blacklist_strength(chat_id, 6, str(args[1]))
         elif args[0].lower() == "tmute":
             if len(args) == 1:
@@ -315,7 +315,7 @@ def blacklist_mode(update: Update, context: CallbackContext):
                                           Ejemplos de valores de tiempo: 4m = 4 minutos, 3h = 3 horas, 6d = 6 días, 5w = 5 semanas."""
                 send_message(update.effective_message, teks, parse_mode="markdown")
                 return
-            settypeblacklist = "temporarily muted for {}".format(args[1])
+            settypeblacklist = "muteados temporalmete por {}".format(args[1])
             sql.set_blacklist_strength(chat_id, 7, str(args[1]))
         else:
             send_message(
@@ -335,7 +335,7 @@ def blacklist_mode(update: Update, context: CallbackContext):
         return (
             "<b>{}:</b>\n"
             "<b>Administrador:</b> {}\n"
-            "Changed sticker blacklist mode. users will be {}.".format(
+            "Se cambio el modo de stickersblacklist. Los usuarios serán {}.".format(
                 html.escape(chat.title),
                 mention_html(user.id, user.first_name),
                 settypeblacklist,
@@ -344,9 +344,9 @@ def blacklist_mode(update: Update, context: CallbackContext):
     else:
         getmode, getvalue = sql.get_blacklist_setting(chat.id)
         if getmode == 0:
-            settypeblacklist = "not active"
+            settypeblacklist = "apagado"
         elif getmode == 1:
-            settypeblacklist = "hapus"
+            settypeblacklist = "delete"
         elif getmode == 2:
             settypeblacklist = "warn"
         elif getmode == 3:
@@ -455,13 +455,14 @@ def del_blackliststicker(update: Update, context: CallbackContext):
                     )
                     return
                 elif getmode == 7:
-                    message.delete()
                     mutetime = extract_time(message, value)
+                    message.delete()
                     bot.restrict_chat_member(
                         chat.id,
                         user.id,
+                        until_date=mutetime,
                         permissions=ChatPermissions(
-                            can_send_messages=False, until_date=mutetime
+                            can_send_messages=False
                         ),
                     )
                     bot.sendMessage(
@@ -513,14 +514,14 @@ Los stickers de lista negra se utiliza para bloquear ciertos stickers. Siempre q
  •`/addblsticker <enlace de sticker o pack>`: Agrega el disparador de sticker a la lista negra. Se puede agregar repondiendo al sticker.
  •`/unblsticker <enlace de sticker o pack>`: Elimina los disparadores de la lista negra. Aquí se aplica la misma lógica de nueva línea, por lo que puede eliminar varios activadores a la vez.
  •`/rmblsticker <enlace de sticker o pack>`: Igual que arriba.
- •`/blstickermode <ban/tban/mute/tmute>`: Configura una acción predeterminada sobre qué hacer si los usuarios usan stickers  que estan en la lista negra.
+ •`/blstickermode <off/kick/del/ban/tban/mute/tmute>`: Configura una acción predeterminada sobre qué hacer si los usuarios usan stickers  que estan en la lista negra.
 Nota:
  • El `<enlace de sticker>` puede ser `https://t.me/addstickers/<sticker>` o simplemente `<sticker>` o responder al mensaje con el sticker.
 """
 
 __mod_name__ = "Stickers Blacklist"
 
-__command_list__ = ["addblsticker", "unblsticker", "rmblsticker", "blstickermode"]
+__command_list__ = ["addblsticker", "unblsticker", "rmblsticker", "blstickermode", "blstickers"]
 
 BLACKLIST_STICKER_HANDLER = DisableAbleCommandHandler(
     "blstickers", blackliststicker, admin_ok=True, run_async=True

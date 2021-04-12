@@ -412,7 +412,7 @@ El antiflood le permite tomar medidas sobre los usuarios que envían más de x c
 resultará en la restricción de ese usuario.
 
 Esto silenciará a los usuarios si envían más de 10 mensajes seguidos, los bots se ignoran.
- • `/flood`: Obtiene la configuración actual de control de flood
+ •`/flood`: Obtiene la configuración actual de control de flood
 
 *Solo administradores:*
  •`/setflood <int/'no'/'off'>`: Habilita o deshabilita el control de flood

@@ -53,7 +53,7 @@ El propietario tiene acceso completo al bot, incluida la administración del bot
 
 *Sapos Gigantes:* No se puede banear, si hace flood se silencia o kickea, pero los administradores pueden banearlo manualmente.
 
-*Descargo de responsabilidad*: Los *Demonios*(Soporte) de Megu sirven para solucionar problemas, brindar asistencia y prohibir a los posibles estafadores.
+*Descargo de responsabilidad:* Los *Demonios*(Soporte) de Megu sirven para solucionar problemas, brindar asistencia y prohibir a los posibles estafadores.
 
 Informar sobre abusos o preguntarnos más sobre estos en @{SUPPORT_CHAT}.
 """

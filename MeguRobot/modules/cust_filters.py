@@ -591,7 +591,7 @@ Si desea que su palabra clave sea una oración, use comillas.
 •`/deltrigger <palabra clave de trigger>`: Detiene ese trigger.
 
 *Solo propietario del grupo:*
-•`/removealltriggers`: Elimina todos los triggers del chat a la vez.
+•`/rmalltriggers`: Elimina todos los triggers del chat a la vez.
 
 *Nota:* Los triggers también admiten markdown como: {firts}, {last}, etc. y botones.
 ¡Pon `/markdownhelp` para saber más!
@@ -599,7 +599,7 @@ Si desea que su palabra clave sea una oración, use comillas.
 
 __mod_name__ = "Triggers"
 
-__command_list__ = ["triggers", "settrigger", "deltrigger", "removealltriggers"]
+__command_list__ = ["triggers", "settrigger", "deltrigger", "rmalltriggers"]
 
 FILTER_HANDLER = CommandHandler("settrigger", filters, run_async=False)
 STOP_HANDLER = CommandHandler("deltrigger", stop_filter, run_async=False)

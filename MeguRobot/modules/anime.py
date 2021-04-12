@@ -68,7 +68,7 @@ query ($id: Int) {
         }
      }
 }
-"""
+""" # NOTE: Esto no está siendo usado
 
 anime_query = """
    query ($id: Int,$search: String) { 

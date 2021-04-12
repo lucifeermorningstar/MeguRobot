@@ -518,7 +518,7 @@ __help__ = """
  
 *Solo administradores:*
 
- • `/pin`: Fija silenciosamente el mensaje al que respondió - agregue` 'loud'` o `' notify'` para dar notificaciones a los usuarios.
+ •`/pin`: Fija silenciosamente el mensaje al que respondió - agregue` 'loud'` o `' notify'` para dar notificaciones a los usuarios.
  •`/unpin`: Quita el mensaje anclado actualmente.
  •`/unpinall`: Quita las mensajes anclados actualmente.
  •`/link`: Obtén el link del grupo.
