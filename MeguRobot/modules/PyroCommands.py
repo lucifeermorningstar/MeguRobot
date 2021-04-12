@@ -5,7 +5,7 @@ from MeguRobot.modules.anime import (
     character_search,
     manga_search,
 )
-from MeguRobot.modules.downanime import downanime, download_episode, search_episodes
+from MeguRobot.modules.downanime import downanime, download_episode, search_episodes, confirm_dowload
 from MeguRobot.modules.nekobin import get_paste_, paste
 from MeguRobot.modules.purge import delete_message, purge_messages
 from MeguRobot.modules.reverse import google_rs
@@ -28,7 +28,8 @@ handlers = [
     MessageHandler(delete_message, filters.command("del") & filters.admin),
     MessageHandler(downanime, filters.command("downanime")),
     CallbackQueryHandler(search_episodes, filters.regex("^title_.*$")),
-    CallbackQueryHandler(download_episode, filters.regex("^episode_.*$")),
+    CallbackQueryHandler(confirm_dowload, filters.regex("^episode_.*$")),
+    CallbackQueryHandler(download_episode, filters.regex("^download_.*$")),
     MessageHandler(anime_airing, filters.command("airing")),
     MessageHandler(anime_search, filters.command("anime")),
     MessageHandler(character_search, filters.command("character")),

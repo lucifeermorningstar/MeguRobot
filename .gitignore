@@ -27,3 +27,6 @@ resources/
 .venv
 Pipfile.lock
 temp/*.png
+Pipfile
+temp/*.mp4
+temp/*.part
