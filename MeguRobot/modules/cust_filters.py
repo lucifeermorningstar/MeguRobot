@@ -588,7 +588,7 @@ sea mencionada. Si responde a un sticker/video/gif con una palabra clave, el bot
 Si desea que su palabra clave sea una oración, use comillas.
 *Ejemplo:*`/settrigger "Hola allí"¿Cómo estás?`
 
-•`/delttriger <palabra clave de trigger>`: Detiene ese trigger.
+•`/deltrigger <palabra clave de trigger>`: Detiene ese trigger.
 
 *Solo propietario del grupo:*
 •`/removealltriggers`: Elimina todos los triggers del chat a la vez.
