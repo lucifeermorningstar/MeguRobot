@@ -67,7 +67,7 @@ def last_fm(update: Update, _):
         artist = first_track.get("artist").get("name")
         song = first_track.get("name")
         loved = int(first_track.get("loved"))
-        rep = f"*{user}* está escuchando:\n\n"
+        rep = f"<b>{user}</b> está escuchando:\n\n"
         if not loved:
             rep += f"🎧  <b>{artist} - {song}</b>"
         else:
