@@ -178,7 +178,7 @@ def del_blacklist(update: Update, context: CallbackContext):
             try:
                 message.delete()
             except BadRequest as excp:
-                if excp.message == "Mensaje para eliminar no encontrado":
+                if excp.message == "Message to delete not found":
                     pass
                 else:
                     LOGGER.exception("Error al eliminar el mensaje de la lista negra.")

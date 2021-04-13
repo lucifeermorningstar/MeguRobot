@@ -36,32 +36,34 @@ from telegram.utils.helpers import mention_html
 
 GBAN_ENFORCE_GROUP = 6
 
+GBAN_ENFORCE_GROUP = 6
+
 GBAN_ERRORS = {
-    "El usuario es administrador del grupo",
-    "Chat no encontrado",
-    "No hay suficientes derechos para restringir/no restringir al miembro del chat",
-    "Usuario no participante",
-    "ID o alías no válido",
-    "Se desactivó el chat grupal",
-    "Necesita invitar a un usuario para sacarlo de un grupo básico",
-    "Se requiere administrador en el chat",
-    "Solo el creador de un grupo básico puede expulsar a los administradores del grupo",
-    "Grupo/canal privado",
-    "No está en el chat",
-    "No se puede eliminar al propietario del chat",
+    "User is an administrator of the chat",
+    "Chat not found",
+    "Not enough rights to restrict/unrestrict chat member",
+    "User_not_participant",
+    "Peer_id_invalid",
+    "Group chat was deactivated",
+    "Need to be inviter of a user to kick it from a basic group",
+    "Chat_admin_required",
+    "Only the creator of a basic group can kick group administrators",
+    "Channel_private",
+    "Not in the chat",
+    "Can't remove chat owner",
 }
 
 UNGBAN_ERRORS = {
-    "El usuario es administrador del grupo",
-    "Chat no encontrado",
-    "No hay suficientes derechos para restringir/no restringir al miembro del chat",
-    "Usuario no participante",
-    "El método está disponible solo para supergrupos y chats de canal",
-    "No está en el chat",
-    "Grupo/canal privado",
-    "Se requiere administrador en el grupo",
-    "ID o alías no válido",
-    "Usuario no encontrado",
+    "User is an administrator of the chat",
+    "Chat not found",
+    "Not enough rights to restrict/unrestrict chat member",
+    "User_not_participant",
+    "Method is available for supergroup and channel chats only",
+    "Not in the chat",
+    "Channel_private",
+    "Chat_admin_required",
+    "Peer_id_invalid",
+    "User not found",
 }
 
 
@@ -100,11 +102,11 @@ def gban(update: Update, context: CallbackContext):
         return
 
     if int(user_id) in FROG_USERS:
-        message.reply_text("¡El es una rana! No puede ser baneado!")
+        message.reply_text("¡Es una rana! No puede ser baneado!")
         return
 
     if int(user_id) in WHITELIST_USERS:
-        message.reply_text("¡El es un sapo! No puede ser baneado!")
+        message.reply_text("¡Es un sapo! No puede ser baneado!")
         return
 
     if user_id == bot.id:
@@ -119,7 +121,7 @@ def gban(update: Update, context: CallbackContext):
     try:
         user_chat = bot.get_chat(user_id)
     except BadRequest as excp:
-        if excp.message == "Usuario no encontrado":
+        if excp.message == "User not found":
             message.reply_text("Parece que no puedo encontrar a este usuario.")
             return ""
         else:
@@ -133,7 +135,7 @@ def gban(update: Update, context: CallbackContext):
 
         if not reason:
             message.reply_text(
-                "Este usuario ya está globalmente baneado; Cambiaría el motivo, pero no me has dado uno..."
+                "Este usuario ya está baneado globalmente. \nCambiaría el motivo, pero no me has dado uno..."
             )
             return
 
@@ -220,7 +222,7 @@ def gban(update: Update, context: CallbackContext):
                 if GLOBAL_LOGS:
                     bot.send_message(
                         GLOBAL_LOGS,
-                        f"Could not gban due to {excp.message}",
+                        f"No se pudo banear globalmente debido a: {excp.message}",
                         parse_mode=ParseMode.HTML,
                     )
                 else:

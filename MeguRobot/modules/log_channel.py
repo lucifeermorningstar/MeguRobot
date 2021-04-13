@@ -146,7 +146,7 @@ if is_module_loaded(FILENAME):
             try:
                 message.delete()
             except BadRequest as excp:
-                if excp.message == "Mensaje para eliminar no encontrado":
+                if excp.message == "Message to delete not found":
                     pass
                 else:
                     LOGGER.exception(

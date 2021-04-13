@@ -417,7 +417,7 @@ def reply_filter(update, context):
                             reply_markup=keyboard,
                         )
                     except BadRequest as excp:
-                        if excp.message == "Protocolo de URL no admitido":
+                        if excp.message == "Unsupported url protocol":
                             try:
                                 send_message(
                                     update.effective_message,
@@ -534,7 +534,7 @@ def rmall_callback(update, context):
 
 # NOT ASYNC NOT A HANDLER
 def get_exception(excp, filt, chat):
-    if excp.message == "Protocolo de URL no admitido":
+    if excp.message == "Unsupported url protocol":
         return "Parece que intentas utilizar un protocolo de URL no compatible. Telegram no admite botones para algunos protocolos, como tg://. Por favor, inténtalo de nuevo"
     elif excp.message == "Reply message not found":
         return "noreply"

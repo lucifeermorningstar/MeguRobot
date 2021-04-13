@@ -52,7 +52,7 @@ def ban(update: Update, context: CallbackContext) -> str:
     try:
         member = chat.get_member(user_id)
     except BadRequest as excp:
-        if excp.message == "Usuario no encontrado":
+        if excp.message == "User not found":
             message.reply_text("Parece que no puedo encontrar a esta persona.")
             return log_message
         else:
@@ -113,7 +113,7 @@ def ban(update: Update, context: CallbackContext) -> str:
         return log
 
     except BadRequest as excp:
-        if excp.message == "Mensaje de respuesta no funciona":
+        if excp.message == "Reply message not found":
             # Do not reply
             message.reply_text("Baneado!", quote=False)
             return log
@@ -152,7 +152,7 @@ def temp_ban(update: Update, context: CallbackContext) -> str:
     try:
         member = chat.get_member(user_id)
     except BadRequest as excp:
-        if excp.message == "Usuario no encontrado":
+        if excp.message == "User not found":
             message.reply_text("Parece que no puedo encontrar a este usuario.")
             return log_message
         else:
@@ -246,7 +246,7 @@ def exploit(update: Update, context: CallbackContext) -> str:
     try:
         member = chat.get_member(user_id)
     except BadRequest as excp:
-        if excp.message == "Usuario no encontrado":
+        if excp.message == "User not found":
             message.reply_text("Parece que no puedo encontrar a este usuario.")
             return log_message
         else:
@@ -323,7 +323,7 @@ def unban(update: Update, context: CallbackContext) -> str:
     try:
         member = chat.get_member(user_id)
     except BadRequest as excp:
-        if excp.message == "Usuario no encontrado":
+        if excp.message == "User not found":
             message.reply_text("Parece que no puedo encontrar a este usuario.")
             return log_message
         else:
@@ -374,7 +374,7 @@ def selfunban(update: Update, context: CallbackContext) -> str:
     try:
         member = chat.get_member(user.id)
     except BadRequest as excp:
-        if excp.message == "Usuario no encontrado":
+        if excp.message == "User not found":
             message.reply_text("Parece que no puedo encontrar a este usuario.")
             return
         else:

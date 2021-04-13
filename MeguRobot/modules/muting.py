@@ -31,7 +31,7 @@ def check_user(user_id: int, bot: Bot, chat: Chat) -> Optional[str]:
     try:
         member = chat.get_member(user_id)
     except BadRequest as excp:
-        if excp.message == "Usuario no encontrado":
+        if excp.message == "User not found":
             reply = "Parece que no puedo encontrar a este usuario"
             return reply
         else:

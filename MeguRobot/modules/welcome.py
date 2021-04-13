@@ -106,7 +106,7 @@ def send(update, message, keyboard, backup_message):
                 parse_mode=ParseMode.MARKDOWN,
                 reply_to_message_id=reply,
             )
-        elif excp.message == "Protocolo de URL no admitido":
+        elif excp.message == "Unsupported url protocol":
             msg = update.effective_message.reply_text(
                 markdown_parser(
                     backup_message + "\nNota: el mensaje actual tiene botones que "
@@ -116,7 +116,7 @@ def send(update, message, keyboard, backup_message):
                 parse_mode=ParseMode.MARKDOWN,
                 reply_to_message_id=reply,
             )
-        elif excp.message == "Host de URL incorrecto":
+        elif excp.message == "Wrong url host":
             msg = update.effective_message.reply_text(
                 markdown_parser(
                     backup_message

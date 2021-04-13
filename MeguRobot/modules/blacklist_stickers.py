@@ -474,7 +474,7 @@ def del_blackliststicker(update: Update, context: CallbackContext):
                     )
                     return
             except BadRequest as excp:
-                if excp.message == "Mensaje para eliminar no encontrado":
+                if excp.message == "Message to delete not found":
                     pass
                 else:
                     LOGGER.exception("Error al eliminar el mensaje de la lista negra.")

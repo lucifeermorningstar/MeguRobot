@@ -72,7 +72,7 @@ def get(update, context, notename, show_none=True, no_format=False):
                         chat_id=chat_id, from_chat_id=JOIN_LOGGER, message_id=note.value
                     )
                 except BadRequest as excp:
-                    if excp.message == "Mensaje para reenviar no encontrado":
+                    if excp.message == "Reply message not found":
                         message.reply_text(
                             "Parece que este mensaje se ha perdido; lo eliminaré "
                             "de la lista de notas."

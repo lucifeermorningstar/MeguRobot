@@ -52,7 +52,7 @@ def bl_user(update: Update, context: CallbackContext) -> str:
     try:
         target_user = bot.get_chat(user_id)
     except BadRequest as excp:
-        if excp.message == "Usuario no encontrado":
+        if excp.message == "User not found":
             message.reply_text("Parece que no puedo encontrar a este usuario.")
             return ""
         else:
@@ -90,7 +90,7 @@ def unbl_user(update: Update, context: CallbackContext) -> str:
     try:
         target_user = bot.get_chat(user_id)
     except BadRequest as excp:
-        if excp.message == "Usuario no encontrado":
+        if excp.message == "User not found":
             message.reply_text("Parece que no puedo encontrar a este usuario.")
             return ""
         else:

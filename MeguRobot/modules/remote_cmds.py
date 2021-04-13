@@ -12,71 +12,71 @@ from telegram.error import BadRequest
 from telegram.ext import CallbackContext, CommandHandler
 
 RBAN_ERRORS = {
-    "El usuario es administrador del grupo",
+    "User is an administrator of the chat",
     "Chat not found",
-    "No hay suficientes derechos para restringir/no restringir al miembro del chat",
+    "Not enough rights to restrict/unrestrict chat member",
     "User_not_participant",
     "Peer_id_invalid",
-    "Se desactivó el chat grupal",
-    "Necesita invitar a un usuario para sacarlo de un grupo básico",
+    "Group chat was deactivated",
+    "Need to be inviter of a user to punch it from a basic group",
     "Chat_admin_required",
-    "Solo el creador de un grupo básico puede expulsar a los administradores del grupo",
+    "Only the creator of a basic group can punch group administrators",
     "Channel_private",
     "Not in the chat",
 }
 
 RUNBAN_ERRORS = {
-    "El usuario es administrador del grupo",
+    "User is an administrator of the chat",
     "Chat not found",
-    "No hay suficientes derechos para restringir/no restringir al miembro del chat",
+    "Not enough rights to restrict/unrestrict chat member",
     "User_not_participant",
     "Peer_id_invalid",
-    "Se desactivó el chat grupal",
-    "Necesita invitar a un usuario para sacarlo de un grupo básico",
+    "Group chat was deactivated",
+    "Need to be inviter of a user to punch it from a basic group",
     "Chat_admin_required",
-    "Solo el creador de un grupo básico puede expulsar a los administradores del grupo",
+    "Only the creator of a basic group can punch group administrators",
     "Channel_private",
     "Not in the chat",
 }
 
 RKICK_ERRORS = {
-    "El usuario es administrador del grupo",
+    "User is an administrator of the chat",
     "Chat not found",
-    "No hay suficientes derechos para restringir/no restringir al miembro del chat",
+    "Not enough rights to restrict/unrestrict chat member",
     "User_not_participant",
     "Peer_id_invalid",
-    "Se desactivó el chat grupal",
-    "Necesita invitar a un usuario para sacarlo de un grupo básico",
+    "Group chat was deactivated",
+    "Need to be inviter of a user to punch it from a basic group",
     "Chat_admin_required",
-    "Solo el creador de un grupo básico puede expulsar a los administradores del grupo",
+    "Only the creator of a basic group can punch group administrators",
     "Channel_private",
     "Not in the chat",
 }
 
 RMUTE_ERRORS = {
-    "El usuario es administrador del grupo",
+    "User is an administrator of the chat",
     "Chat not found",
-    "No hay suficientes derechos para restringir/no restringir al miembro del chat",
+    "Not enough rights to restrict/unrestrict chat member",
     "User_not_participant",
     "Peer_id_invalid",
-    "Se desactivó el chat grupal",
-    "Necesita invitar a un usuario para sacarlo de un grupo básico",
+    "Group chat was deactivated",
+    "Need to be inviter of a user to punch it from a basic group",
     "Chat_admin_required",
-    "Solo el creador de un grupo básico puede expulsar a los administradores del grupo",
+    "Only the creator of a basic group can punch group administrators",
     "Channel_private",
     "Not in the chat",
 }
 
 RUNMUTE_ERRORS = {
-    "El usuario es administrador del grupo",
+    "User is an administrator of the chat",
     "Chat not found",
-    "No hay suficientes derechos para restringir/no restringir al miembro del chat",
+    "Not enough rights to restrict/unrestrict chat member",
     "User_not_participant",
     "Peer_id_invalid",
-    "Se desactivó el chat grupal",
-    "Necesita invitar a un usuario para sacarlo de un grupo básico",
+    "Group chat was deactivated",
+    "Need to be inviter of a user to punch it from a basic group",
     "Chat_admin_required",
-    "Solo el creador de un grupo básico puede expulsar a los administradores del grupo",
+    "Only the creator of a basic group can punch group administrators",
     "Channel_private",
     "Not in the chat",
 }
@@ -129,7 +129,7 @@ def rban(update: Update, context: CallbackContext):
     try:
         member = chat.get_member(user_id)
     except BadRequest as excp:
-        if excp.message == "Usuario no encontrado":
+        if excp.message == "User not found":
             message.reply_text("Parece que no puedo encontrar a este usuario")
             return
         else:
@@ -211,7 +211,7 @@ def runban(update: Update, context: CallbackContext):
     try:
         member = chat.get_member(user_id)
     except BadRequest as excp:
-        if excp.message == "Usuario no encontrado":
+        if excp.message == "User not found":
             message.reply_text("Parece que no puedo encontrar a este usuario there")
             return
         else:
@@ -295,7 +295,7 @@ def rkick(update: Update, context: CallbackContext):
     try:
         member = chat.get_member(user_id)
     except BadRequest as excp:
-        if excp.message == "Usuario no encontrado":
+        if excp.message == "User not found":
             message.reply_text("Parece que no puedo encontrar a este usuario")
             return
         else:
@@ -377,7 +377,7 @@ def rmute(update: Update, context: CallbackContext):
     try:
         member = chat.get_member(user_id)
     except BadRequest as excp:
-        if excp.message == "Usuario no encontrado":
+        if excp.message == "User not found":
             message.reply_text("Parece que no puedo encontrar a este usuario")
             return
         else:
@@ -463,7 +463,7 @@ def runmute(update: Update, context: CallbackContext):
     try:
         member = chat.get_member(user_id)
     except BadRequest as excp:
-        if excp.message == "Usuario no encontrado":
+        if excp.message == "User not found":
             message.reply_text("Parece que no puedo encontrar a este usuario")
             return
         else:

@@ -381,10 +381,10 @@ def del_lockables(update, context):
                         try:
                             message.delete()
                         except BadRequest as excp:
-                            if excp.message == "Mensaje para eliminar no encontrado":
+                            if excp.message == "Message to delete not found":
                                 pass
                             else:
-                                LOGGER.exception("ERROR en bloqueables")
+                                LOGGER.exception("ERROR en locks.py")
                         break
                 if message.text:
                     check = ad.detect_alphabet(u"{}".format(message.text))
@@ -392,10 +392,10 @@ def del_lockables(update, context):
                         try:
                             message.delete()
                         except BadRequest as excp:
-                            if excp.message == "Mensaje para eliminar no encontrado":
+                            if excp.message == "Message to delete not found":
                                 pass
                             else:
-                                LOGGER.exception("ERROR en bloqueables")
+                                LOGGER.exception("ERROR en locks.py")
                         break
             continue
         if lockable == "button":
@@ -404,7 +404,7 @@ def del_lockables(update, context):
                     try:
                         message.delete()
                     except BadRequest as excp:
-                        if excp.message == "Mensaje para eliminar no encontrado":
+                        if excp.message == "Message to delete not found":
                             pass
                         else:
                             LOGGER.exception("ERROR en bloqueables")
@@ -416,7 +416,7 @@ def del_lockables(update, context):
                     try:
                         message.delete()
                     except BadRequest as excp:
-                        if excp.message == "Mensaje para eliminar no encontrado":
+                        if excp.message == "Message to delete not found":
                             pass
                         else:
                             LOGGER.exception("ERROR en bloqueables")
@@ -449,7 +449,7 @@ def del_lockables(update, context):
                 try:
                     message.delete()
                 except BadRequest as excp:
-                    if excp.message == "Mensaje para eliminar no encontrado":
+                    if excp.message == "Message to delete not found":
                         pass
                     else:
                         LOGGER.exception("ERROR en bloqueables")
