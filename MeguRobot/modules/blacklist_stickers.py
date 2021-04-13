@@ -461,9 +461,7 @@ def del_blackliststicker(update: Update, context: CallbackContext):
                         chat.id,
                         user.id,
                         until_date=mutetime,
-                        permissions=ChatPermissions(
-                            can_send_messages=False
-                        ),
+                        permissions=ChatPermissions(can_send_messages=False),
                     )
                     bot.sendMessage(
                         chat.id,
@@ -521,7 +519,13 @@ Nota:
 
 __mod_name__ = "Stickers Blacklist"
 
-__command_list__ = ["addblsticker", "unblsticker", "rmblsticker", "blstickermode", "blstickers"]
+__command_list__ = [
+    "addblsticker",
+    "unblsticker",
+    "rmblsticker",
+    "blstickermode",
+    "blstickers",
+]
 
 BLACKLIST_STICKER_HANDLER = DisableAbleCommandHandler(
     "blstickers", blackliststicker, admin_ok=True, run_async=True

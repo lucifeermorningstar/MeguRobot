@@ -2,6 +2,7 @@ import os
 from datetime import datetime
 
 from MeguRobot import LOGGER, pyrogrm
+from MeguRobot.utils.capture_errors import capture_err
 from pyrogram import Client, filters
 from pyrogram.errors import PeerIdInvalid
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message, User
@@ -64,6 +65,7 @@ def ProfilePicUpdate(user_pic):
     return datetime.fromtimestamp(user_pic[0].date).strftime("%d.%m.%Y, %H:%M:%S")
 
 
+@capture_err
 async def whois(client, message):
     buscando = await message.reply_text(text="Buscando...")
     cmd = message.command

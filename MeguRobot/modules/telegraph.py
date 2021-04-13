@@ -2,11 +2,13 @@ import os
 from datetime import datetime
 
 from MeguRobot import pyrogrm
+from MeguRobot.utils.capture_errors import capture_err
 from pyrogram import filters
 
 from telegraph import upload_file
 
 
+@capture_err
 async def telegraph(client, message):
     replied = message.reply_to_message
     start_t = datetime.now()

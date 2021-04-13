@@ -8,6 +8,7 @@ from typing import Optional, Tuple
 import requests
 from bs4 import BeautifulSoup
 from MeguRobot import logging, pyrogrm
+from MeguRobot.utils.capture_errors import capture_err
 from pyrogram import filters
 from pyrogram.errors.exceptions.forbidden_403 import MessageDeleteForbidden
 
@@ -16,6 +17,7 @@ screen_shot = "temp/"
 _LOG = logging.getLogger(__name__)
 
 
+@capture_err
 async def run_cmd(cmd: str) -> Tuple[str, str, int, int]:
     """run command in terminal."""
     args = shlex.split(cmd)
@@ -31,6 +33,7 @@ async def run_cmd(cmd: str) -> Tuple[str, str, int, int]:
     )
 
 
+@capture_err
 async def take_screen_shot(
     video_file: str, duration: int, path: str = ""
 ) -> Optional[str]:
@@ -44,6 +47,7 @@ async def take_screen_shot(
     return thumb_image_path if os.path.exists(thumb_image_path) else None
 
 
+@capture_err
 async def google_rs(client, message):
     start = datetime.now()
     dis_loc = ""

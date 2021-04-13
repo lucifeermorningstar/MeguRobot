@@ -3,10 +3,12 @@ from datetime import datetime
 
 from MeguRobot import pyrogrm
 from MeguRobot.utils.aiohttp import AioHttp
+from MeguRobot.utils.capture_errors import capture_err
 from pyrogram import filters
 from pyrogram.errors import PeerIdInvalid
 
 
+@capture_err
 async def lookup(client, message):
     cmd = message.command
     if message.reply_to_message and len(cmd) != 1:

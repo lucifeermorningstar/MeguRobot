@@ -1,6 +1,7 @@
 import aiohttp
 import requests
 from MeguRobot import BOT_USERNAME, pyrogrm
+from MeguRobot.utils.capture_errors import capture_err
 from MeguRobot.modules.anime import (
     airing_query,
     anime_query,
@@ -21,6 +22,7 @@ from pyrogram.types import (
 )
 
 
+@capture_err
 @pyrogrm.on_inline_query()
 async def inline_query_handler(client, query):
     string = query.query.lower()

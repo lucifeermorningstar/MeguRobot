@@ -3,11 +3,13 @@ import os
 
 from MeguRobot import pyrogrm
 from MeguRobot.utils.aiohttp import AioHttp
+from MeguRobot.utils.capture_errors import capture_err
 from pyrogram import filters
 
 from nekobin import NekoBin
 
 
+@capture_err
 async def paste(client, message):
     nekobin = NekoBin()
     try:
@@ -33,13 +35,12 @@ async def paste(client, message):
         text = "Copiado a **Nekobin**:\n"
         text += f" • [Link]({response.url})"
         text += f" | [Raw]({response.raw})"
-        await message.reply_text(
-            text, disable_web_page_preview=True, parse_mode="md"
-        )
+        await message.reply_text(text, disable_web_page_preview=True, parse_mode="md")
     except:
         pass
 
 
+@capture_err
 async def get_paste_(client, message):
     """fetches the content of a dogbin or nekobin URL."""
     if message.reply_to_message:

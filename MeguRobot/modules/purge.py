@@ -2,9 +2,11 @@ import asyncio
 import time
 
 from MeguRobot import pyrogrm
+from MeguRobot.utils.capture_errors import capture_err
 from pyrogram import errors
 
 
+@capture_err
 async def purge_messages(client, message):
     if message.chat.type not in ("supergroup", "channel"):
         return
@@ -53,6 +55,7 @@ async def purge_messages(client, message):
             )
 
 
+@capture_err
 async def delete_message(client, message):
     msg_ids = [message.message_id]
     if not message.reply_to_message:

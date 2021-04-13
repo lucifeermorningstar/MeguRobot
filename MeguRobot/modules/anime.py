@@ -6,7 +6,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 def shorten(description, info="anilist.co"):
     ms_g = ""
-    if len(description) > 700:
+    if len(description) > 600:
         description = description[0:600] + "..."
         ms_g += f"\n**Descripción**:\n{description}\n[Leer Más]({info})"
     else:
@@ -68,7 +68,7 @@ query ($id: Int) {
         }
      }
 }
-""" # NOTE: Esto no está siendo usado
+"""  # NOTE: Esto no está siendo usado
 
 anime_query = """
    query ($id: Int,$search: String) { 

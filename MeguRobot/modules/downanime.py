@@ -5,6 +5,7 @@ from urllib.parse import unquote
 import requests
 from bs4 import BeautifulSoup
 from MeguRobot import pyrogrm as app
+from MeguRobot.utils.capture_errors import capture_err
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from zippyshare_downloader import Zippyshare
@@ -12,78 +13,79 @@ from zippyshare_downloader import Zippyshare
 z = Zippyshare(verbose=True, progress_bar=True, replace=True)
 
 
+@capture_err
 async def info_episode(link):
     # transforma un link de tioanime a uno de animeonline
     name = link.split("/")[-1]
     ep_num = re.search("-\d+$", name).group()
     ep_name = name.replace(ep_num, "-cap") + ep_num
     new_link = "https://animeonline.ninja/episodio/" + ep_name
-    
+
     # data scraping
     try:
         headers = {
-        "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:71.0) Gecko/20100101 Firefox/71.0",
+            "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:71.0) Gecko/20100101 Firefox/71.0",
         }
         r = requests.post(new_link, headers=headers)
-        html_soup = BeautifulSoup(r.text, 'html.parser')
+        html_soup = BeautifulSoup(r.text, "html.parser")
         info = html_soup.find("div", id="info")
         images = info.find_all("a", href=True)
     except:
-        return ("", "", "", "",)
-    
+        return (
+            "",
+            "",
+            "",
+            "",
+        )
+
     ep_title = info.h1.text if info.h1 else ""
     ep_name = info.h3.text if info.h3 else ""
     ep_info = info.p.text if info.p else ""
     ep_img_link = images[0]["href"] if images[0] else ""
-    ep_img_link = re.search(r"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]+\.+\w{3})", ep_img_link).group()
-    
+    ep_img_link = re.search(
+        r"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]+\.+\w{3})",
+        ep_img_link,
+    ).group()
+
     return (ep_title, ep_name, ep_info, ep_img_link)
 
 
+@capture_err
 async def confirm_dowload(client, query):
     link = query.data.replace("episode_", "")
     full_link = "https://tioanime.com/ver/" + link
     ep_title, ep_name, ep_info, ep_img_link = await info_episode(full_link)
-    caption=(
-            f"<b>{ep_title}</b>\n"
-            f"<u>{ep_name}</u>\n\n"
-            f"<i>{ep_info}</i>\n\n"
-        )
+    caption = f"<b>{ep_title}</b>\n" f"<u>{ep_name}</u>\n\n" f"<i>{ep_info}</i>\n\n"
     while len(caption) > 1020:
         ep_info = ep_info[:-1]
-        caption=(
-            f"<b>{ep_title}</b>\n"
-            f"<u>{ep_name}</u>\n\n"
-            f"<i>{ep_info}</i>\n\n"
-        )
+        caption = f"<b>{ep_title}</b>\n" f"<u>{ep_name}</u>\n\n" f"<i>{ep_info}</i>\n\n"
     else:
         if not ep_info == "":
             ep_info += "..."
-            caption=(
-                f"<b>{ep_title}</b>\n"
-                f"<u>{ep_name}</u>\n\n"
-                f"<i>{ep_info}</i>\n\n"
+            caption = (
+                f"<b>{ep_title}</b>\n" f"<u>{ep_name}</u>\n\n" f"<i>{ep_info}</i>\n\n"
             )
-    keyboard = InlineKeyboardMarkup([
-                    [InlineKeyboardButton(
-                        "SÍ", 
-                        callback_data=f"download_si_{link}"
-                    ),
-                    InlineKeyboardButton(
-                        "NO",
-                        callback_data=f"download_no_{link}"
-                    )]
-                ])
+    keyboard = InlineKeyboardMarkup(
+        [
+            [
+                InlineKeyboardButton("SÍ", callback_data=f"download_si_{link}"),
+                InlineKeyboardButton("NO", callback_data=f"download_no_{link}"),
+            ]
+        ]
+    )
     if not ep_title == "":
         episode_data = await client.send_photo(
-            query.message.chat.id,
-            photo=ep_img_link,
-            caption=caption,
-            parse_mode="html"
+            query.message.chat.id, photo=ep_img_link, caption=caption, parse_mode="html"
         )
-    await client.send_message(query.message.chat.id, "Seguro que quieres descargar ese episodio?", reply_markup=keyboard)
+    await client.send_message(
+        query.message.chat.id,
+        "Seguro que quieres descargar ese episodio?",
+        reply_markup=keyboard,
+    )
     await query.message.delete()
 
+
+@capture_err
 async def get_episodes(anime):
     link = "https://tioanime.com/ver/" + anime + "-"
     links = {}
@@ -101,6 +103,7 @@ async def get_episodes(anime):
     return links
 
 
+@capture_err
 async def get_animes(name):
     r = requests.get("https://tioanime.com/directorio?q=" + name)
     pattern = r'<article class="anime".*</article>'
@@ -128,6 +131,7 @@ async def get_animes(name):
     return animes
 
 
+@capture_err
 async def download_anime(link):
     link_full = "https://tioanime.com/ver/" + link
     page = requests.get(link_full)
@@ -145,6 +149,7 @@ async def download_anime(link):
     z.extract_info(f"{url}", download=True, folder=folder, custom_filename=filename)
 
 
+@capture_err
 async def download_episode(client, query):
     if "download_si_" in query.data:
         await query.message.edit("Descargando episodio.")
@@ -155,24 +160,25 @@ async def download_episode(client, query):
             await query.message.edit("Error al descargar el episodio.")
             return
         await query.message.edit("Subiendo archivo.")
-        hashtag_name = link.replace("-","_")
-        msg = await client.send_video(query.message.chat.id, f"temp/{link}.mp4", caption=f"#{hashtag_name}")
+        hashtag_name = link.replace("-", "_")
+        msg = await client.send_video(
+            query.message.chat.id, f"temp/{link}.mp4", caption=f"#{hashtag_name}"
+        )
         await query.message.delete()
         os.remove(f"temp/{link}.mp4")
     else:
         await query.message.edit("Ok no descargaré ese episodio")
 
 
-
+@capture_err
 async def search_episodes(client, query):
     title = query.data.replace("title_", "")
     await query.message.edit("Buscando episodios.")
     episodes = await get_episodes(title)
     buttons = [
-                InlineKeyboardButton(
-                    episode, callback_data=f"episode_{episodes[episode]}"
-                ) for episode in episodes
-            ]
+        InlineKeyboardButton(episode, callback_data=f"episode_{episodes[episode]}")
+        for episode in episodes
+    ]
     pairs = [buttons[i * 3 : (i + 1) * 3] for i in range((len(buttons) + 3 - 1) // 3)]
     round_num = len(buttons) / 3
     calc = len(buttons) - round(round_num)
@@ -180,7 +186,7 @@ async def search_episodes(client, query):
         pairs.append((buttons[-1],))
     elif calc == 2:
         pairs.append((modules[-1],))
-        
+
     keyboard = InlineKeyboardMarkup(pairs)
     await client.edit_message_text(
         query.message.chat.id,
@@ -190,6 +196,7 @@ async def search_episodes(client, query):
     )
 
 
+@capture_err
 async def downanime(client, message):
     cmd = message.command
     name = "+".join(cmd[1:])

@@ -5,7 +5,12 @@ from MeguRobot.modules.anime import (
     character_search,
     manga_search,
 )
-from MeguRobot.modules.downanime import downanime, download_episode, search_episodes, confirm_dowload
+from MeguRobot.modules.downanime import (
+    downanime,
+    download_episode,
+    search_episodes,
+    confirm_dowload,
+)
 from MeguRobot.modules.nekobin import get_paste_, paste
 from MeguRobot.modules.purge import delete_message, purge_messages
 from MeguRobot.modules.reverse import google_rs

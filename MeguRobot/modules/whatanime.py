@@ -10,6 +10,7 @@ from urllib.parse import quote as urlencode
 
 import aiohttp
 from MeguRobot import pyrogrm
+from MeguRobot.utils.capture_errors import capture_err
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
@@ -45,6 +46,7 @@ def calculate_eta(current, total, start_time):
     return ", ".join(thing)
 
 
+@capture_err
 async def whatanime(c: Client, m: Message):
     media = m.photo or m.animation or m.video or m.document
     chat_id = m.chat.id
@@ -138,6 +140,7 @@ async def whatanime(c: Client, m: Message):
             )
 
 
+@capture_err
 async def progress_callback(current, total, reply):
     message_identifier = (reply.chat.id, reply.message_id)
     last_edit_time, prevtext, start_time = progress_callback_data.get(
