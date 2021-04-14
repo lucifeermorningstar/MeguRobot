@@ -79,9 +79,9 @@ def last_fm(update: Update, _):
         track_dict = {
             tracks[i].get("artist").get("name"): tracks[i].get("name") for i in range(3)
         }
-        rep = f"{user} estaba escuchando:\n\n"
+        rep = f"<b>{user}</b> estaba escuchando:\n\n"
         for artist, song in track_dict.items():
-            rep += f"🎧  <b{artist} - {song}</b>\n"
+            rep += f"🎧  <b>{artist} - {song}</b>\n"
         last_user = (
             requests.get(
                 f"{base_url}?method=user.getinfo&user={username}&api_key={LASTFM_API_KEY}&format=json"

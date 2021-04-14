@@ -4,7 +4,7 @@ from datetime import datetime
 from MeguRobot import pyrogrm
 from MeguRobot.utils.capture_errors import capture_err
 from pyrogram import filters
-
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from telegraph import upload_file
 
 
@@ -41,8 +41,21 @@ async def telegraph(client, message):
     except Exception as document:
         await message.reply(document)
     else:
-        await message.reply_text(
-            f"**Archivo subido a: [Telegra.ph](https://telegra.ph{response[0]})**",
-        )
+        try:
+            button = [
+                [
+                    InlineKeyboardButton(
+                        "Telegra.ph", url=f"https://telegra.ph{response[0]}"
+                    )
+                ]
+            ]
+            await message.reply_text(
+                f"**Archivo subido a: [Telegra.ph](https://telegra.ph{response[0]})**",
+                reply_markup=InlineKeyboardMarkup(button),
+            )
+        except:
+            await message.reply_text(
+                f"**Archivo subido a: [Telegra.ph](https://telegra.ph{response[0]})**"
+            )
     finally:
         os.remove(download_location)
