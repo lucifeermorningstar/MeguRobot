@@ -1,6 +1,6 @@
 import asyncio
 import os
-
+import requests
 from MeguRobot import pyrogrm
 from MeguRobot.utils.aiohttp import AioHttp
 from MeguRobot.utils.capture_errors import capture_err
@@ -12,30 +12,37 @@ from nekobin import NekoBin
 @capture_err
 async def paste(client, message):
     nekobin = NekoBin()
-    try:
+    var = ""
+    if message.reply_to_message:
         if (
             message.reply_to_message.document
             and message.reply_to_message.document.file_size < 2 ** 20 * 10
-        ):
+            ):
             var = os.path.splitext(message.reply_to_message.document.file_name)[1]
-            print(var)
             path = await message.reply_to_message.download("temp/")
             with open(path) as doc:
                 text = doc.read()
             os.remove(path)
-        if message.reply_to_message:
+        else:
             text = message.reply_to_message.text
-        try:
-            response = await nekobin.nekofy(text)
-        except Exception:
-            await message.reply_text("Ocurrió un error al copiar...")
-    except:
+    elif len(message.text) > 7:
+        text = message.text.split(None,1)[1]
+    else:
         await message.reply_text("Dame algo para copiar!")
+        return
+
+    
+    key = (
+        requests.post("https://nekobin.com/api/documents", json={"content": text})
+        .json()
+        .get("result")
+        .get("key")
+    )
+ 
     try:
-        text = "Copiado a **Nekobin**:\n"
-        text += f" • [Link]({response.url})"
-        text += f" | [Raw]({response.raw})"
-        await message.reply_text(text, disable_web_page_preview=True, parse_mode="md")
+        reply = "Copiado a **Nekobin**:\n"
+        reply += f" • [Link](https://nekobin.com/{key}{var})"
+        await message.reply_text(reply, disable_web_page_preview=True, parse_mode="md")
     except:
         pass
 

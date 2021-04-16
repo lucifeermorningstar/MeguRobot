@@ -60,4 +60,6 @@ __command_list__ = [
     "anime",
     "character",
     "manga",
+    "paste",
+    "gpaste"
 ]
