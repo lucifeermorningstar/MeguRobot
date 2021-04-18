@@ -11,7 +11,7 @@ dogheaders = {
 }
 
 
-async def deldog(event: NewMessage.Event) -> None:
+async def dogbin(event: NewMessage.Event) -> None:
     match = event.pattern_match.group(1)
     if match:
         text = match.strip()
@@ -37,7 +37,7 @@ async def deldog(event: NewMessage.Event) -> None:
     await event.reply(f"Copiado a [DelDog](https://del.dog/{key})", link_preview=False)
 
 
-DOGBIN_HANDLER = deldog, events.NewMessage(pattern="^[!/]dogbin(?: |$|\n)([\s\S]*)")
+DOGBIN_HANDLER = dogbin, events.NewMessage(pattern="^[!/]dogbin(?: |$|\n)([\s\S]*)")
 telethn.add_event_handler(*DOGBIN_HANDLER)
 
 __command_list__ = ["dogbin"]

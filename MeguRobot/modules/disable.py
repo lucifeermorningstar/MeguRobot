@@ -1,7 +1,7 @@
 from typing import Union
-
+from telethon import events
 from future.utils import string_types
-from MeguRobot import dispatcher
+from MeguRobot import dispatcher, telethn
 from MeguRobot.modules.connection import connected
 from MeguRobot.modules.helper_funcs.alternate import send_message, typing_action
 from MeguRobot.modules.helper_funcs.handlers import CMD_STARTERS
@@ -23,6 +23,45 @@ if is_module_loaded(FILENAME):
     DISABLE_CMDS = []
     DISABLE_OTHER = []
     ADMIN_CMDS = []
+
+
+    DEACTIVATED = []
+
+
+    @telethn.on(events.NewMessage(pattern="^/deactivate"))
+    async def deactivate(event):
+        global DEACTIVATED
+        args = event.text.split(None,1)[1] if len(event.text) > 12 else None
+        if args:
+            match = False
+            for callback, evento in telethn.list_event_handlers():
+                if args == callback.__name__:
+                    telethn.remove_event_handler(callback)
+                    DEACTIVATED.append((callback, evento))
+                    await event.reply(f"Desactivado correctamente el comando: {args}")
+                    match = True
+            if not match:
+                await event.reply(f"No se encontró el comando: {args}")
+        else:
+            await event.reply(f"Debe especificar que comando quiere desactivar\nej:`/deactivate dogbin`")
+    
+
+    @telethn.on(events.NewMessage(pattern="^/activate"))
+    async def activate(event):
+        global DEACTIVATED
+        args = event.text.split(None,1)[1] if len(event.text) > 10 else None
+        if args:
+            match = False
+            for callback, evento in DEACTIVATED:
+                if args == callback.__name__:
+                    telethn.add_event_handler(callback, evento)
+                    DEACTIVATED.remove((callback, evento))
+                    await event.reply(f"Activado correctamente el comando: {args}")
+                    match = True
+            if not match:
+                await event.reply("El comando especificado ya esta activo o no existe")
+        else:
+            await event.reply("Debe especificar que comando quiere activar\nej:`/activate dogbin`")        
 
     class DisableAbleCommandHandler(CommandHandler):
         def __init__(self, command, callback, run_async=True, admin_ok=False, **kwargs):

@@ -442,7 +442,7 @@ async def replied_user(draw, tot, text, maxlength, title):
             space += textfont.getsize(letter)[0]
 
 
-async def send_quote(event):
+async def q(event):
     if event.fwd_from:
         return
     reply = await event.get_reply_message()
@@ -469,7 +469,7 @@ async def send_quote(event):
     os.remove("sticker.webp")
 
 
-QUOTE_HANDLER = send_quote, events.NewMessage(pattern="^[!/]q$")
+QUOTE_HANDLER = q, events.NewMessage(pattern="^[!/]q$")
 
 telethn.add_event_handler(*QUOTE_HANDLER)
 
