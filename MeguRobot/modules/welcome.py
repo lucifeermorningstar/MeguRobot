@@ -199,24 +199,27 @@ def new_member(update: Update, context: CallbackContext):
             # Welcome Devs
             elif new_mem.id in DEV_USERS:
                 update.effective_message.reply_text(
-                    "╔═════*.·:·.☽✧    ✦    ✧☾.·:·.*═════╗\nUn Demonio Carmesí acaba de unirse!\n╚═════*.·:·.☽✧    ✦    ✧☾.·:·.*═════╝",
+                    "Un *Demonio Carmesí* acaba de unirse!",
                     reply_to_message_id=reply,
+                    parse_mode=ParseMode.MARKDOWN,
                 )
                 continue
 
             # Welcome Sudos
             elif new_mem.id in SUDO_USERS:
                 update.effective_message.reply_text(
-                    "Eh! ¡Un Destroyer acaba de unirse!",
+                    "Eh! ¡Un *Destroyer* acaba de unirse!",
                     reply_to_message_id=reply,
+                    parse_mode=ParseMode.MARKDOWN,
                 )
                 continue
 
             # Welcome Support
             elif new_mem.id in SUPPORT_USERS:
                 update.effective_message.reply_text(
-                    "Eh! Un Demonio acaba de unirse!",
+                    "Eh! Un *Demonio* acaba de unirse!",
                     reply_to_message_id=reply,
+                    parse_mode=ParseMode.MARKDOWN,
                 )
                 continue
 
@@ -225,13 +228,16 @@ def new_member(update: Update, context: CallbackContext):
                 update.effective_message.reply_text(
                     "Uf! Una rana gigante acaba de unirse! xd",
                     reply_to_message_id=reply,
+                    parse_mode=ParseMode.MARKDOWN,
                 )
                 continue
 
             # Welcome Frogs
             elif new_mem.id in WHITELIST_USERS:
                 update.effective_message.reply_text(
-                    "Uf! Un Sapo acaba de unirse! xd", reply_to_message_id=reply
+                    "Uf! Un *Sapo* acaba de unirse!",
+                    reply_to_message_id=reply,
+                    parse_mode=ParseMode.MARKDOWN,
                 )
                 continue
 
@@ -257,7 +263,7 @@ def new_member(update: Update, context: CallbackContext):
                     media_wel = True
 
                 first_name = (
-                    new_mem.first_name or "PersonWithNoName"
+                    new_mem.first_name or "PersonaSinNombre"
                 )  # edge case of empty name - occurs for some bugs.
 
                 if cust_welcome:
@@ -437,12 +443,28 @@ def new_member(update: Update, context: CallbackContext):
         if welcome_log:
             return welcome_log
 
-        return (
-            f"{html.escape(chat.title)}\n"
-            f"#EntradaUsuario\n"
-            f"<b>Usuario</b>: {mention_html(user.id, user.first_name)}\n"
-            f"<b>ID</b>: <code>{user.id}</code>"
-        )
+        if user.id == new_mem.id:
+            welcome_log = (
+                f"{html.escape(chat.title)}\n"
+                f"#EntradaUsuario\n"
+                f"<b>Usuario</b>: {mention_html(user.id, user.first_name)}\n"
+                f"<b>ID</b>: <code>{user.id}</code>"
+            )
+        elif new_mem.is_bot and user.id != new_mem.id:
+            welcome_log = (
+                f"{html.escape(chat.title)}\n"
+                f"#BotAñadido\n"
+                f"<b>Bot</b>: {mention_html(new_mem.id, new_mem.first_name)}\n"
+                f"<b>ID</b>: <code>{new_mem.id}</code>"
+            )
+        else:
+            welcome_log = (
+                f"{html.escape(chat.title)}\n"
+                f"#UsuarioAñadido\n"
+                f"<b>User</b>: {mention_html(new_mem.id, new_mem.first_name)}\n"
+                f"<b>ID</b>: <code>{new_mem.id}</code>"
+            )
+        return welcome_log
 
     return ""
 

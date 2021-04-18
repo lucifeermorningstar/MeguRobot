@@ -19,7 +19,7 @@ from MeguRobot.modules.log_channel import loggable
 from telegram import ParseMode, Update
 from telegram.error import BadRequest
 from telegram.ext import CallbackContext, CommandHandler, Filters
-from telegram.utils.helpers import mention_html
+from telegram.utils.helpers import mention_html, escape_markdown
 
 
 @connection_status
@@ -101,7 +101,7 @@ def promote(update: Update, context: CallbackContext) -> str:
 
     log_message = (
         f"<b>{html.escape(chat.title)}:</b>\n"
-        f"#Asendido\n"
+        f"#Ascendido\n"
         f"<b>Administrador:</b> {mention_html(user.id, user.first_name)}\n"
         f"<b>Usuario:</b> {mention_html(user_member.user.id, user_member.user.first_name)}"
     )
@@ -410,17 +410,11 @@ def invite(update: Update, context: CallbackContext):
 def adminlist(update, context):
     chat = update.effective_chat  # type: Optional[Chat]
     user = update.effective_user  # type: Optional[User]
-    args = context.args
     bot = context.bot
 
     if update.effective_message.chat.type == "private":
         send_message(update.effective_message, "Este comando sólo funciona en grupos.")
         return
-
-    chat = update.effective_chat
-    chat_id = update.effective_chat.id
-    chat_name = update.effective_message.chat.title
-
     try:
         msg = update.effective_message.reply_text(
             "Obteniendo administradores del grupo...", parse_mode=ParseMode.HTML
@@ -432,12 +426,8 @@ def adminlist(update, context):
             parse_mode=ParseMode.HTML,
         )
 
-    administrators = bot.getChatAdministrators(chat_id)
-    text = "Administradores en <b>{}</b>:".format(
-        html.escape(update.effective_chat.title)
-    )
-
-    bot_admin_list = []
+    administrators = bot.getChatAdministrators(chat.id)
+    text = "Administradores en <b>{}</b>:\n".format(html.escape(chat.title))
 
     for admin in administrators:
         user = admin.user
@@ -445,21 +435,23 @@ def adminlist(update, context):
         custom_title = admin.custom_title
 
         if user.first_name == "":
-            name = "☠ Cuenta Eliminada"
+            name = "☠ <b>Cuenta Eliminada</b>"
+        elif user.username:
+            name = escape_markdown("@" + user.username)
         else:
             name = "{}".format(
                 mention_html(
                     user.id, html.escape(user.first_name + " " + (user.last_name or ""))
                 )
             )
-        # if user.username:
-        #    name = escape_markdown("@" + user.username)
         if status == "creator":
-            text += "\n👑 <b>Propietario:</b>"
-            text += "\n<code> • </code>{}\n".format(name)
+            text += "\n 👑 <b>Propietario:</b>"
+            text += "\n<b> └ </b>{}".format(name)
 
             if custom_title:
-                text += f"<b>Apodo:</b> <code>{html.escape(custom_title)}</code>\n"
+                text += f" » <code>{html.escape(custom_title)}</code>\n"
+            else:
+                text += "\n"
 
     text += "\n🔱 <b>Administradores:</b>"
 
@@ -473,14 +465,14 @@ def adminlist(update, context):
 
         if user.first_name == "":
             name = "☠ Cuenta Eliminada"
+        elif user.username:
+            name = escape_markdown("@" + user.username)
         else:
             name = "{}".format(
                 mention_html(
                     user.id, html.escape(user.first_name + " " + (user.last_name or ""))
                 )
             )
-        # if user.username:
-        #    name = escape_markdown("@" + user.username)
         if status == "administrator":
             if custom_title:
                 try:
@@ -491,11 +483,11 @@ def adminlist(update, context):
                 normal_admin_list.append(name)
 
     for admin in normal_admin_list:
-        text += "\n<code> • </code>{}".format(admin)
+        text += "\n<b> ├ </b>{}".format(admin)
 
     for admin_group in custom_admin_list.copy():
         if len(custom_admin_list[admin_group]) == 1:
-            text += "\n<code> • </code>{} | <code>{}</code>".format(
+            text += "\n<b> ├ </b>{} » <code>{}</code>".format(
                 custom_admin_list[admin_group][0], html.escape(admin_group)
             )
             custom_admin_list.pop(admin_group)
@@ -504,10 +496,10 @@ def adminlist(update, context):
     for admin_group in custom_admin_list:
         text += "\n🚨 <code>{}</code>".format(admin_group)
         for admin in custom_admin_list[admin_group]:
-            text += "\n<code> • </code>{}".format(admin)
+            text += "\n<b> ├ </b>{}".format(admin)
         text += "\n"
-
     try:
+        text = text.replace("\_", "_")
         msg.edit_text(text, parse_mode=ParseMode.HTML)
     except BadRequest:  # if original message is deleted
         return

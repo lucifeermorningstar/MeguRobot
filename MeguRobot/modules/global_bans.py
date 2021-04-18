@@ -416,34 +416,30 @@ def gbanlist(update: Update, context: CallbackContext):
         )
 
 
-def check_and_ban(bot, update, user_id, should_message=True):
+def check_and_ban(update, user_id, should_message=True):
     chat = update.effective_chat  # type: Optional[Chat]
+    message = update.effective_message
     try:
         sw_ban = sw.get_ban(int(user_id))
-    except:
+    except AttributeError:
         sw_ban = None
 
     if sw_ban:
-        update.effective_chat.kick_member(user_id)
+        chat.kick_member(user_id)
         if should_message:
-            try:
-                bot.send_message(
-                    chat.id,
-                    f"<b>Alerta</b>:\n"
-                    f"Este usuario está baneado a nivel global.\n"
-                    f"<b>Chat de apelación</b>: @SpamWatchSupport\n"
-                    f"<b>ID de Usuario</b>: <code>{sw_ban.id}</code>\n"
-                    f"<b>Razón</b>: <code>{html.escape(sw_ban.reason)}</code>",
-                    parse_mode=ParseMode.HTML,
-                )
-                return
-            except TelegramError as e:
-                print("ERROR: global_bans.py -- 430 -- : " + e.message)
-        else:
-            return
+            message.reply_text(
+                chat.id,
+                f"<b>Alerta:</b>\n"
+                f"Este usuario está baneado a nivel global.\n"
+                f"<b>Chat de apelación</b>: @SpamWatchSupport\n"
+                f"<b>ID</b>: <code>{sw_ban.id}</code>\n"
+                f"<b>Razón</b>: <code>{html.escape(sw_ban.reason)}</code>",
+                parse_mode=ParseMode.HTML,
+            )
+        return
 
     if sql.is_user_gbanned(user_id):
-        update.effective_chat.kick_member(user_id)
+        chat.kick_member(user_id)
         if should_message:
             text = (
                 f"<b>Alerta</b>:\n"
@@ -454,10 +450,7 @@ def check_and_ban(bot, update, user_id, should_message=True):
             user = sql.get_gbanned_user(user_id)
             if user.reason:
                 text += f"\n<b>Razón:</b> <code>{html.escape(user.reason)}</code>"
-        try:
-            bot.send_message(chat.id, text, parse_mode=ParseMode.HTML)
-        except TelegramError as e:
-            print("ERROR: global_bans.py -- 458 -- : " + e.message)
+            message.reply_text(chat.id, text, parse_mode=ParseMode.HTML)
 
 
 def enforce_gban(update: Update, context: CallbackContext):

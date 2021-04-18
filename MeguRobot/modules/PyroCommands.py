@@ -61,5 +61,5 @@ __command_list__ = [
     "character",
     "manga",
     "paste",
-    "gpaste"
+    "gpaste",
 ]

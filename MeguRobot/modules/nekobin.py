@@ -17,7 +17,7 @@ async def paste(client, message):
         if (
             message.reply_to_message.document
             and message.reply_to_message.document.file_size < 2 ** 20 * 10
-            ):
+        ):
             var = os.path.splitext(message.reply_to_message.document.file_name)[1]
             path = await message.reply_to_message.download("temp/")
             with open(path) as doc:
@@ -26,19 +26,18 @@ async def paste(client, message):
         else:
             text = message.reply_to_message.text
     elif len(message.text) > 7:
-        text = message.text.split(None,1)[1]
+        text = message.text.split(None, 1)[1]
     else:
         await message.reply_text("Dame algo para copiar!")
         return
 
-    
     key = (
         requests.post("https://nekobin.com/api/documents", json={"content": text})
         .json()
         .get("result")
         .get("key")
     )
- 
+
     try:
         reply = "Copiado a **Nekobin**:\n"
         reply += f" • [Link](https://nekobin.com/{key}{var})"
