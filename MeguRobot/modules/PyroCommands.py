@@ -4,8 +4,6 @@ from MeguRobot.modules.anime import (
     anime_search,
     character_search,
     manga_search,
-)
-from MeguRobot.modules.downanime import (
     downanime,
     download_episode,
     search_episodes,
