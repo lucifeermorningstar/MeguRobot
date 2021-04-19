@@ -1,8 +1,8 @@
 import requests
 import os
 import re
+from async_google_trans_new import AsyncTranslator
 from bs4 import BeautifulSoup
-from gpytranslate import Translator
 from MeguRobot import BOT_USERNAME
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from zippyshare_downloader import Zippyshare
@@ -153,7 +153,10 @@ async def download_episode(client, query):
         await query.message.edit("Subiendo archivo.")
         hashtag_name = link.replace("-", "_")
         msg = await client.send_video(
-            query.message.chat.id, f"temp/{link}.mp4", caption=f"#{hashtag_name}"
+            query.message.chat.id,
+            f"temp/{link}.mp4",
+            thumb="https://telegra.ph/file/06cb236fb2c423dd19e70.jpg",
+            caption=f"#{hashtag_name}",
         )
         await query.message.delete()
         os.remove(f"temp/{link}.mp4")
@@ -163,7 +166,7 @@ async def download_episode(client, query):
 
 async def search_episodes(client, query):
     title = query.data.replace("title_", "")
-    await query.message.edit("Buscando episodios.")
+    await query.message.edit("Buscando episodios...")
     episodes = await get_episodes(title)
     buttons = [
         InlineKeyboardButton(episode, callback_data=f"episode_{episodes[episode]}")
@@ -181,7 +184,7 @@ async def search_episodes(client, query):
     await client.edit_message_text(
         query.message.chat.id,
         query.message.message_id,
-        "Episodios",
+        "**Episodios:** ",
         reply_markup=keyboard,
     )
 
@@ -201,14 +204,14 @@ async def downanime(client, message):
             [InlineKeyboardButton(title, callback_data=f"title_{titles[title]}")]
         )
     keyboard = InlineKeyboardMarkup(buttons)
-    await client.send_message(message.chat.id, "Animes", reply_markup=keyboard)
+    await client.send_message(message.chat.id, "**Animes:** ", reply_markup=keyboard)
 
 
 def shorten(description, info="anilist.co"):
     ms_g = ""
     if len(description) > 600:
         description = description[0:600] + "..."
-        ms_g += f"\n**Descripción**:\n{description}\n[Leer Más]({info})"
+        ms_g += f"\n**Descripción**:\n{description}"
     else:
         ms_g += f"\n**Descripción**:\n{description}"
     return (
@@ -391,7 +394,7 @@ async def anime_search(client, message):
         .get("Media", None)
     )
     if json:
-        msg = f"**{json['title']['romaji']}**(`{json['title']['native']}`)\n**Tipo**: "
+        msg = f"**{json['title']['romaji']}**(`{json['title']['native']}`)\n**Tipo**: `"
         if json["format"] == "MOVIE":
             msg += "Película"
         elif json["format"] == "TV_SHORT":
@@ -406,7 +409,7 @@ async def anime_search(client, message):
             msg += "OVA"
         elif json["format"] == "ONA":
             msg += "ONA"
-        msg += "\n**Estado**: "
+        msg += "`\n**Estado**: `"
         if json["status"] == "RELEASING":
             msg += "En emisíon"
         elif json["status"] == "FINISHED":
@@ -415,10 +418,11 @@ async def anime_search(client, message):
             msg += "No emitido"
         elif json["status"] == "CANCELLED":
             msg += "Cancelado"
-        msg += f"\n**Episodios**: `{json.get('episodes', 'N/A')}`\n**Duración**: `{json.get('duration', 'N/A')} mins aprox. por ep.`\n**Calificación**: `{json['averageScore']:1.0f}`\n**Géneros**: `"
+        msg += f"`\n**Episodios**: `{json.get('episodes', 'N/A')}`\n**Duración**: `{json.get('duration', 'N/A')} mins aprox. por ep.`\n**Calificación**: `{json['averageScore']:1.0f}`\n**Géneros**: `"
         for x in json["genres"]:
             x = await translate(x)
             msg += f"{x}, "
+            msg = msg.replace(" , ", ", ")
         msg = msg[:-2] + "`\n"
         msg += "**Estudios**: `"
         for x in json["studios"]["nodes"]:
@@ -436,6 +440,8 @@ async def anime_search(client, message):
             .replace("<i>", "")
             .replace("</i>", "")
             .replace("<br>", "")
+            .replace(" ... ", "... ")
+            .replace(".  ", ".\n\n")
         )
         description = await translate(description)
         msg += shorten(description, info)
@@ -611,9 +617,9 @@ async def manga_search(client, message):
 
 
 async def translate(text):
-    tr = Translator()
-    teks = await tr(text, targetlang="es")
-    return teks.text
+    tr = AsyncTranslator()
+    teks = await tr.translate(text, "es")
+    return teks
 
 
 __help__ = f"""

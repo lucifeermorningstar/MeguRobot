@@ -90,7 +90,7 @@ async def inline_query_handler(client, query):
                 r = await resp.json()
                 json = r["data"].get("Media", None)
                 if json:
-                    msg = f"**{json['title']['romaji']}**(`{json['title']['native']}`)\n**Tipo**: "
+                    msg = f"**{json['title']['romaji']}**(`{json['title']['native']}`)\n**Tipo**: `"
                     if json["format"] == "MOVIE":
                         msg += "Película"
                     elif json["format"] == "TV_SHORT":
@@ -105,7 +105,7 @@ async def inline_query_handler(client, query):
                         msg += "OVA"
                     elif json["format"] == "ONA":
                         msg += "ONA"
-                    msg += "\n**Estado**: "
+                    msg += "`\n**Estado**: `"
                     if json["status"] == "RELEASING":
                         msg += "En emisíon"
                     elif json["status"] == "FINISHED":
@@ -114,7 +114,7 @@ async def inline_query_handler(client, query):
                         msg += "No emitido"
                     elif json["status"] == "CANCELLED":
                         msg += "Cancelado"
-                    msg += f"\n**Episodios:** `{json.get('episodes', 'N/A')}`\n**Duración:** `{json.get('duration', 'N/A')} mins aprox. por ep.` \n**Calificación:** `{json['averageScore']}`\n**Géneros**: `"
+                    msg += f"`\n**Episodios:** `{json.get('episodes', 'N/A')}`\n**Duración:** `{json.get('duration', 'N/A')} mins aprox. por ep.` \n**Calificación:** `{json['averageScore']}`\n**Géneros**: `"
                     for x in json["genres"]:
                         x = await translate(x)
                         msg += f"{x}, "
