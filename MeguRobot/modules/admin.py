@@ -444,6 +444,10 @@ def adminlist(update, context):
                     user.id, html.escape(user.first_name + " " + (user.last_name or ""))
                 )
             )
+        if user.is_bot:
+            administrators.remove(admin)
+            continue
+
         if status == "creator":
             text += "\n 👑 <b>Propietario:</b>"
             text += "\n<b> └ </b>{}".format(name)
