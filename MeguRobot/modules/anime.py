@@ -151,7 +151,10 @@ async def download_episode(client, query):
         except:
             await query.message.edit("Error al descargar el episodio.")
             return
-        await query.message.edit("Subiendo archivo.")
+        try:
+            await query.message.edit("Subiendo archivo.")
+        except:
+            pass
         hashtag_name = link.replace("-", "_")
         msg = await client.send_video(
             query.message.chat.id,
