@@ -13,7 +13,7 @@ z = Zippyshare(verbose=True, progress_bar=True, replace=True)
 async def info_episode(link):
     # transforma un link de tioanime a uno de animeonline
     name = link.split("/")[-1]
-    ep_num = re.search("-\d+$", name).group()
+    ep_num = re.search(r"-\d+$", name).group()
     ep_name = name.replace(ep_num, "-cap") + ep_num
     new_link = "https://animeonline.ninja/episodio/" + ep_name
 
@@ -47,6 +47,7 @@ async def info_episode(link):
 
 
 async def confirm_dowload(client, query):
+    await query.message.edit("Buscando información y enlaces...")
     link = query.data.replace("episode_", "")
     full_link = "https://tioanime.com/ver/" + link
     ep_title, ep_name, ep_info, ep_img_link = await info_episode(full_link)
@@ -155,7 +156,7 @@ async def download_episode(client, query):
         msg = await client.send_video(
             query.message.chat.id,
             f"temp/{link}.mp4",
-            thumb="https://telegra.ph/file/06cb236fb2c423dd19e70.jpg",
+            thumb="resources/megu_thum.jpg",
             caption=f"#{hashtag_name}",
         )
         await query.message.delete()
@@ -181,12 +182,7 @@ async def search_episodes(client, query):
         pairs.append((buttons[-1],))
 
     keyboard = InlineKeyboardMarkup(pairs)
-    await client.edit_message_text(
-        query.message.chat.id,
-        query.message.message_id,
-        "**Episodios:** ",
-        reply_markup=keyboard,
-    )
+    await query.message.edit(text="**Episodios:** ", reply_markup=keyboard)
 
 
 async def downanime(client, message):
@@ -194,7 +190,6 @@ async def downanime(client, message):
     name = "+".join(cmd[1:])
     if len(cmd) < 2:
         return
-    # breakpoint()
     titles = await get_animes(name)
     if not titles:
         return
