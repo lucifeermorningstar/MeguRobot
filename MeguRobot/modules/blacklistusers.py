@@ -132,23 +132,23 @@ def bl_users(update: Update, context: CallbackContext):
     if not users:
         message += "\nNadie está siendo ignorado por el momento."
         msg.reply_text(message, parse_mode=ParseMode.HTML)
-    elif users:
+    else:
         try:
-            blusers = "\n".join(users)
-            msg.reply_text(message, blusers, parse_mode=ParseMode.HTML)
+            blusers = message + "\n".join(users)
+            msg.reply_text(blusers, parse_mode=ParseMode.HTML)
         except:
-            blusers = "\n".join(users)
-            with open("temp/BLUsers.txt", "w") as file:
-                file.write(blusers)
-            with open("temp/BLUsers.txt", "rb") as f:
+            blusers = message + "\n".join(users)
+            with open("BLUsers.txt", "w") as f:
+                f.write(blusers)
+            with open("BLUsers.txt", "rb") as output:
                 bot.send_document(
                     chat.id,
-                    document=f,
-                    filename=f.name,
+                    document=output,
+                    filename="BLUsers.txt",
                     caption=message,
                     parse_mode=ParseMode.HTML,
                 )
-            os.remove("temp/BLUsers.txt")
+            os.remove("BLUsers.txt")
 
 
 def __user_info__(user_id):
