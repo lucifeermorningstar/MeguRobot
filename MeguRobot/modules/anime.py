@@ -51,7 +51,7 @@ async def confirm_dowload(client, query):
     full_link = "https://tioanime.com/ver/" + link
     ep_title, ep_name, ep_info, ep_img_link = await info_episode(full_link)
     caption = f"<b>{ep_title}</b>\n" f"<u>{ep_name}</u>\n\n" f"<i>{ep_info}</i>\n\n"
-    while len(caption) > 1020:
+    while len(caption) > 4040:
         ep_info = ep_info[:-1]
         caption = f"<b>{ep_title}</b>\n" f"<u>{ep_name}</u>\n\n" f"<i>{ep_info}</i>\n\n"
     else:
@@ -60,6 +60,7 @@ async def confirm_dowload(client, query):
             caption = (
                 f"<b>{ep_title}</b>\n" f"<u>{ep_name}</u>\n\n" f"<i>{ep_info}</i>\n\n"
             )
+    caption += f"<a href={ep_img_link}>\u200C</a><b>Seguro que quieres descargar ese episodio?</b>"
     keyboard = InlineKeyboardMarkup(
         [
             [
@@ -69,15 +70,14 @@ async def confirm_dowload(client, query):
         ]
     )
     if not ep_title == "":
-        episode_data = await client.send_photo(
-            query.message.chat.id, photo=ep_img_link, caption=caption, parse_mode="html"
+        await query.message.edit(
+            caption, parse_mode="html", reply_markup=keyboard
         )
-    await client.send_message(
-        query.message.chat.id,
-        "Seguro que quieres descargar ese episodio?",
-        reply_markup=keyboard,
-    )
-    await query.message.delete()
+    else:
+        await query.message.edit(
+            "**Seguro que quieres descargar ese episodio?**",
+            reply_markup=keyboard,
+        )
 
 
 async def get_episodes(anime):
@@ -178,7 +178,7 @@ async def search_episodes(client, query):
     if calc == 1:
         pairs.append((buttons[-1],))
     elif calc == 2:
-        pairs.append((modules[-1],))
+        pairs.append((buttons[-1],))
 
     keyboard = InlineKeyboardMarkup(pairs)
     await client.edit_message_text(
