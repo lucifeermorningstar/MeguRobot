@@ -1,5 +1,5 @@
 # Module to blacklist users and prevent them from using commands by @TheRealPhoenix
-
+import os
 import MeguRobot.modules.sql.blacklistusers_sql as sql
 from MeguRobot import (
     DEV_USERS,
@@ -122,17 +122,23 @@ def bl_users(update: Update, context: CallbackContext):
         reason = sql.get_reason(each_user)
 
         if reason:
-            users.append(f"• {mention_html(user.id, user.first_name)} :- {reason}")
+            users.append(f"• {user.id}, {user.first_name} :- {reason}")
         else:
-            users.append(f"• {mention_html(user.id, user.first_name)}")
+            users.append(f"• {user.id}, {user.first_name}")
 
     message = "<b>Usuarios incluidos en la Lista Negra</b>\n"
     if not users:
         message += "\nNadie está siendo ignorado por el momento."
+        update.effective_message.reply_text(message, parse_mode=ParseMode.HTML)
     else:
-        message += "\n".join(users)
+        blusers = "\n".join(users)
+        with open("temp/BLUsers.txt", "w") as file:
+            file.write(blusers)
+        with open("temp/BLUsers.txt", "rb") as f:
+            update.effective_message.reply_document(
+                document=f, filename=f.name, caption=message, parse_mode=ParseMode.HTML)
+        os.remove("temp/BLUsers.txt")
 
-    update.effective_message.reply_text(message, parse_mode=ParseMode.HTML)
 
 
 def __user_info__(user_id):
