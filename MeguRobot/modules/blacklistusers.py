@@ -117,6 +117,8 @@ def unbl_user(update: Update, context: CallbackContext) -> str:
 def bl_users(update: Update, context: CallbackContext):
     users = []
     bot = context.bot
+    chat = update.effective_chat
+    msg = update.effective_message
     for each_user in sql.BLACKLIST_USERS:
         user = bot.get_chat(each_user)
         reason = sql.get_reason(each_user)
@@ -126,19 +128,27 @@ def bl_users(update: Update, context: CallbackContext):
         else:
             users.append(f"• {user.id}, {user.first_name}")
 
-    message = "<b>Usuarios incluidos en la Lista Negra</b>\n"
+    message = "<b>Usuarios incluidos en la Lista Negra:</b>\n"
     if not users:
         message += "\nNadie está siendo ignorado por el momento."
-        update.effective_message.reply_text(message, parse_mode=ParseMode.HTML)
-    else:
-        blusers = "\n".join(users)
-        with open("temp/BLUsers.txt", "w") as file:
-            file.write(blusers)
-        with open("temp/BLUsers.txt", "rb") as f:
-            update.effective_message.reply_document(
-                document=f, filename=f.name, caption=message, parse_mode=ParseMode.HTML)
-        os.remove("temp/BLUsers.txt")
-
+        msg.reply_text(message, parse_mode=ParseMode.HTML)
+    elif users:
+        try:
+            blusers = "\n".join(users)
+            msg.reply_text(message, blusers, parse_mode=ParseMode.HTML)
+        except:
+            blusers = "\n".join(users)
+            with open("temp/BLUsers.txt", "w") as file:
+                file.write(blusers)
+            with open("temp/BLUsers.txt", "rb") as f:
+                bot.send_document(
+                    chat.id,
+                    document=f,
+                    filename=f.name,
+                    caption=message,
+                    parse_mode=ParseMode.HTML,
+                )
+            os.remove("temp/BLUsers.txt")
 
 
 def __user_info__(user_id):
