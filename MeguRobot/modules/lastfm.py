@@ -1,48 +1,52 @@
-# Last.fm module by @TheRealPhoenix - https://github.com/rsktg
+# Last.fm module by @TheRealPhoenix - https://github.com/rsktg converted to pyrogram by @CrimsonDemon - https://github.com/NachABR
+
+import os
 
 import MeguRobot.modules.sql.last_fm_sql as sql
 import requests
-from MeguRobot import LASTFM_API_KEY, dispatcher
-from MeguRobot.modules.disable import DisableAbleCommandHandler
-from telegram import ParseMode, Update
-from telegram.ext import CallbackContext, CommandHandler
+from MeguRobot import LASTFM_API_KEY
+from pydeezer import Deezer
+from pydeezer.constants import track_formats
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+
+arl = "b5adae63e9ec47cc332df3a9c83a088816888ee4e947b0491b1aa0ada6c1d011010be7a8d025a4aadb920b3de28193ca1eb59063f0bdb8f44f46087adc077a3fd533645e972c650527d9a383385da68ad264dc2fdcd3900cf6f461a443276c32"
+deezer = Deezer(arl=arl)
 
 
-def set_user(update: Update, context: CallbackContext):
-    args = context.args
-    msg = update.effective_message
+async def set_user(client, message):
+    args = message.text.split(" ", 1)[1]
     if args:
-        user = update.effective_user.id
-        username = " ".join(args)
+        user = message.from_user.id
+        username = "".join(args)
         sql.set_user(user, username)
-        msg.reply_text(
-            f"Nombre de usuario de Last.FM establecido a *{username}*!",
-            parse_mode=ParseMode.MARKDOWN,
+        await message.reply_text(
+            f"Nombre de usuario de Last.FM establecido a **{username}**!",
+            parse_mode="md",
         )
     else:
-        msg.reply_text(
+        await message.reply_text(
             "Así no funciona...\nPon `/setuser` seguido de tu nombre de usuario de Last.FM!",
-            parse_mode=ParseMode.MARKDOWN,
+            parse_mode="md",
         )
 
 
-def clear_user(update: Update, _):
-    user = update.effective_user.id
+async def clear_user(client, message):
+    user = message.from_user.id
     sql.set_user(user, "")
-    update.effective_message.reply_text(
+    await message.reply_text(
         "Nombre de usuario de Last.FM quitado de mi base de datos!"
     )
 
 
-def last_fm(update: Update, _):
-    msg = update.effective_message
-    user = update.effective_user.first_name
-    user_id = update.effective_user.id
+async def last_fm(client, message):
+    msg = message
+    user = message.from_user.first_name
+    user_id = message.from_user.id
     username = sql.get_user(user_id)
     if not username:
-        msg.reply_text(
+        await msg.reply_text(
             "Aún no has configurado un usuario de Last.FM!\nPuedes hacerlo con `/setuser`",
-            parse_mode=ParseMode.MARKDOWN,
+            parse_mode="md",
         )
         return
 
@@ -51,7 +55,7 @@ def last_fm(update: Update, _):
         f"{base_url}?method=user.getrecenttracks&limit=3&extended=1&user={username}&api_key={LASTFM_API_KEY}&format=json"
     )
     if res.status_code != 200:
-        msg.reply_text(
+        await msg.reply_text(
             "Hmm... algo salió mal.\nAsegúrese de haber configurado el usuario de Last.FM correcto!"
         )
         return
@@ -59,7 +63,7 @@ def last_fm(update: Update, _):
     try:
         first_track = res.json().get("recenttracks").get("track")[0]
     except IndexError:
-        msg.reply_text("No parece que hayas escuchado alguna canción...")
+        await msg.reply_text("No parece que hayas escuchado alguna canción...")
         return
     if first_track.get("@attr"):
         # Ensures the track is now playing
@@ -74,6 +78,10 @@ def last_fm(update: Update, _):
             rep += f"🎧  <b>{artist} - {song}</b> (❤ Favorita)"
         if image:
             rep += f"<a href='{image}'>\u200c</a>"
+        deezer_busq = f"{artist}_{song}"
+        buttons = [[InlineKeyboardButton("Descargar ⬇️", callback_data=f"get_music_{deezer_busq}")]]
+        keyboard = InlineKeyboardMarkup(buttons)
+        await msg.reply_text(rep, parse_mode="html", reply_markup=keyboard)
     else:
         tracks = res.json().get("recenttracks").get("track")
         track_dict = {
@@ -91,8 +99,36 @@ def last_fm(update: Update, _):
         )
         scrobbles = last_user.get("playcount")
         rep += f"\n(<b>{scrobbles}</b> scrobbles hasta ahora)"
+        await msg.reply_text(rep, parse_mode="html")
 
-    msg.reply_text(rep, parse_mode=ParseMode.HTML)
+
+async def get_deezer(client, query):
+    if "get_music_" in query.data:
+        info = query.data.replace("get_music_", "")
+        info = info.replace("_", " ")
+        await query.edit_message_text("Buscando música...")
+        try:
+            track_search_results = deezer.search_tracks(info, limit=1)
+            track_id = track_search_results[0]["id"]
+            track = deezer.get_track(track_id)
+            download_dir = "temp/"
+            track["download"](
+                download_dir,
+                quality=track_formats.MP3_256,
+                filename=info.replace(" ", "_"),
+                with_lyrics=False,
+                show_messages=False
+            )
+            await client.send_audio(
+                query.message.chat.id,
+                "temp/{}.mp3".format(info.replace(" ", "_")),
+                title=track["tags"]["title"],
+                file_name="{}.mp3".format(track["tags"]["title"])
+            )
+            await query.message.delete()
+            os.remove("temp/{}.mp3".format(info.replace(" ", "_")))
+        except:
+            await query.edit_message_text("No se encontraron resultados")
 
 
 __help__ = """
@@ -104,13 +140,5 @@ __help__ = """
 """
 
 __mod_name__ = "Last.FM"
-
-SET_USER_HANDLER = CommandHandler("setuser", set_user, pass_args=True, run_async=True)
-CLEAR_USER_HANDLER = CommandHandler("clearuser", clear_user, run_async=True)
-LASTFM_HANDLER = DisableAbleCommandHandler("lastfm", last_fm, run_async=True)
-
-dispatcher.add_handler(SET_USER_HANDLER)
-dispatcher.add_handler(CLEAR_USER_HANDLER)
-dispatcher.add_handler(LASTFM_HANDLER)
 
 __command_list__ = ["setuser", "clearuser", "lastfm"]

@@ -17,6 +17,7 @@ from MeguRobot.modules.telegraph import telegraph
 from MeguRobot.modules.usage import usage
 from MeguRobot.modules.whatanime import whatanime
 from MeguRobot.modules.whois import whois
+from MeguRobot.modules.lastfm import set_user, clear_user, last_fm, get_deezer
 from MeguRobot.utils import filters
 from pyrogram.handlers import CallbackQueryHandler, MessageHandler
 
@@ -39,6 +40,10 @@ handlers = [
     MessageHandler(manga_search, filters.command("manga")),
     MessageHandler(paste, filters.command("paste")),
     MessageHandler(get_paste_, filters.command("gpaste")),
+    MessageHandler(set_user, filters.command("setuser")),
+    MessageHandler(clear_user, filters.command("clearuser")),
+    MessageHandler(last_fm, filters.command("lastfm")),
+    CallbackQueryHandler(get_deezer, filters.regex("^get_music_.*$")),
 ]
 
 for handler in handlers:
@@ -60,4 +65,7 @@ __command_list__ = [
     "manga",
     "paste",
     "gpaste",
+    "setuser",
+    "clearuser",
+    "lastfm",
 ]

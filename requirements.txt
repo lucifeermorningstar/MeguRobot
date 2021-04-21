@@ -41,3 +41,4 @@ spongemock
 geopy
 ffmpeg
 zippyshare-downloader
+py-deezer
