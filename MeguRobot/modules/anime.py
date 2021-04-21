@@ -25,7 +25,8 @@ async def info_episode(link):
         r = requests.post(new_link, headers=headers)
         html_soup = BeautifulSoup(r.text, "html.parser")
         info = html_soup.find("div", id="info")
-        images = info.find_all("a", href=True)
+        images = info.find("div", id="dt_galery")
+        images = images.find_all("a", href=True)
     except:
         return (
             "",
@@ -37,12 +38,14 @@ async def info_episode(link):
     ep_title = info.h1.text if info.h1 else ""
     ep_name = info.h3.text if info.h3 else ""
     ep_info = info.p.text if info.p else ""
-    ep_img_link = images[0]["href"] if images[0] else ""
-    ep_img_link = re.search(
-        r"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]+\.+\w{3})",
-        ep_img_link,
-    ).group()
-
+    try:
+        ep_img_link = images[0]["href"] if images[0] else ""
+        ep_img_link = re.search(
+            r"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]+\.+\w{3})",
+            ep_img_link,
+        ).group()
+    except IndexError:
+        ep_img_link = ""
     return (ep_title, ep_name, ep_info, ep_img_link)
 
 
