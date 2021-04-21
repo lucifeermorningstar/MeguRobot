@@ -417,7 +417,7 @@ def gbanlist(update: Update, context: CallbackContext):
 
 
 def check_and_ban(update, user_id, should_message=True):
-    chat = update.effective_chat  # type: Optional[Chat]
+    chat = update.effective_chat
     message = update.effective_message
     try:
         sw_ban = sw.get_ban(int(user_id))
@@ -427,8 +427,7 @@ def check_and_ban(update, user_id, should_message=True):
     if sw_ban:
         chat.kick_member(user_id)
         if should_message:
-            message.reply_text(
-                chat.id,
+            chat.send_message(
                 f"<b>Alerta:</b>\n"
                 f"Este usuario está baneado a nivel global.\n"
                 f"<b>Chat de apelación</b>: @SpamWatchSupport\n"
@@ -450,7 +449,7 @@ def check_and_ban(update, user_id, should_message=True):
             user = sql.get_gbanned_user(user_id)
             if user.reason:
                 text += f"\n<b>Razón:</b> <code>{html.escape(user.reason)}</code>"
-            message.reply_text(chat.id, text, parse_mode=ParseMode.HTML)
+            chat.send_message(text, parse_mode=ParseMode.HTML)
 
 
 def enforce_gban(update: Update, context: CallbackContext):
@@ -468,25 +467,25 @@ def enforce_gban(update: Update, context: CallbackContext):
         msg = update.effective_message
 
         if user and not is_user_admin(chat, user.id):
-            check_and_ban(bot, update, user.id)
+            check_and_ban(update, user.id)
             return
 
         if msg.new_chat_members:
             new_members = update.effective_message.new_chat_members
             for mem in new_members:
-                check_and_ban(bot, update, mem.id)
+                check_and_ban(update, mem.id)
 
         if msg.reply_to_message:
             user = msg.reply_to_message.from_user
             if user and not is_user_admin(chat, user.id):
-                check_and_ban(bot, update, user.id, should_message=False)
+                check_and_ban(update, user.id, should_message=False)
 
 
 @user_admin
 def gbanstat(update: Update, context: CallbackContext):
     args = context.args
     if len(args) > 0:
-        if args[0].lower() in ["on", "yes"]:
+        if args[0].lower() in ["on", "si"]:
             sql.enable_gbans(update.effective_chat.id)
             update.effective_message.reply_text(
                 "He habilitado bans globales en este grupo. Esto te ayudará a protegerte "
@@ -545,7 +544,7 @@ def __chat_settings__(chat_id, user_id):
 
 __help__ = """
 *Solo administradores:*
-  •`/antispam <on/off/yes/no>`: Deshabilitará el efecto de los bans globales de en su grupo, o devolverá su configuración actual.
+  •`/antispam <on/off/si/no>`: Deshabilitará el efecto de los bans globales de en su grupo, o devolverá su configuración actual.
 
 Los propietarios de bots utilizan gbans, también conocidos como baneos globales, para prohibir a los spammers en todos los grupos. Esto ayuda a proteger a \
 usted y sus grupos eliminando los flooders de spam lo más rápido posible. Se pueden desactivar para su grupo llamando a \

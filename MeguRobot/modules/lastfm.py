@@ -1,6 +1,6 @@
 # Last.fm module by @TheRealPhoenix - https://github.com/rsktg converted to pyrogram by @CrimsonDemon - https://github.com/NachABR
 
-import os
+import os, random
 
 import MeguRobot.modules.sql.last_fm_sql as sql
 import requests
@@ -8,6 +8,7 @@ from MeguRobot import LASTFM_API_KEY
 from pydeezer import Deezer
 from pydeezer.constants import track_formats
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+
 
 arl = "b5adae63e9ec47cc332df3a9c83a088816888ee4e947b0491b1aa0ada6c1d011010be7a8d025a4aadb920b3de28193ca1eb59063f0bdb8f44f46087adc077a3fd533645e972c650527d9a383385da68ad264dc2fdcd3900cf6f461a443276c32"
 deezer = Deezer(arl=arl)
@@ -112,21 +113,21 @@ async def get_deezer(client, query):
             track_id = track_search_results[0]["id"]
             track = deezer.get_track(track_id)
             download_dir = "temp/"
+            file_name = random.randint(0, 9999999999)
             track["download"](
                 download_dir,
+                filename=f"{file_name}",
                 quality=track_formats.MP3_256,
-                filename=info.replace(" ", "_"),
                 with_lyrics=False,
-                show_messages=False
             )
             await client.send_audio(
                 query.message.chat.id,
-                "temp/{}.mp3".format(info.replace(" ", "_")),
+                audio=f"temp/{file_name}.mp3",
                 title=track["tags"]["title"],
                 file_name="{}.mp3".format(track["tags"]["title"])
             )
             await query.message.delete()
-            os.remove("temp/{}.mp3".format(info.replace(" ", "_")))
+            os.remove(f"temp/{file_name}.mp3")
         except:
             await query.edit_message_text("No se encontraron resultados")
 
