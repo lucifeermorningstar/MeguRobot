@@ -71,9 +71,7 @@ async def confirm_dowload(client, query):
         ]
     )
     if not ep_title == "":
-        await query.message.edit(
-            caption, parse_mode="html", reply_markup=keyboard
-        )
+        await query.message.edit(caption, parse_mode="html", reply_markup=keyboard)
     else:
         await query.message.edit(
             "**Seguro que quieres descargar ese episodio?**",
