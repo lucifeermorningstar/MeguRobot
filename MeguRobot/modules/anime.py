@@ -190,11 +190,9 @@ async def search_episodes(client, query):
     await query.message.edit(text="**Episodios:** ", reply_markup=keyboard)
 
 
-async def downanime(client, message):
-    cmd = message.command
-    name = "+".join(cmd[1:])
-    if len(cmd) < 2:
-        return
+async def downanime(client, query):
+    query_title = query.data.replace("downanime_", "")
+    name = "+".join(query_title.split())
     titles = await get_animes(name)
     if not titles:
         return
@@ -204,7 +202,7 @@ async def downanime(client, message):
             [InlineKeyboardButton(title, callback_data=f"title_{titles[title]}")]
         )
     keyboard = InlineKeyboardMarkup(buttons)
-    await client.send_message(message.chat.id, "**Animes:** ", reply_markup=keyboard)
+    await client.send_message(query.message.chat.id, "**Animes:** ", reply_markup=keyboard)
 
 
 def shorten(description, info="anilist.co"):
@@ -451,10 +449,14 @@ async def anime_search(client, message):
                 [
                     InlineKeyboardButton("Más Información", url=info),
                     InlineKeyboardButton("Trailer 🎬", url=trailer),
-                ]
+                ],
+                [InlineKeyboardButton("Descargar ⬇️", callback_data=f"downanime_{json['title']['romaji']}")]
             ]
         else:
-            buttons = [[InlineKeyboardButton("Más Información", url=info)]]
+            buttons = [
+                [InlineKeyboardButton("Más Información", url=info)],
+                [InlineKeyboardButton("Descargar ⬇️", callback_data=f"downanime_{json['title']['romaji']}")]
+            ]
         if image:
             try:
                 await client.send_photo(
