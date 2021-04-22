@@ -1,7 +1,8 @@
 import requests
 import os
 import re
-from async_google_trans_new import AsyncTranslator
+from google_trans_new import google_translator
+import asyncio
 from bs4 import BeautifulSoup
 from MeguRobot import BOT_USERNAME
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -616,8 +617,12 @@ async def manga_search(client, message):
 
 
 async def translate(text):
-    tr = AsyncTranslator()
-    teks = await tr.translate(text, "es")
+    tr = google_translator()
+    loop = asyncio.get_event_loop()
+    try:
+        teks = await loop.run_in_executor(None, tr.translate, text, "es")
+    except Exception:
+        return text
     return teks
 
 
