@@ -30,7 +30,7 @@ handlers = [
     MessageHandler(whatanime, filters.command("whatanime")),
     MessageHandler(purge_messages, filters.command("purge") & filters.admin),
     MessageHandler(delete_message, filters.command("del") & filters.admin),
-    MessageHandler(downanime, filters.command("downanime")),
+    CallbackQueryHandler(downanime, filters.regex("^downanime_.*$")),
     CallbackQueryHandler(search_episodes, filters.regex("^title_.*$")),
     CallbackQueryHandler(confirm_dowload, filters.regex("^episode_.*$")),
     CallbackQueryHandler(download_episode, filters.regex("^download_.*$")),
