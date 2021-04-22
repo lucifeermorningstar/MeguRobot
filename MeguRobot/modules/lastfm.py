@@ -63,8 +63,7 @@ async def last_fm(client, message):
         return
     if first_track.get("@attr"):
         # Ensures the track is now playing
-        image = first_track.get("image")[3].get(
-            "#text")  # Grab URL of 300x300 image
+        image = first_track.get("image")[3].get("#text")  # Grab URL of 300x300 image
         artist = first_track.get("artist").get("name")
         song = first_track.get("name")
         loved = int(first_track.get("loved"))
@@ -75,9 +74,14 @@ async def last_fm(client, message):
             rep += f"🎧  <b>{artist} - {song}</b> (❤ Favorita)"
         if image:
             rep += f"<a href='{image}'>\u200c</a>"
-        deezer_busq = f"{artist}_{song}"
-        buttons = [[InlineKeyboardButton(
-            "Descargar ⬇️", callback_data=f"get_music_{deezer_busq}")]]
+        music_busq = f"{artist}_{song}"
+        buttons = [
+            [
+                InlineKeyboardButton(
+                    "Descargar ⬇️", callback_data=f"get_music_{music_busq}"
+                )
+            ]
+        ]
         keyboard = InlineKeyboardMarkup(buttons)
         await msg.reply_text(rep, parse_mode="html", reply_markup=keyboard)
     else:
@@ -100,25 +104,32 @@ async def last_fm(client, message):
         await msg.reply_text(rep, parse_mode="html")
 
 
-async def get_deezer(client, query):
+async def get_yt(client, query):
     if "get_music_" in query.data:
         info = query.data.replace("get_music_", "")
         info = info.replace("_", " ")
-        await query.edit_message_text("Buscando música...")
+        q_msg = query.message.message_id
+        rep = await client.send_message(
+            chat_id=query.message.chat.id,
+            reply_to_message_id=q_msg,
+            text="Buscando música...",
+        )
         try:
             file_name, title = await d_download(info)
             await client.send_audio(
-                query.message.chat.id,
+                chat_id=query.message.chat.id,
+                reply_to_message_id=q_msg,
                 audio=f"temp/{file_name}.mp3",
                 title=title,
-                file_name="{}.mp3".format(title)
+                file_name="{}.mp3".format(title),
             )
-            await query.message.delete()
+            await rep.delete()
             os.remove(f"temp/{file_name}.mp3")
         except:
             import traceback
+
             traceback.print_exc()
-            await query.edit_message_text("No se encontraron resultados")
+            await rep.edit("No se encontraron resultados.")
 
 
 async def d_download(music):
@@ -130,6 +141,7 @@ async def d_download(music):
         return (file_name, title)
     except:
         import traceback
+
         traceback.print_exc()
 
 
