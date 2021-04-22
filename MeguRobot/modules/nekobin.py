@@ -5,6 +5,7 @@ from MeguRobot import pyrogrm
 from MeguRobot.utils.aiohttp import AioHttp
 from MeguRobot.utils.capture_errors import capture_err
 from pyrogram import filters
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from nekobin import NekoBin
 
@@ -39,9 +40,17 @@ async def paste(client, message):
     )
 
     try:
-        reply = "Copiado a **Nekobin**:\n"
-        reply += f" • [Link](https://nekobin.com/{key}{var})"
-        await message.reply_text(reply, disable_web_page_preview=True, parse_mode="md")
+        buttons = [
+            [InlineKeyboardButton("Nekobin", url=f"https://nekobin.com/{key}{var}")],
+            [InlineKeyboardButton("RAW", url=f"https://nekobin.com/raw/{key}{var}")],
+        ]
+        reply = "Copiado a **Nekobin**:"
+        await message.reply_text(
+            reply,
+            disable_web_page_preview=True,
+            parse_mode="md",
+            reply_markup=InlineKeyboardMarkup(buttons),
+        )
     except:
         pass
 
