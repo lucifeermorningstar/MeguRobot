@@ -18,7 +18,7 @@ from MeguRobot import (
     sw,
 )
 from MeguRobot.modules.helper_funcs.alternate import send_message
-from MeguRobot.modules.helper_funcs.chat_status import is_user_ban_protected, user_admin
+from MeguRobot.modules.helper_funcs.chat_status import is_user_ban_protected, user_admin, dev_plus
 from MeguRobot.modules.helper_funcs.misc import build_keyboard, revert_buttons
 from MeguRobot.modules.helper_funcs.msg_types import get_welcome_type
 from MeguRobot.modules.helper_funcs.string_handling import (
@@ -243,17 +243,23 @@ def new_member(update: Update, context: CallbackContext):
 
             # Welcome yourself
             elif new_mem.id == bot.id:
-                update.effective_message.reply_text(
-                    "Hola! gracias por añadirme al grupo! :3", reply_to_message_id=reply
-                )
-                bot.send_message(
-                    JOIN_LOGGER,
-                    "#NuevoGrupo\n<b>Nombre del grupo:</b> {}\n<b>ID:</b> <pre>{}</pre>".format(
-                        chat.title, chat.id
-                    ),
-                    parse_mode=ParseMode.HTML,
-                )
-                continue
+                if sql.group_is_bl(chat.id):
+                    msg.reply_text("Este grupo está en la lista negra.", reply_to_message_id=reply)
+                    chat.leave()
+                    continue
+
+                else:
+                    update.effective_message.reply_text(
+                        "Hola! gracias por añadirme al grupo! :3",  reply_to_message_id=reply
+                    )
+                    bot.send_message(
+                        JOIN_LOGGER,
+                        "#NuevoGrupo\n<b>Nombre del grupo:</b> {}\n<b>ID:</b> <pre>{}</pre>".format(
+                            chat.title, chat.id
+                        ),
+                        parse_mode=ParseMode.HTML,
+                    )
+                    continue
 
             else:
                 buttons = sql.get_welc_buttons(chat.id)
@@ -707,6 +713,52 @@ def goodbye(update: Update, context: CallbackContext):
             update.effective_message.reply_text("Solo entiendo 'on' y 'off'!")
 
 
+@dev_plus
+def blgroup(update: Update, context: CallbackContext):
+    msg = update.effective_message
+    chat = update.effective_chat
+    if len(msg.text.split()) == 1:
+        sql.add_blgroup(chat.id, True)
+        msg.reply_text(
+            f"El grupo {chat.title} (`{chat.id}`) ahora está en la lista negra.",
+            parse_mode=ParseMode.MARKDOWN,
+        )
+    elif len(msg.text.split()) == 2:
+        sql.add_blgroup(int(msg.text.split()[1]), True)
+        msg.reply_text(
+            f"El grupo {chat.title} (`{chat.id}`) ahora está en la lista negra.",
+            parse_mode=ParseMode.MARKDOWN,
+        )
+    else:
+        msg.reply_text(
+            "Formato: `/blgroup (id_del_grupo)`",
+            parse_mode=ParseMode.MARKDOWN,
+        )
+
+
+@dev_plus
+def noblgroup(update: Update, context: CallbackContext):
+    msg = update.effective_message
+    chat = update.effective_chat
+    if len(msg.text.split()) == 1:
+        sql.add_blgroup(chat.id, False)
+        msg.reply_text(
+            f"El grupo {chat.title} (`{chat.id}`) ya no está en la lista negra.",
+            parse_mode=ParseMode.MARKDOWN,
+        )
+    elif len(msg.text.split()) == 2:
+        sql.add_blgroup(int(msg.text.split()[1]), False)
+        msg.reply_text(
+            f"El grupo {chat.title} (`{chat.id}`) ya no está en la lista negra.",
+            parse_mode=ParseMode.MARKDOWN,
+        )
+    else:
+        msg.reply_text(
+            "Formato: `/noblgroup (id_del_grupo)`",
+            parse_mode=ParseMode.MARKDOWN,
+        )
+
+
 @user_admin
 @loggable
 def set_welcome(update: Update, context: CallbackContext) -> str:
@@ -1026,6 +1078,12 @@ WELC_MUTE_HELP_TXT = (
     "*Nota:* El modo `strong` expulsa a un usuario del chat si no verifica en 2 minutos. Aunque siempre puede volver a unirse."
 )
 
+WELC_HELP_DEV = (
+    "*Solo Demonios Carmesí*:\n"
+    "•`/blgroup ID`*:* Agrega la ID del grupo a la lista negra.\n"
+    "•`/noblgroup ID`*:* Elimina la ID del grupo de la lista negra.\n"
+)
+
 
 def welcome_help_sender(update: Update):
     update.effective_message.reply_text(WELC_HELP_TXT, parse_mode=ParseMode.MARKDOWN)
@@ -1120,8 +1178,11 @@ __help__ = """
  •`/welcomemutehelp`*:* Proporciona información sobre el mute de bienvenida.
  •`/welcomehelp`*:* Ver más información de formato para mensajes personalizados de bienvenida/despedida.
  •`/cleanservice <on/off>`*:* Borra los mensajes de bienvenida/despedida de servicio de Telegram.
+
+{}
 """.format(
-    WELC_HELP_TXT
+    WELC_HELP_TXT,
+    WELC_HELP_DEV,
 )
 
 NEW_MEM_HANDLER = MessageHandler(
@@ -1141,6 +1202,12 @@ SET_WELCOME = CommandHandler(
 )
 SET_GOODBYE = CommandHandler(
     "setgoodbye", set_goodbye, filters=Filters.chat_type.groups, run_async=True
+)
+ADD_BLGROUP = CommandHandler(
+    "blgroup", blgroup, filters=Filters.chat_type.groups, run_async=True
+)
+DEL_BLGROUP = CommandHandler(
+    "noblgroup", noblgroup, filters=Filters.chat_type.groups, run_async=True
 )
 RESET_WELCOME = CommandHandler(
     "resetwelcome", reset_welcome, filters=Filters.chat_type.groups, run_async=True
@@ -1169,6 +1236,8 @@ dispatcher.add_handler(WELC_PREF_HANDLER)
 dispatcher.add_handler(GOODBYE_PREF_HANDLER)
 dispatcher.add_handler(SET_WELCOME)
 dispatcher.add_handler(SET_GOODBYE)
+dispatcher.add_handler(ADD_BLGROUP)
+dispatcher.add_handler(DEL_BLGROUP)
 dispatcher.add_handler(RESET_WELCOME)
 dispatcher.add_handler(RESET_GOODBYE)
 dispatcher.add_handler(CLEAN_WELCOME)
@@ -1184,6 +1253,8 @@ __command_list__ = [
     "goodbye",
     "setwelcome",
     "setgoodbye",
+    "blgroup",
+    "noblgroup",
     "resetwelcome",
     "resetgoodbye",
     "welcomemute",
@@ -1199,6 +1270,8 @@ __handlers__ = [
     GOODBYE_PREF_HANDLER,
     SET_WELCOME,
     SET_GOODBYE,
+    ADD_BLGROUP,
+    DEL_BLGROUP,
     RESET_WELCOME,
     RESET_GOODBYE,
     CLEAN_WELCOME,
