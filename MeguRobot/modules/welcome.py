@@ -599,60 +599,61 @@ def left_member(update: Update, context: CallbackContext):
 
 @user_admin
 def welcome(update: Update, context: CallbackContext):
+    bot = context.bot
     args = context.args
     chat = update.effective_chat
-    # if no args, show current replies.
-    if not args or args[0].lower() == "noformat":
-        noformat = True
+    if not args:
         pref, welcome_m, cust_content, welcome_type = sql.get_welc_pref(chat.id)
         send_message(
             update.effective_message,
-            f"Este chat tiene su configuración de bienvenida establecida en: `{pref}`.\n"
+            f"Este chat tiene su configuración de bienvenida establecida en: `{pref}`.\n",
+            parse_mode=ParseMode.MARKDOWN,
+        )
+        if welcome_type == sql.Types.BUTTON_TEXT or welcome_type == sql.Types.TEXT:
+            buttons = sql.get_welc_buttons(chat.id)
+            keyb = build_keyboard(buttons)
+            keyboard = InlineKeyboardMarkup(keyb)
+            update.effective_message.reply_text(
+                chat.id, welcome_m, keyboard, sql.DEFAULT_WELCOME
+            )
+        else:
+            buttons = sql.get_welc_buttons(chat.id)
+            keyb = build_keyboard(buttons)
+            keyboard = InlineKeyboardMarkup(keyb)
+            ENUM_FUNC_MAP[welcome_type](
+                chat.id,
+                cust_content,
+                caption=welcome_m,
+                reply_markup=keyboard,
+                parse_mode=ParseMode.MARKDOWN,
+                disable_web_page_preview=True,
+            )
+    elif args[0].lower() == "noformat":
+        pref, welcome_m, cust_content, welcome_type = sql.get_welc_pref(chat.id)
+        send_message(
+            update.effective_message,
             f"*El mensaje de bienvenida (sin llenar los* `{{}}`*) es:*",
             parse_mode=ParseMode.MARKDOWN,
         )
-
         if welcome_type == sql.Types.BUTTON_TEXT or welcome_type == sql.Types.TEXT:
             buttons = sql.get_welc_buttons(chat.id)
-            if noformat:
-                welcome_m += revert_buttons(buttons)
-                send_message(update.effective_message, welcome_m)
-            else:
-                keyb = build_keyboard(buttons)
-                keyboard = InlineKeyboardMarkup(keyb)
-
-                send_message(update, welcome_m, keyboard, sql.DEFAULT_WELCOME)
+            welcome_m += revert_buttons(buttons)
+            send_message(update.effective_message, welcome_m)
         else:
             buttons = sql.get_welc_buttons(chat.id)
-            if noformat:
-                welcome_m += revert_buttons(buttons)
-                ENUM_FUNC_MAP[welcome_type](chat.id, cust_content, caption=welcome_m)
-
-            else:
-                keyb = build_keyboard(buttons)
-                keyboard = InlineKeyboardMarkup(keyb)
-                ENUM_FUNC_MAP[welcome_type](
-                    chat.id,
-                    cust_content,
-                    caption=welcome_m,
-                    reply_markup=keyboard,
-                    parse_mode=ParseMode.MARKDOWN,
-                    disable_web_page_preview=True,
-                )
-
+            welcome_m += revert_buttons(buttons)
+            ENUM_FUNC_MAP[welcome_type](chat.id, cust_content, caption=welcome_m)
     elif len(args) >= 1:
         if args[0].lower() in ("on"):
             sql.set_welc_preference(str(chat.id), True)
             update.effective_message.reply_text(
                 "Bueno! Saludaré a los miembros cuando se unan."
             )
-
         elif args[0].lower() in ("off"):
             sql.set_welc_preference(str(chat.id), False)
             update.effective_message.reply_text(
                 "Ok, voy a holgazanear y no dar la bienvenida a nadie entonces."
             )
-
         else:
             update.effective_message.reply_text("Solo entiendo 'on' y 'off'!")
 
