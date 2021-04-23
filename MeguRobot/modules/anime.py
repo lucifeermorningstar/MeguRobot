@@ -141,6 +141,7 @@ async def download_anime(link):
     folder = "temp"
     url = nombre[0].get("href")
     url = url[:3] + "ps" + url[4:]
+    print(url)
     z.extract_info(f"{url}", download=True, folder=folder, custom_filename=filename)
 
 
