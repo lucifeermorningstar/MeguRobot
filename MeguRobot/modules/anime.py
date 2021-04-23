@@ -197,7 +197,7 @@ async def downanime(client, query):
     name = "+".join(query_title.split())
     titles = await get_animes(name)
     if not titles:
-        await client.send_message(query.message.chat.id, f"No se ha encontrado el anime **{query_title}**")
+        await client.send_message(query.message.chat.id, f"No se pudo descargar el anime **{query_title}**.")
         return
     buttons = []
     for title in titles:
