@@ -8,7 +8,7 @@ from MeguRobot import BOT_USERNAME
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from zippyshare_downloader import Zippyshare
 
-z = Zippyshare(verbose=True, progress_bar=True, replace=True)
+z = Zippyshare(verbose=False, progress_bar=False, replace=True)
 
 
 async def info_episode(link):
