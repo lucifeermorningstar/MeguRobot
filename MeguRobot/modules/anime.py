@@ -8,7 +8,7 @@ from MeguRobot import BOT_USERNAME
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from zippyshare_downloader import Zippyshare
 
-z = Zippyshare(verbose=True, progress_bar=True, replace=True)
+z = Zippyshare(verbose=False, progress_bar=False, replace=True)
 
 
 async def info_episode(link):
@@ -140,7 +140,9 @@ async def download_anime(link):
     filename = f"{link}.mp4"
     folder = "temp"
     url = nombre[0].get("href")
-    url = url[:3] + "ps" + url[4:]
+    if url[4] != "s":
+        url = url[:3] + "ps" + url[4:]
+    print(url)
     z.extract_info(f"{url}", download=True, folder=folder, custom_filename=filename)
 
 
@@ -195,6 +197,7 @@ async def downanime(client, query):
     name = "+".join(query_title.split())
     titles = await get_animes(name)
     if not titles:
+        await client.send_message(query.message.chat.id, f"No se pudo descargar el anime **{query_title}**.")
         return
     buttons = []
     for title in titles:
@@ -416,7 +419,11 @@ async def anime_search(client, message):
             msg += "No emitido"
         elif json["status"] == "CANCELLED":
             msg += "Cancelado"
-        msg += f"`\n**Episodios**: `{json.get('episodes', 'N/A')}`\n**Duración**: `{json.get('duration', 'N/A')} mins aprox. por ep.`\n**Calificación**: `{json['averageScore']:1.0f}`\n**Géneros**: `"
+        msg += f"`\n**Episodios**: `{json.get('episodes', 'N/A')}`\n**Duración**: `{json.get('duration', 'N/A')} mins aprox. por ep.`"
+        score = json.get('averageScore')
+        if score:
+            msg += f"\n**Calificación**: `{score}`"
+        msg += "\n**Géneros**: `"
         for x in json["genres"]:
             x = await translate(x)
             msg += f"{x}, "
