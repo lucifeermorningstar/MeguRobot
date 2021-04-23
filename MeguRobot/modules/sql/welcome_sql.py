@@ -193,12 +193,25 @@ class CleanServiceSetting(BASE):
         return "<Chat used clean service ({})>".format(self.chat_id)
 
 
+class BlacklistGroups(BASE):
+    __tablename__ = "blacklist_groups"
+    chat_id = Column(String(14), primary_key=True)
+    blacklist = Column(Boolean, default=True)
+
+    def __init__(self, chat_id):
+        self.chat_id = str(chat_id)
+
+    def __repr__(self):
+        return "<Chat in blacklist ({})>".format(self.chat_id)
+
+
 Welcome.__table__.create(checkfirst=True)
 WelcomeButtons.__table__.create(checkfirst=True)
 GoodbyeButtons.__table__.create(checkfirst=True)
 WelcomeMute.__table__.create(checkfirst=True)
 WelcomeMuteUsers.__table__.create(checkfirst=True)
 CleanServiceSetting.__table__.create(checkfirst=True)
+BlacklistGroups.__table__.create(checkfirst=True)
 
 INSERTION_LOCK = threading.RLock()
 WELC_BTN_LOCK = threading.RLock()
@@ -470,6 +483,27 @@ def set_clean_service(chat_id: Union[int, str], setting: bool):
 
         chat_setting.clean_service = setting
         SESSION.add(chat_setting)
+        SESSION.commit()
+
+
+def group_is_bl(chat_id: Union[str, int]) -> bool:
+    try:
+        chat = SESSION.query(BlacklistGroups).get(str(chat_id))
+        if chat:
+            return chat.blacklist
+        return False
+    finally:
+        SESSION.close()
+
+
+def add_blgroup(chat_id: Union[int, str], setting: bool):
+    with CS_LOCK:
+        chat = SESSION.query(BlacklistGroups).get(str(chat_id))
+        if not chat:
+            chat = BlacklistGroups(chat_id)
+
+        chat.blacklist = setting
+        SESSION.add(chat)
         SESSION.commit()
 
 
