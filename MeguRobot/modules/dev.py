@@ -20,7 +20,7 @@ def leave(update: Update, context: CallbackContext):
             update.effective_message.reply_text("Beep boop, dejé ese grupo!.")
         except TelegramError:
             update.effective_message.reply_text(
-                "Beep boop, no pude dejar ese grupo (no sé por qué)."
+                "Parece que no estoy en ese grupo..."
             )
     else:
         update.effective_message.reply_text("Envíame un ID de chat válido")

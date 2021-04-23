@@ -361,19 +361,40 @@ def sisinfo(update: Update, context: CallbackContext):
     update.effective_message.reply_text(status, parse_mode=ParseMode.HTML)
 
 
+@dev_plus
+def snipe(update: Update, context: CallbackContext):
+    args = context.args
+    bot = context.bot
+    try:
+        chat_id = str(args[0])
+        del args[0]
+    except TypeError:
+        update.effective_message.reply_text(
+            "Dame un chat!")
+    to_send = " ".join(args)
+    if len(to_send) >= 2:
+        try:
+            bot.send_message(int(chat_id), str(to_send))
+        except TelegramError:
+            update.effective_message.reply_text(
+                "No pude enviar el mensaje. ¿Tal vez no formo parte de ese grupo?")
+
+
 INFO_HANDLER = DisableAbleCommandHandler("info", info, pass_args=True, run_async=True)
 STATS_HANDLER = CommandHandler("stats", stats, run_async=True)
 ID_HANDLER = DisableAbleCommandHandler("id", get_id, run_async=True)
 GIFID_HANDLER = DisableAbleCommandHandler("gifid", gifid, run_async=True)
 SISINFO_HANDLER = CommandHandler("sinfo", sisinfo, run_async=True)
+SNIPE_HANDLER = CommandHandler("snipe", snipe, run_async=True)
 
 dispatcher.add_handler(INFO_HANDLER)
 dispatcher.add_handler(STATS_HANDLER)
 dispatcher.add_handler(ID_HANDLER)
 dispatcher.add_handler(GIFID_HANDLER)
 dispatcher.add_handler(SISINFO_HANDLER)
+dispatcher.add_handler(SNIPE_HANDLER)
 
 
 __mod_name__ = "Misceláneo"
-__command_list__ = ["info", "id", "stats", "gifid", "sinfo"]
-__handlers__ = [INFO_HANDLER, STATS_HANDLER, GIFID_HANDLER, ID_HANDLER, SISINFO_HANDLER]
+__command_list__ = ["info", "id", "stats", "gifid", "sinfo", "snipe"]
+__handlers__ = [INFO_HANDLER, STATS_HANDLER, GIFID_HANDLER, ID_HANDLER, SISINFO_HANDLER, SNIPE_HANDLER]
