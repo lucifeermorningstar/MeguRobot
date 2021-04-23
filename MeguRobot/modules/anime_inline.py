@@ -66,7 +66,7 @@ async def inline_query_handler(client, query):
                 ),
             ],
             switch_pm_text="Click aquí para ir al privado",
-            switch_pm_parameter="start",
+            switch_pm_parameter="ghelp_anime",
             cache_time=300,
         )
 
@@ -78,7 +78,7 @@ async def inline_query_handler(client, query):
                 query.id,
                 results=answers,
                 switch_pm_text="Buscar un Anime",
-                switch_pm_parameter="start",
+                switch_pm_parameter="ghelp_anime",
             )
             return
         search = string.split(None, 1)[1]
@@ -177,7 +177,7 @@ async def inline_query_handler(client, query):
                 query.id,
                 results=answers,
                 switch_pm_text="Buscar un Manga",
-                switch_pm_parameter="start",
+                switch_pm_parameter="ghelp_anime",
             )
             return
         search = string.split(None, 1)[1]
@@ -278,7 +278,7 @@ async def inline_query_handler(client, query):
                 query.id,
                 results=answers,
                 switch_pm_text="Obtener el estado de transmisión",
-                switch_pm_parameter="start",
+                switch_pm_parameter="ghelp_anime",
             )
             return
         search = string.split(None, 1)[1]
@@ -328,7 +328,7 @@ async def inline_query_handler(client, query):
                 query.id,
                 results=answers,
                 switch_pm_text="Obtener información de un personaje",
-                switch_pm_parameter="start",
+                switch_pm_parameter="ghelp_anime",
             )
             return
         search = string.split(None, 1)[1]

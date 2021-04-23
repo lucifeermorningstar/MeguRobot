@@ -77,7 +77,7 @@ def totranslate(update: Update, context: CallbackContext):
         update.effective_message.reply_text(
             "Responde a mensajes o escribe en otros idiomas para traducirlos al idioma deseado\n\n"
             "*Ejemplo:* `/tr en-es` Para traducir del inglés al español\n\n"
-            "Para ver la lista de códigos de idioma puedes hacer click [aquí](http://t.me/CrimsonMeguRobot?start=ghelp_traductor).",
+            f"Para ver la lista de códigos de idioma puedes hacer click [aquí](http://t.me/{context.bot.username}?start=ghelp_traductor).",
             parse_mode="markdown",
             disable_web_page_preview=True,
         )
