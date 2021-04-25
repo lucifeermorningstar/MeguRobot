@@ -31,3 +31,4 @@ Pipfile
 temp/*.mp4
 temp/*.part
 temp/comandos.txt
+temp/upcoming.json

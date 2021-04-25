@@ -1,6 +1,9 @@
+import json
+
 import requests
 import os
 import re
+import datetime
 from google_trans_new import google_translator
 import asyncio
 from bs4 import BeautifulSoup
@@ -9,6 +12,18 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from zippyshare_downloader import Zippyshare
 
 z = Zippyshare(verbose=False, progress_bar=False, replace=True)
+
+date = datetime.datetime.now()
+next_season = date.month + 3
+if next_season < 3:
+    next_season = "WINTER"
+elif next_season < 6:
+    next_season = "SPRING"
+elif next_season < 9:
+    next_season = "SUMMER"
+else:
+    next_season = "FALL"
+upcoming_file = False
 
 
 async def info_episode(link):
@@ -117,9 +132,9 @@ async def get_animes(name):
             pattern_link = r'href=".*"'
             anime_link = (
                 re.findall(pattern_link, anime)[count]
-                .replace('href="', "")
-                .replace('"', "")
-                .replace(r"/anime/", "")
+                    .replace('href="', "")
+                    .replace('"', "")
+                    .replace(r"/anime/", "")
             )
             animes[title] = anime_link
             count += 1
@@ -180,7 +195,7 @@ async def search_episodes(client, query):
         InlineKeyboardButton(episode, callback_data=f"episode_{episodes[episode]}")
         for episode in episodes
     ]
-    pairs = [buttons[i * 3 : (i + 1) * 3] for i in range((len(buttons) + 3 - 1) // 3)]
+    pairs = [buttons[i * 3: (i + 1) * 3] for i in range((len(buttons) + 3 - 1) // 3)]
     round_num = len(buttons) / 3
     calc = len(buttons) - round(round_num)
     if calc == 1:
@@ -217,9 +232,9 @@ def shorten(description, info="anilist.co"):
         ms_g += f"\n**Descripción**:\n{description}"
     return (
         ms_g.replace("<br>", "")
-        .replace("</br>", "")
-        .replace("<i>", "")
-        .replace("</i>", "")
+            .replace("</br>", "")
+            .replace("<i>", "")
+            .replace("</i>", "")
     )
 
 
@@ -232,11 +247,11 @@ def t(milliseconds: int) -> str:
     hours, minutes = divmod(minutes, 60)
     days, hours = divmod(hours, 24)
     tmp = (
-        ((str(days) + " Días, ") if days else "")
-        + ((str(hours) + " Horas, ") if hours else "")
-        + ((str(minutes) + " Minutos y ") if minutes else "")
-        + ((str(seconds) + " Segundos, ") if seconds else "")
-        + ((str(milliseconds) + " ms, ") if milliseconds else "")
+            ((str(days) + " Días, ") if days else "")
+            + ((str(hours) + " Horas, ") if hours else "")
+            + ((str(minutes) + " Minutos y ") if minutes else "")
+            + ((str(seconds) + " Segundos, ") if seconds else "")
+            + ((str(milliseconds) + " ms, ") if milliseconds else "")
     )
     return tmp[:-2]
 
@@ -261,18 +276,26 @@ airing_query = """
     }
     """
 
-fav_query = """
-query ($id: Int) { 
-      Media (id: $id, type: ANIME) { 
-        id
-        title {
-          romaji
-          english
-          native
-        }
-     }
+upcoming_query = """
+query ($page: Int = 1, $season: MediaSeason, $seasonYear: Int) {
+  Page(page: $page) {
+    pageInfo {
+      total
+      perPage
+      currentPage
+      lastPage
+      hasNextPage
+    }
+    media(type: ANIME, season: $season, sort: [POPULARITY_DESC, SCORE_DESC], seasonYear: $seasonYear) {
+      siteUrl
+      title {
+        romaji
+      }
+      status(version: 2)
+    }
+  }
 }
-"""  # NOTE: Esto no está siendo usado
+"""
 
 anime_query = """
    query ($id: Int,$search: String) { 
@@ -391,8 +414,8 @@ async def anime_search(client, message):
     variables = {"search": search}
     json = (
         requests.post(url, json={"query": anime_query, "variables": variables})
-        .json()["data"]
-        .get("Media", None)
+            .json()["data"]
+            .get("Media", None)
     )
     if json:
         msg = f"**{json['title']['romaji']}**(`{json['title']['native']}`)\n**Tipo**: `"
@@ -442,11 +465,11 @@ async def anime_search(client, message):
                 trailer = "https://youtu.be/" + trailer_id
         description = (
             json.get("description", "N/A")
-            .replace("<i>", "")
-            .replace("</i>", "")
-            .replace("<br>", "")
-            .replace(" ... ", "... ")
-            .replace(".  ", ".\n\n")
+                .replace("<i>", "")
+                .replace("</i>", "")
+                .replace("<br>", "")
+                .replace(" ... ", "... ")
+                .replace(".  ", ".\n\n")
         )
         description = await translate(description)
         msg += shorten(description, info)
@@ -474,11 +497,6 @@ async def anime_search(client, message):
                 )
             except:
                 msg += f" [〽️]({image})"
-                await client.send_message(
-                    message.chat.id,
-                    text=msg,
-                    reply_markup=InlineKeyboardMarkup(buttons),
-                )
         else:
             await client.send_message(
                 message.chat.id, text=msg, reply_markup=InlineKeyboardMarkup(buttons)
@@ -512,14 +530,14 @@ async def character_search(client, message):
         description = await translate(description)
         description = (
             description.replace("<i>", "")
-            .replace("</i>", "")
-            .replace("<br>", "")
-            .replace("__", "**")
-            .replace("~", "~~")
-            .replace(" ~", "~")
-            .replace("! ", "!")
-            .replace("\n ", " \n")
-            .replace("] (", "](")
+                .replace("</i>", "")
+                .replace("<br>", "")
+                .replace("__", "**")
+                .replace("~", "~~")
+                .replace(" ~", "~")
+                .replace("! ", "!")
+                .replace("\n ", " \n")
+                .replace("] (", "](")
         )
         # print(repr(description))
         if len(description) > 700:
@@ -548,8 +566,8 @@ async def manga_search(client, message):
     variables = {"search": search}
     json = (
         requests.post(url, json={"query": manga_query, "variables": variables})
-        .json()["data"]
-        .get("Media", None)
+            .json()["data"]
+            .get("Media", None)
     )
     ms_g = ""
     if json:
@@ -593,9 +611,9 @@ async def manga_search(client, message):
         if json.get("description"):
             description = (
                 json.get("description", "N/A")
-                .replace("<i>", "")
-                .replace("</i>", "")
-                .replace("<br>", "")
+                    .replace("<i>", "")
+                    .replace("</i>", "")
+                    .replace("<br>", "")
             )
             description = await translate(description)
         site_url = json.get("siteUrl")
@@ -623,6 +641,113 @@ async def manga_search(client, message):
                 reply_markup=InlineKeyboardMarkup(buttons),
                 disable_web_page_preview=True,
             )
+
+
+async def upcoming(client, message):
+    global upcoming_file
+    while not upcoming_file:
+        variables = {
+            "page": 1,
+            "seasonYear": date.year,
+            "season": next_season
+        }
+
+        response = requests.post(
+            url, json={"query": upcoming_query, "variables": variables}
+        ).json()
+        msg_resp = "<b>PRÓXIMOS ANIMES</b>"
+        pages = {}
+        index_pages = 1
+        count = 0
+        for anime in response["data"]["Page"]["media"]:
+            page_link = anime["siteUrl"]
+            name = anime["title"]["romaji"]
+            msg_resp += "\n➡<a href={}>{}</a>".format(page_link, name)
+            count += 1
+            if count < 9:
+                pages[index_pages] = msg_resp
+            if count == 9:
+                pages[index_pages] = msg_resp
+                index_pages += 1
+                count = 0
+                msg_resp = "<b>PRÓXIMOS ANIMES</b>"
+        while response["data"]["Page"]["pageInfo"]["hasNextPage"]:
+            variables = {
+                "page": response["data"]["Page"]["pageInfo"]["currentPage"] + 1,
+                "seasonYear": date.year,
+                "season": next_season
+            }
+            response = requests.post(
+                url, json={"query": upcoming_query, "variables": variables}
+            ).json()
+            for anime in response["data"]["Page"]["media"]:
+                page_link = anime["siteUrl"]
+                name = anime["title"]["romaji"]
+                msg_resp += "\n➡<a href={}>{}</a>".format(page_link, name)
+                count += 1
+                if count <= 8:
+                    pages[index_pages] = msg_resp
+                if count > 8:
+                    pages[index_pages] = msg_resp
+                    index_pages += 1
+                    count = 0
+                    msg_resp = "<b>PRÓXIMOS ANIMES</b>"
+        with open("temp/upcoming.json", "w") as file:
+            json.dump(pages, file)
+        upcoming_file = True
+
+    with open("temp/upcoming.json") as data:
+        upcoming_data = json.load(data)
+    if len(upcoming_data.keys()) > 1:
+        button = InlineKeyboardButton("⏭️", callback_data="upcoming_next_1")
+        keyboard = InlineKeyboardMarkup([[button]])
+        await client.send_message(message.chat.id, upcoming_data["1"], reply_markup=keyboard,
+                                  disable_web_page_preview=True)
+    else:
+        await client.send_message(message.chat.id, msg_resp, disable_web_page_preview=True)
+
+
+async def upcoming_buttons(client, query):
+    q_data = query.data
+    next_match = re.match(r"upcoming_next_(.*)", q_data)
+    prev_match = re.match(r"upcoming_prev_(.*)", q_data)
+    with open("temp/upcoming.json") as file:
+        data = json.load(file)
+
+    if next_match:
+        current_page = int(next_match.group(1))
+        next_page = current_page + 1
+        button_next = InlineKeyboardButton("⏭️", callback_data=f"upcoming_next_{next_page}")
+        button_prev = InlineKeyboardButton("⏮️", callback_data=f"upcoming_prev_{next_page}")
+        try:
+            if data[str(next_page + 1)]:
+                keyboard = InlineKeyboardMarkup([[button_prev, button_next]])
+        except:
+            keyboard = InlineKeyboardMarkup([[button_prev]])
+
+        await query.message.edit(
+            data[str(next_page)],
+            reply_markup=keyboard,
+            disable_web_page_preview=True
+        )
+
+    if prev_match:
+        current_page = int(prev_match.group(1))
+        prev_page = current_page - 1
+        button_prev = InlineKeyboardButton("⏮️", callback_data=f"upcoming_prev_{prev_page}")
+        button_next = InlineKeyboardButton("⏭", callback_data=f"upcoming_next_{prev_page}")
+        try:
+            if data[str(prev_page - 1)]:
+                keyboard = InlineKeyboardMarkup([[button_prev, button_next]])
+        except:
+            keyboard = InlineKeyboardMarkup([[button_next]])
+
+        await query.message.edit(
+            data[str(prev_page)],
+            reply_markup=keyboard,
+            disable_web_page_preview=True
+        )
+
 
 
 async def translate(text):

@@ -8,6 +8,8 @@ from MeguRobot.modules.anime import (
     download_episode,
     search_episodes,
     confirm_dowload,
+    upcoming,
+    upcoming_buttons,
 )
 from MeguRobot.modules.nekobin import get_paste_, paste
 from MeguRobot.modules.purge import delete_message, purge_messages
@@ -44,6 +46,8 @@ handlers = [
     MessageHandler(clear_user, filters.command("clearuser")),
     MessageHandler(last_fm, filters.command("lastfm")),
     CallbackQueryHandler(get_yt, filters.regex("^get_music_.*$")),
+    MessageHandler(upcoming, filters.command("upcoming")),
+    CallbackQueryHandler(upcoming_buttons, filters.regex("^upcoming_.*$")),
 ]
 
 for handler in handlers:
@@ -68,4 +72,5 @@ __command_list__ = [
     "setuser",
     "clearuser",
     "lastfm",
+    "upcoming",
 ]
