@@ -105,31 +105,33 @@ async def last_fm(client, message):
 
 
 async def get_yt(client, query):
-    if "get_music_" in query.data:
-        info = query.data.replace("get_music_", "")
-        info = info.replace("_", " ")
-        q_msg = query.message.message_id
-        rep = await client.send_message(
+    await query.message.edit_reply_markup(
+        reply_markup=None
+    )
+    info = query.data.replace("get_music_", "")
+    info = info.replace("_", " ")
+    q_msg = query.message.message_id
+    rep = await client.send_message(
+        chat_id=query.message.chat.id,
+        reply_to_message_id=q_msg,
+        text="Buscando música...",
+    )
+    try:
+        file_name, title = await d_download(info)
+        await client.send_audio(
             chat_id=query.message.chat.id,
             reply_to_message_id=q_msg,
-            text="Buscando música...",
+            audio=f"temp/{file_name}.mp3",
+            title=title,
+            file_name="{}.mp3".format(title),
         )
-        try:
-            file_name, title = await d_download(info)
-            await client.send_audio(
-                chat_id=query.message.chat.id,
-                reply_to_message_id=q_msg,
-                audio=f"temp/{file_name}.mp3",
-                title=title,
-                file_name="{}.mp3".format(title),
-            )
-            await rep.delete()
-            os.remove(f"temp/{file_name}.mp3")
-        except:
-            import traceback
+        await rep.delete()
+        os.remove(f"temp/{file_name}.mp3")
+    except:
+        import traceback
 
-            traceback.print_exc()
-            await rep.edit("No se encontraron resultados.")
+        traceback.print_exc()
+        await rep.edit("No se encontraron resultados.")
 
 
 async def d_download(music):

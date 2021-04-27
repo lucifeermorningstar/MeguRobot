@@ -71,15 +71,10 @@ async def confirm_dowload(client, query):
     full_link = "https://tioanime.com/ver/" + link
     ep_title, ep_name, ep_info, ep_img_link = await info_episode(full_link)
     caption = f"<b>{ep_title}</b>\n" f"<u>{ep_name}</u>\n\n" f"<i>{ep_info}</i>\n\n"
-    while len(caption) > 4040:
-        ep_info = ep_info[:-1]
+    if len(caption) > 4040 and not ep_info == "":
+        ep_info = ep_info[:4040] + "..."
         caption = f"<b>{ep_title}</b>\n" f"<u>{ep_name}</u>\n\n" f"<i>{ep_info}</i>\n\n"
-    else:
-        if not ep_info == "":
-            ep_info += "..."
-            caption = (
-                f"<b>{ep_title}</b>\n" f"<u>{ep_name}</u>\n\n" f"<i>{ep_info}</i>\n\n"
-            )
+
     caption += f"<a href={ep_img_link}>\u200C</a><b>Seguro que quieres descargar ese episodio?</b>"
     keyboard = InlineKeyboardMarkup(
         [
@@ -209,6 +204,15 @@ async def search_episodes(client, query):
 
 async def downanime(client, query):
     query_title = query.data.replace("downanime_", "")
+    btn_mas_info = query.message.reply_markup.inline_keyboard[0]
+    keyboard = InlineKeyboardMarkup([btn_mas_info])
+    if "Trailer" in query.message.reply_markup.inline_keyboard[1][0].text:
+        btn_trailer = query.message.reply_markup.inline_keyboard[1]
+        keyboard = InlineKeyboardMarkup([btn_mas_info, btn_trailer])
+
+    await query.message.edit_reply_markup(
+        reply_markup=keyboard
+    )
     name = "+".join(query_title.split())
     titles = await get_animes(name)
     if not titles:
