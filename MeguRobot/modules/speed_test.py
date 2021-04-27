@@ -33,16 +33,17 @@ def speedtestxyz_callback(update: Update, context: CallbackContext):
         speed.get_best_server()
         speed.download()
         speed.upload()
-        replymsg = "*Resultados de Speedtest:*"
 
         if query.data == "speedtest_image":
+            replymsg = f"*Resultados de Speedtest:*[\u200c\u200c\u200e]({speedtest_image})"
             speedtest_image = speed.results.share()
-            update.effective_message.reply_photo(
-                photo=speedtest_image, caption=replymsg, parse_mode=ParseMode.MARKDOWN
+            update.effective_message.edit_text(
+                replymsg, parse_mode=ParseMode.MARKDOWN
             )
             msg.delete()
 
         elif query.data == "speedtest_text":
+            replymsg = "*Resultados de Speedtest:*"
             result = speed.results.dict()
             replymsg += f"\nDescarga: `{convert(result['download'])}Mb/s`\nSubida: `{convert(result['upload'])}Mb/s`\nPing: `{result['ping']}`"
             update.effective_message.edit_text(replymsg, parse_mode=ParseMode.MARKDOWN)
